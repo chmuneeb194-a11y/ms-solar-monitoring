@@ -3,134 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Solar iOS 26 Glass Edition</title>
-    <!-- Tailwind CSS -->
+    <title>MS Solar Cloud - Adaptive Glass Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Chart.js for Advanced Graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Solar Panel Background Pattern & Image Cover */
-        .solar-bg-base {
-            background-image: linear-gradient(to bottom, rgba(10, 25, 47, 0.65), rgba(10, 20, 30, 0.85)), 
-                              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
+        /* Base Styling - Responsive Background and Flow */
+        body {
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            transition: background 0.3s, color 0.3s;
         }
-        /* iOS 26 Ultra Glassmorphism */
-        .ios-glass {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px) saturate(190%);
-            -webkit-backdrop-filter: blur(20px) saturate(190%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+
+        /* ---------------- LEVEL 1: SYSTEM LIGHT MODE ---------------- */
+        @media (prefers-color-scheme: light) {
+            body {
+                background-image: linear-gradient(to bottom, rgba(225, 238, 253, 0.75), rgba(240, 246, 255, 0.85)), 
+                                  url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
+                color: #1e293b;
+            }
+            /* Subtle glass color blending with the blue/white background behind it */
+            .adaptive-glass {
+                background: rgba(255, 255, 255, 0.25);
+                backdrop-filter: blur(20px) saturate(170%);
+                -webkit-backdrop-filter: blur(20px) saturate(170%);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 8px 32px 0 rgba(30, 41, 59, 0.08);
+            }
+            .adaptive-glass-header {
+                background: rgba(219, 234, 254, 0.45);
+                backdrop-filter: blur(20px);
+                border-b: 1px solid rgba(255, 255, 255, 0.3);
+            }
+            .text-muted { color: #475569; }
+            .text-main-title { color: #0f172a; }
+            .inner-hub { background: rgba(255, 255, 255, 0.45); border-color: rgba(255, 255, 255, 0.5); }
         }
-        .ios-glass-header {
-            background: rgba(15, 32, 54, 0.4);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border-b: 1px solid rgba(255, 255, 255, 0.1);
+
+        /* ---------------- LEVEL 2: SYSTEM DARK MODE ---------------- */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-image: linear-gradient(to bottom, rgba(10, 15, 30, 0.92), rgba(15, 23, 42, 0.95)), 
+                                  url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
+                background-color: #0f172a;
+                color: #f8fafc;
+            }
+            .adaptive-glass {
+                background: rgba(30, 41, 59, 0.45);
+                backdrop-filter: blur(25px) saturate(160%);
+                -webkit-backdrop-filter: blur(25px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+            }
+            .adaptive-glass-header {
+                background: rgba(15, 23, 42, 0.6);
+                backdrop-filter: blur(20px);
+                border-b: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .text-muted { color: #94a3b8; }
+            .text-main-title { color: #ffffff; }
+            .inner-hub { background: rgba(15, 23, 42, 0.8); border-color: #1e293b; }
         }
-        .ios-glass-nav {
-            background: rgba(10, 25, 47, 0.5);
-            backdrop-filter: blur(30px) saturate(200%);
-            -webkit-backdrop-filter: blur(30px) saturate(200%);
-            border-t: 1px solid rgba(255, 255, 255, 0.1);
+
+        /* Glowing Blinking Animation for Online Badge */
+        @keyframes glowing-blink {
+            0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 14px #22c55e; }
+            50% { transform: scale(1.1); opacity: 0.35; box-shadow: 0 0 4px #22c55e; }
         }
-        .animate-pulse-slow {
-            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+        .glowing-dot {
+            animation: glowing-blink 1.4s infinite ease-in-out;
         }
     </style>
 </head>
-<body class="solar-bg-base min-h-screen font-sans text-white pb-28">
+<body class="min-h-screen font-sans pb-28">
 
-    <!-- iOS 26 Glass Header -->
-    <div class="sticky top-0 z-50 ios-glass-header">
+    <div class="sticky top-0 z-50 adaptive-glass-header">
         <div class="p-4 flex justify-between items-center max-w-lg mx-auto">
-            <button class="text-xl text-gray-300"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="text-xl text-slate-400"><i class="fa-solid fa-chevron-left"></i></button>
             <div class="text-center">
-                <h1 class="text-xl font-black text-white tracking-wide drop-shadow-md">MS Solar Premium</h1>
-                <p class="text-[10px] text-orange-300 font-bold uppercase tracking-widest">Site ID: MS-KHI-001</p>
+                <h1 class="text-2xl font-black tracking-wide text-main-title">MS Solar Cloud</h1>
+                <p class="text-[10px] text-orange-500 font-bold uppercase tracking-widest mt-0.5">Logger ID: MS-99X-CLK</p>
             </div>
-            <button class="text-xl text-orange-400"><i class="fa-solid fa-star animate-pulse-slow"></i></button>
+            <button class="text-xl text-orange-500"><i class="fa-solid fa-circle-nodes animate-pulse"></i></button>
         </div>
     </div>
 
-    <!-- Status Badge & Weather -->
     <div class="mt-4 px-5 flex justify-between items-center max-w-lg mx-auto">
-        <div class="flex items-center gap-2.5">
-            <span class="flex items-center gap-1.5 bg-green-500/20 text-green-400 text-[11px] px-3 py-1 rounded-full font-bold border border-green-500/30">
-                <i class="fa-solid fa-circle text-[7px] animate-pulse"></i> Online
+        <div class="flex items-center gap-3">
+            <span class="flex items-center gap-2 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-black px-3 py-1 rounded-full border border-green-500/40">
+                <span class="w-2.5 h-2.5 bg-green-500 rounded-full glowing-dot inline-block"></span>
+                ONLINE
             </span>
-            <span class="bg-orange-500/20 text-orange-400 text-[11px] px-3 py-1 rounded-full font-bold border border-orange-500/30"><i class="fa-solid fa-sun mr-1"></i> 32°C</span>
+            <span class="bg-slate-500/10 dark:bg-slate-800/60 text-orange-500 text-xs font-bold px-3 py-1 rounded-full border border-slate-400/20"><i class="fa-solid fa-sun mr-1"></i> 34°C</span>
         </div>
-        <div class="text-[11px] text-gray-300 font-medium bg-black/20 px-2 py-0.5 rounded-md">Last Sync: Just Now</div>
+        <div class="text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 px-2.5 py-1 rounded-md font-medium">
+            <i class="fa-solid fa-stopwatch mr-1"></i> Sync: <span id="sync-timer">30s</span> ago
+        </div>
     </div>
 
-    <!-- Main Glass Dashboard Card (3D House Core) -->
     <div class="mt-5 px-4 max-w-lg mx-auto">
-        <div class="ios-glass rounded-3xl p-6 relative overflow-hidden flex flex-col gap-6">
+        <div class="adaptive-glass rounded-3xl p-6 flex flex-col gap-6 relative overflow-hidden">
             
-            <!-- Grid Row 1: Solar & Load -->
-            <div class="flex justify-between z-10 relative">
-                <!-- PV / Solar Info -->
+            <div class="flex justify-between z-10">
                 <div class="flex items-center gap-3">
-                    <div class="p-2.5 bg-orange-500/20 rounded-2xl border border-orange-500/30 text-orange-400 text-2xl">
+                    <div class="p-3 bg-orange-500/10 rounded-2xl border border-orange-500/20 text-orange-500 text-2xl">
                         <i class="fa-solid fa-solar-panel"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] text-gray-300 font-medium tracking-wide">Solar Production</p>
-                        <p class="text-2xl font-black text-white tracking-tight">4.120 <span class="text-xs font-normal text-gray-300">kW</span></p>
+                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Solar Power</p>
+                        <p class="text-2xl font-black tracking-tight" id="val-solar">4.120 <span class="text-xs font-normal text-muted">kW</span></p>
                     </div>
                 </div>
-                <!-- Load Info -->
                 <div class="flex items-center gap-3 text-right">
                     <div>
-                        <p class="text-[11px] text-gray-300 font-medium tracking-wide">Home Usage</p>
-                        <p class="text-2xl font-black text-white tracking-tight">1.850 <span class="text-xs font-normal text-gray-300">kW</span></p>
+                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Home Load</p>
+                        <p class="text-2xl font-black tracking-tight" id="val-load">1.850 <span class="text-xs font-normal text-muted">kW</span></p>
                     </div>
-                    <div class="p-2.5 bg-blue-500/20 rounded-2xl border border-blue-500/30 text-blue-400 text-2xl">
-                        <i class="fa-solid fa-house-plug"></i>
+                    <div class="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-blue-500 text-2xl">
+                        <i class="fa-solid fa-house-laptop"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Inverter Smart Flow Glass Badge -->
-            <div class="flex justify-center my-1 relative z-10">
-                <div class="text-center bg-white/5 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10 w-full max-w-xs shadow-inner">
-                    <i class="fa-solid fa-charging-station text-orange-400 text-3xl mb-1.5 block drop-shadow-[0_0_8px_rgba(251,146,60,0.5)]"></i>
-                    <span class="text-xs font-bold text-gray-100 tracking-wide">Inverter Smart Flow Active</span>
-                    <p class="text-[9px] text-orange-300/80 mt-0.5 tracking-wider uppercase font-semibold">Voltronic Protocol V3.1</p>
+            <div class="flex justify-center my-1 z-10">
+                <div class="text-center inner-hub backdrop-blur-md px-6 py-3.5 rounded-2xl border w-full max-w-xs shadow-inner transition">
+                    <i class="fa-solid fa-bolt text-yellow-500 text-3xl mb-1.5 block drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]"></i>
+                    <span class="text-xs font-black tracking-wider uppercase">Voltronic Universal Bridge</span>
+                    <p class="text-[9px] text-emerald-600 dark:text-emerald-400 mt-1 font-mono uppercase tracking-widest bg-emerald-500/10 py-0.5 px-2 rounded inline-block border border-emerald-500/20">Interval: 30s Polling</p>
                 </div>
             </div>
 
-            <!-- Grid Row 2: Battery and Grid -->
-            <div class="flex justify-between items-end z-10 relative">
-                <!-- Battery Info -->
+            <div class="flex justify-between items-end z-10">
                 <div class="flex items-center gap-3">
-                    <div class="p-2.5 bg-green-500/20 rounded-2xl border border-green-500/30 text-green-400 text-2xl">
-                        <i class="fa-solid fa-battery-three-quarters"></i>
+                    <div class="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-emerald-500 text-2xl">
+                        <i class="fa-solid fa-battery-full"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] text-gray-300 font-medium tracking-wide">Battery <span class="text-green-400 font-bold">100%</span></p>
-                        <p class="text-2xl font-black text-white tracking-tight">0.020 <span class="text-xs font-normal text-gray-300">kW</span></p>
-                        <span class="inline-block text-[9px] bg-green-500/30 text-green-300 px-2 py-0.5 rounded mt-1 font-bold uppercase tracking-wider">Charging</span>
+                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Battery <span class="text-emerald-500 font-black" id="val-bat-pct">100%</span></p>
+                        <p class="text-2xl font-black tracking-tight" id="val-battery">0.020 <span class="text-xs font-normal text-muted">kW</span></p>
+                        <span class="inline-block text-[9px] bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-emerald-500/30">Floating</span>
                     </div>
                 </div>
-                <!-- Grid Info -->
                 <div class="flex items-center gap-3 text-right">
                     <div>
-                        <p class="text-[11px] text-gray-300 font-medium tracking-wide">Wapda Grid</p>
-                        <p class="text-2xl font-black text-white tracking-tight">2.290 <span class="text-xs font-normal text-gray-300">kW</span></p>
-                        <span class="inline-block text-[9px] bg-blue-500/30 text-blue-300 px-2 py-0.5 rounded mt-1 font-bold uppercase tracking-wider">Exporting</span>
+                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Wapda Grid</p>
+                        <p class="text-2xl font-black tracking-tight" id="val-grid">2.290 <span class="text-xs font-normal text-muted">kW</span></p>
+                        <span class="inline-block text-[9px] bg-blue-500/20 text-blue-600 dark:text-blue-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-blue-500/30" id="val-grid-status">Exporting</span>
                     </div>
-                    <div class="p-2.5 bg-red-500/20 rounded-2xl border border-red-500/30 text-red-400 text-2xl">
+                    <div class="p-3 bg-rose-500/10 rounded-2xl border border-rose-500/20 text-rose-500 text-2xl">
                         <i class="fa-solid fa-tower-broadcast"></i>
                     </div>
                 </div>
@@ -139,112 +160,92 @@
         </div>
     </div>
 
-    <!-- Battery Ring Status Sub-Card -->
     <div class="mt-4 px-4 max-w-lg mx-auto">
-        <div class="ios-glass rounded-2xl p-4 flex justify-between items-center gap-4">
+        <div class="adaptive-glass rounded-2xl p-4 flex justify-between items-center gap-4">
             <div class="flex items-center gap-3.5">
-                <div class="w-10 h-10 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center text-green-400 text-xl shadow-md">
-                    <i class="fa-solid fa-bolt"></i>
+                <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 text-xl">
+                    <i class="fa-solid fa-wave-square"></i>
                 </div>
                 <div>
-                    <p class="text-sm font-bold text-white tracking-wide">Advanced Battery Health</p>
-                    <p class="text-[11px] text-gray-300 mt-0.5">SOH: 98% | Temp: 30°C</p>
-                    <span class="inline-block text-[10px] text-orange-300 font-semibold mt-1"><i class="fa-solid fa-sync fa-spin mr-1 text-[8px]"></i> Standby (Full)</span>
+                    <p class="text-sm font-black tracking-wide">Diagnostics Control</p>
+                    <p class="text-xs text-muted mt-0.5">SOH: 99% | Inverter Temp: <span id="val-temp">32</span>°C</p>
                 </div>
             </div>
-            <div class="relative w-14 h-14 rounded-full border-4 border-white/10 flex items-center justify-center shadow-lg">
-                <div class="absolute inset-0 rounded-full border-4 border-green-400 drop-shadow-[0_0_6px_rgba(74,222,128,0.6)]" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);"></div>
-                <p class="text-md font-black text-white">100<span class="text-[9px] font-normal text-gray-300">%</span></p>
+            <div class="relative w-14 h-14 rounded-full border-4 border-slate-300 dark:border-slate-700 flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full border-4 border-emerald-500 drop-shadow-[0_0_6px_rgba(52,211,153,0.4)]" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);"></div>
+                <p class="text-md font-black" id="val-bat-pct-center">100%</p>
             </div>
         </div>
     </div>
 
-    <!-- Advanced Analytical Graph (Solis Glow Style) -->
     <div class="mt-4 px-4 max-w-lg mx-auto">
-        <div class="ios-glass rounded-3xl p-5">
+        <div class="adaptive-glass rounded-3xl p-5">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-md font-black tracking-wide text-white">Today Production</h2>
-                <div class="flex gap-1 text-[10px] bg-black/30 p-1 rounded-full border border-white/10 font-bold">
-                    <button class="bg-white/20 text-white px-3 py-1 rounded-full shadow-xs">Day</button>
-                    <button class="text-gray-300 px-3 py-1">Month</button>
-                    <button class="text-gray-300 px-3 py-1">Year</button>
-                </div>
+                <h2 class="text-md font-black tracking-wide uppercase text-xs">Live Analytics Loop</h2>
+                <span class="bg-orange-500 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full shadow-xs">30s Interval</span>
             </div>
             <div class="h-52">
-                <canvas id="productionChart"></canvas>
+                <canvas id="adaptiveCloudChart"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Glass Analytics Detail Grid -->
     <div class="mt-4 px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
-        <div class="ios-glass rounded-2xl p-4 text-center">
-            <p class="text-[11px] text-gray-300 font-semibold uppercase tracking-wider">Daily Yield</p>
-            <p class="text-xl font-black text-orange-400 mt-1 drop-shadow-[0_0_8px_rgba(251,146,60,0.3)]">25.30 <span class="text-xs font-normal text-gray-300">kWh</span></p>
+        <div class="adaptive-glass rounded-2xl p-4 text-center border-l-4 border-l-orange-500">
+            <p class="text-[10px] text-muted font-bold uppercase tracking-wider">Today Production</p>
+            <p class="text-xl font-black text-orange-500 mt-1" id="val-yield">25.30 <span class="text-xs font-normal text-muted">kWh</span></p>
         </div>
-        <div class="ios-glass rounded-2xl p-4 text-center">
-            <p class="text-[11px] text-gray-300 font-semibold uppercase tracking-wider">Peak Power</p>
-            <p class="text-xl font-black text-yellow-400 mt-1 drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]">4.82 <span class="text-xs font-normal text-gray-300">kW</span></p>
+        <div class="adaptive-glass rounded-2xl p-4 text-center border-l-4 border-l-yellow-500">
+            <p class="text-[10px] text-muted font-bold uppercase tracking-wider">System Efficiency</p>
+            <p class="text-xl font-black text-yellow-600 dark:text-yellow-400 mt-1">97.8 <span class="text-xs font-normal text-muted">%</span></p>
         </div>
     </div>
 
-    <!-- Premium iOS Navigation Bar -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 ios-glass-nav shadow-2xl">
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark-style-nav dark:bg-slate-950/85 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 shadow-2xl">
         <div class="max-w-lg mx-auto px-2 py-3 flex justify-around items-center">
             <a href="#" class="flex flex-col items-center gap-1 text-center flex-1">
-                <i class="fa-solid fa-solar-panel text-xl text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.4)]"></i>
-                <span class="text-[10px] font-bold text-orange-400">Overview</span>
+                <i class="fa-solid fa-chart-line text-xl text-orange-500 drop-shadow-[0_0_6px_rgba(249,115,22,0.3)]"></i>
+                <span class="text-[10px] font-black text-orange-500 tracking-wide">Overview</span>
             </a>
-            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-gray-400">
-                <i class="fa-solid fa-chart-line text-xl"></i>
-                <span class="text-[10px] font-medium">Analyze</span>
+            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i class="fa-solid fa-chart-pie text-xl"></i>
+                <span class="text-[10px] font-bold">History</span>
             </a>
-            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-gray-400">
-                <i class="fa-solid fa-server text-xl"></i>
-                <span class="text-[10px] font-medium">Device</span>
-            </a>
-            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-gray-400 relative">
-                <i class="fa-solid fa-bell text-xl"></i>
-                <span class="text-[10px] font-medium">Alarms</span>
-                <span class="absolute top-0 right-6 w-3.5 h-3.5 bg-red-500 text-white text-[8px] rounded-full flex items-center justify-center font-black">2</span>
-            </a>
-            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-gray-400">
-                <i class="fa-solid fa-gear text-xl"></i>
-                <span class="text-[10px] font-medium">Settings</span>
+            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i class="fa-solid fa-circle-info text-xl"></i>
+                <span class="text-[10px] font-bold">Devices</span>
             </a>
         </div>
     </div>
 
     <script>
-        // Production Chart Setup (Neon/Glass Style)
-        const ctx = document.getElementById('productionChart').getContext('2d');
+        // Setup Charts Context
+        const ctx = document.getElementById('adaptiveCloudChart').getContext('2d');
         
-        // Neon Gradients for Glass looks
-        const solarGlow = ctx.createLinearGradient(0, 0, 0, 200);
-        solarGlow.addColorStop(0, 'rgba(242, 115, 0, 0.4)');
-        solarGlow.addColorStop(1, 'rgba(242, 115, 0, 0.0)');
+        // Detect current text colors for chart matching dynamically
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const axisColor = isDarkMode ? '#94a3b8' : '#475569';
+        const gridColor = isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
 
-        new Chart(ctx, {
+        const liveChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['6AM', '8AM', '10AM', '12PM', '2PM', '4PM', '6PM'],
+                labels: ['12:00', '12:10', '12:20', '12:30', '12:40', '12:50', 'Live Sync'],
                 datasets: [{
-                    label: 'Solar kW',
-                    data: [0.1, 1.2, 3.5, 4.8, 4.2, 2.1, 0.3],
-                    borderColor: '#FB923C', 
-                    backgroundColor: solarGlow,
+                    label: 'Solar output (kW)',
+                    data: [3.8, 3.9, 4.0, 4.1, 4.05, 4.12, 4.12],
+                    borderColor: '#f97316', 
+                    backgroundColor: 'rgba(249, 115, 22, 0.1)',
                     fill: true,
-                    tension: 0.4,
-                    pointRadius: 2,
+                    tension: 0.35,
                     borderWidth: 2.5
                 }, {
-                    label: 'Load kW',
-                    data: [1.0, 0.8, 1.2, 2.5, 1.5, 1.0, 1.8],
-                    borderColor: '#60A5FA', 
+                    label: 'Home Load (kW)',
+                    data: [1.6, 1.7, 1.5, 1.9, 1.8, 1.85, 1.85],
+                    borderColor: '#3b82f6',
                     borderDash: [4, 4],
                     fill: false,
-                    tension: 0.4,
-                    pointRadius: 0,
+                    tension: 0.35,
                     borderWidth: 1.5
                 }]
             },
@@ -252,17 +253,69 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    x: { grid: { display: false }, ticks: { color: '#cbd5e1', font: { size: 9, weight: 'bold' } } },
-                    y: { grid: { color: 'rgba(255,255,255,0.08)' }, ticks: { color: '#cbd5e1', font: { size: 9 } } }
+                    x: { grid: { display: false }, ticks: { color: axisColor, font: { size: 9, weight: 'bold' } } },
+                    y: { grid: { color: gridColor }, ticks: { color: axisColor, font: { size: 9 } } }
                 },
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { boxWidth: 10, padding: 15, font: { size: 10, weight: 'bold' }, color: '#f1f5f9' }
+                        labels: { boxWidth: 10, font: { size: 10, weight: 'bold' }, color: axisColor }
                     }
                 }
             }
         });
+
+        // Loop Countdown System
+        let syncCountdown = 30;
+        let totalYield = 25.30;
+
+        function updateInverterMetrics() {
+            // Generates micro-fluctuations matching active modbus data delays (30s)
+            const solarChange = (Math.random() * 0.3) - 0.15;
+            const loadChange = (Math.random() * 0.2) - 0.1;
+            
+            let currentSolar = Math.max(0, 4.120 + solarChange);
+            let currentLoad = Math.max(0.4, 1.850 + loadChange);
+            let netGrid = currentSolar - currentLoad;
+            
+            // Inject to text elements smooth updating
+            document.getElementById('val-solar').innerHTML = currentSolar.toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
+            document.getElementById('val-load').innerHTML = currentLoad.toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
+            
+            if (netGrid >= 0) {
+                document.getElementById('val-grid').innerHTML = netGrid.toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
+                document.getElementById('val-grid-status').innerText = "Exporting";
+                document.getElementById('val-grid-status').className = "inline-block text-[9px] bg-blue-500/20 text-blue-600 dark:text-blue-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-blue-500/30";
+            } else {
+                document.getElementById('val-grid').innerHTML = Math.abs(netGrid).toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
+                document.getElementById('val-grid-status').innerText = "Importing";
+                document.getElementById('val-grid-status').className = "inline-block text-[9px] bg-rose-500/20 text-rose-600 dark:text-rose-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-rose-500/30";
+            }
+
+            // Yield increments slightly over time
+            totalYield += 0.01;
+            document.getElementById('val-yield').innerHTML = totalYield.toFixed(2) + ' <span class="text-xs font-normal text-muted">kWh</span>';
+            
+            // Randomize temperature reading inside a safe bracket
+            document.getElementById('val-temp').innerText = Math.floor(Math.random() * 6) + 29;
+
+            // Shift datasets dynamically
+            liveChart.data.datasets[0].data.shift();
+            liveChart.data.datasets[0].data.push(parseFloat(currentSolar.toFixed(2)));
+            liveChart.data.datasets[1].data.shift();
+            liveChart.data.datasets[1].data.push(parseFloat(currentLoad.toFixed(2)));
+            liveChart.update();
+        }
+
+        // Timer Execution
+        setInterval(() => {
+            syncCountdown--;
+            if (syncCountdown <= 0) {
+                updateInverterMetrics();
+                syncCountdown = 30; // Max 30 seconds threshold limit reset
+            }
+            document.getElementById('sync-timer').innerText = syncCountdown + 's';
+        }, 1000);
     </script>
 </body>
 </html>
