@@ -224,7 +224,11 @@
             <button class="hamburger-trigger" onclick="toggleSideDrawerMenu(true)"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
-
+        <!-- AUTOMATIC INTEL ALERT BADGE -->
+        <div id="day-night-phase-badge" style="text-align: center; margin: 10px 20px -5px 20px; font-size: 11px; font-weight: bold; padding: 6px; border-radius: 6px; background: rgba(255,255,255,0.03); color: var(--solar-blue); border: 1px solid rgba(255,255,255,0.05);">
+            <i class="fa-solid fa-circle-notch fa-spin"></i> ANALYZING KNOX INVERTER SYSTEM PHASE...
+        </div>
+    
     <div class="ticker-bar">
         <div class="sync-loader"><i class="fa-solid fa-rotate"></i> <span id="sync-countdown-text">Syncing 30s</span></div>
         <div class="progress-track"><div class="progress-fill" id="sync-progress-line"></div></div>
@@ -718,6 +722,35 @@
                 if(bw) bw.style.animationDirection = "reverse";
                 executeAIEnergyConsultant(solarProd, houseLoad, batSoc);
             }
+                        // AUTOMATIC WEATHER & AI ADVICE UPDATE PIPELINE
+            const weatherTxt = document.getElementById('weather-status-text');
+            const aiTxt = document.getElementById('ai-advice-text');
+            const aiCard = document.getElementById('ai-insights-card');
+            const tempBadge = document.getElementById('weather-temp-badge');
+            
+            if(weatherTxt && aiTxt) {
+                const sPower = parseFloat(solar);
+                if (sPower <= 0.10) {
+                    // Night state advice
+                    weatherTxt.innerText = "Clear Night (No Solar)";
+                    if(tempBadge) tempBadge.innerText = "28°C";
+                    aiTxt.innerText = "System is running on Backup/Grid. It is recommended to keep AC Grid Charging OFF if battery level is above 50% to save WAPDA units.";
+                    if(aiCard) aiCard.style.display = "block";
+                } else if (sPower > 0.10 && sPower < 1.5) {
+                    // Cloudy/Low sun state advice
+                    weatherTxt.innerText = "Partly Cloudy / Low Light";
+                    if(tempBadge) tempBadge.innerText = "32°C";
+                    aiTxt.innerText = "Low solar generation detected. Prioritize heavy home loads (AC/Water Pump) to be turned off to avoid instant battery draining.";
+                    if(aiCard) aiCard.style.display = "block";
+                } else {
+                    // Peak sunny day state advice
+                    weatherTxt.innerText = "Sunny - Peak Production";
+                    if(tempBadge) tempBadge.innerText = "38°C";
+                    aiTxt.innerText = "Excellent generation! This is the perfect time to run heavy loads or activate maximum battery bank charging cycles.";
+                    if(aiCard) aiCard.style.display = "block";
+                }
+            }
+            
         }
                     // PUSH REAL-TIME DATA INTO THE LIVE TRENDING CHART
             if (window.mySolarChart || typeof liveSolarChart !== 'undefined') {
