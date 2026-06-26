@@ -186,7 +186,7 @@
     <header>
         <div class="logo">MS SOLAR<span> CLOUD</span></div>
         <div class="header-actions">
-            <div class="sys-status" id="active-capacity-badge">5.0 kW SYSTEM</div>
+            <div class="sys-status" id="active-capacity-badge">4.0 kW SYSTEM</div>
             <button class="hamburger-trigger" onclick="toggleSideDrawerMenu(true)"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
@@ -194,7 +194,7 @@
     <div class="ticker-bar">
         <div class="sync-loader"><i class="fa-solid fa-rotate"></i> <span id="sync-countdown-text">Syncing 30s</span></div>
         <div class="progress-track"><div class="progress-fill" id="sync-progress-line"></div></div>
-        <span style="color: var(--solar-blue); font-weight:700;" id="ui-inverter-brand-badge">SOLIS CLOUD</span>
+        <span style="color: var(--solar-blue); font-weight:700;" id="ui-inverter-brand-badge">Ms CLOUD</span>
     </div>
 
     <div id="panel-dashboard" class="app-panel active">
@@ -219,8 +219,13 @@
                 <div class="node-watts" id="val-node-grid">0.00 kW</div>
             </div>
 
-            <div class="component-node c-inverter">
-                <div class="icon-circle"><i class="fa-solid fa-server"></i></div>
+<div class="component-node c-inverter">
+    <div class="icon-circle" style="display: flex; flex-direction: column; gap: 4px; justify-content: center; align-items: center;">
+        <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
+        <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
+        <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
+    </div>
+    
                 <span id="txt-node-brand-label">Inverter</span>
                 <div class="node-watts" id="val-node-inv" style="color: var(--primary-orange);">ONLINE</div>
             </div>
@@ -305,7 +310,21 @@
                 <label>Designated Maximum Plant Capacity ($kW$)</label>
                 <input type="number" id="cfg-capacity" class="input-ctrl" value="5.0" step="0.5" oninput="synchronizeSystemRegisters()">
             </div>
-            
+                    </div>
+
+        <div class="field-group" style="margin-top: 20px; border-top: 1px solid var(--border-glow); padding-top: 15px;">
+            <label><i class="fa-solid fa-wifi" style="color: var(--solar-blue);"></i> Inverter Datalogger Wi-Fi SSID</label>
+            <input type="text" id="cfg-wifi-ssid" class="input-ctrl" value="AP_Inverter_WiFi_Setup" placeholder="Enter Wi-Fi Name">
+        </div>
+
+        <div class="field-group">
+            <label><i class="fa-solid fa-lock" style="color: var(--primary-orange);"></i> Datalogger Remote Password / Key</label>
+            <input type="password" id="cfg-wifi-pass" class="input-ctrl" value="********" placeholder="Enter Connection Password">
+        </div>
+        <button class="action-btn" onclick="commitHardwareChangesToApp()">COMMIT & SYNC DATA OVER WI-FI</button>
+    </div>
+    </div>
+    
             <button class="action-btn" onclick="commitHardwareChangesToApp()">COMMIT & SYNC DATA OVER WI-FI</button>
         </div>
     </div>
@@ -328,11 +347,12 @@
     </nav>
 
     <script>
-        let systemBrand = "Solis Cloud";
-        let batteryBrand = "Phoenix Lithium";
-        let systemCapacity = 5.0;
-        let deferredPrompt;
-        let countdownSeconds = 30;
+        let systemBrand = localStorage.getItem('savedBrand') || "Ms Cloud";
+let batteryBrand = localStorage.getItem('savedBattery') || "Phoenix Lithium";
+let systemCapacity = parseFloat(localStorage.getItem('savedCapacity')) || 5.0;
+let deferredPrompt;
+let countdownSeconds = 30;
+        
 
         const logDataStructure = {
             day: { yield: "18.40", earn: "1,104", ylbl: "Today Yield", elbl: "Today Earnings" },
@@ -419,17 +439,27 @@
             batteryBrand = document.getElementById('cfg-battery-brand').value;
             systemCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
         }
+function commitHardwareChangesToApp() {
+    synchronizeSystemRegisters();
+document.getElementById('active-capacity-badge').innerText = `${systemCapacity.toFixed(1)} kW SYSTEM`;
+    
 
-        function commitHardwareChangesToApp() {
-            synchronizeSystemRegisters();
-            document.getElementById('active-capacity-badge').innerText = `${systemCapacity.toFixed(1)} kW SYSTEM`;
-            document.getElementById('ui-inverter-brand-badge').innerText = systemBrand.toUpperCase();
-            document.getElementById('txt-node-brand-label').innerText = systemBrand.split(' ')[0];
-            document.getElementById('txt-node-battery-label').innerText = batteryBrand.split(' ')[0];
-            alert("WI-FI Connection Authenticated! Parameters synced successfully.");
-            switchMainViews('panel-dashboard', document.querySelectorAll('.nav-tab')[0]);
-        }
+    // LocalStorage mein data permanently save karna
+    localStorage.setItem('savedBrand', systemBrand);
+    localStorage.setItem('savedBattery', batteryBrand);
+    localStorage.setItem('savedCapacity', systemCapacity);
+    localStorage.setItem('savedWifi', wifiSSID);
 
+    // UI elements update karna
+    document.getElementById('active-capacity-badge').innerText = `${systemCapacity.toFixed(1)} kW SYSTEM`;
+    document.getElementById('ui-inverter-brand-badge').innerText = systemBrand.toUpperCase();
+    document.getElementById('txt-node-brand-label').innerText = systemBrand.split(' ')[0];
+    document.getElementById('txt-node-battery-label').innerText = batteryBrand.split(' ')[0];
+    
+alert(`Wi-Fi Connection Authenticated!\nConnected to: ${wifiSSID}\nParameters synced successfully.`);
+    switchMainViews('panel-dashboard', document.querySelectorAll('.nav-tab')[0]);
+}
+        
         // 30 SECONDS LIVE ENGINE WITH COUNTDOWN
         function runLiveTelemetryPipelineLoop() {
             recalculateResponsiveWires();
