@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MS Solar Cloud - Enterprise V3</title>
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js for Irradiance Profile -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -19,706 +17,536 @@
             --battery-green: #00ffaa;
             --text-main: #ffffff;
             --text-muted: #7f8c8d;
+            --glass-bg: rgba(13, 21, 39, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             overflow-x: hidden;
-            padding-bottom: 70px;
+            padding-bottom: 80px;
         }
 
-        /* --- AUTH SYSTEM LAYER --- */
+        /* --- MODERN CUSTOM SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-orange); border-radius: 10px; }
+
+        /* --- PWA APP CONTAINER LAYER --- */
         #auth-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(6, 11, 25, 0.98);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #0e1933 0%, #060b19 100%);
+            z-index: 10000; display: flex; justify-content: center; align-items: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .auth-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 106, 0, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            text-align: center;
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            padding: 40px 30px; border-radius: 24px; width: 90%; max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7); text-align: center;
+            backdrop-filter: blur(10px);
         }
 
         .auth-card h2 {
-            color: var(--primary-orange);
-            margin-bottom: 20px;
+            color: var(--text-main); font-size: 28px; font-weight: 800;
+            letter-spacing: 1.5px; margin-bottom: 5px;
         }
+
+        .auth-card h2 span { color: var(--primary-orange); }
 
         .auth-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #111a30;
-            border: 1px solid #223154;
-            color: white;
-            border-radius: 8px;
-            outline: none;
+            width: 100%; padding: 14px 16px; margin: 12px 0; background: #111a30;
+            border: 1px solid #223154; color: white; border-radius: 12px;
+            outline: none; font-size: 14px; transition: 0.3s;
         }
+
+        .auth-input:focus { border-color: var(--primary-orange); box-shadow: 0 0 10px rgba(255,106,0,0.2); }
 
         .auth-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(45deg, var(--primary-orange), #ff9900);
-            border: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 15px;
+            width: 100%; padding: 14px; background: linear-gradient(45deg, var(--primary-orange), #ff9900);
+            border: none; color: white; font-weight: 700; border-radius: 12px;
+            cursor: pointer; margin-top: 15px; font-size: 15px; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3); transition: 0.3s;
         }
 
-        /* --- HEADER SECTION --- */
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 106, 0, 0.4); }
+
+        /* --- MASTER APP HEADER --- */
         header {
-            text-align: center;
-            padding: 15px 10px 5px 10px;
-            background: linear-gradient(to bottom, #0a1124, transparent);
+            padding: 20px 20px 10px 20px; background: linear-gradient(to bottom, #0a1124, transparent);
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .main-title {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        .brand-logo { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+        .brand-logo span { color: var(--primary-orange); }
+        .system-badge {
+            background: rgba(255, 106, 0, 0.1); border: 1px solid rgba(255, 106, 0, 0.2);
+            padding: 4px 10px; border-radius: 20px; font-size: 10px; color: var(--primary-orange); font-weight: 700;
         }
 
-        .subtitle {
-            color: var(--primary-orange);
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        /* --- STATUS BAR --- */
         .status-bar {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 15px;
-            font-size: 11px;
-            background: rgba(13, 21, 39, 0.8);
-            border-y: 1px solid rgba(255,255,255,0.05);
+            display: flex; justify-content: space-between; padding: 8px 20px; font-size: 11px;
+            background: rgba(13, 21, 39, 0.6); border-y: 1px solid var(--glass-border); color: var(--text-muted);
         }
 
-        .engine-active {
-            color: #00ff66;
-            font-weight: bold;
+        .active-dot { color: #00ff66; font-weight: bold; }
+        .active-dot::before { content: "● "; animation: blink 1.2s infinite; }
+
+        /* --- ADVANCED 3D VIEWPORT WITH POWER FLOWS --- */
+        .viewport-container { position: relative; width: 100%; height: 440px; overflow: hidden; }
+        
+        .house-isometric-bg {
+            position: absolute; width: 150px; height: 150px;
+            background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.05);
+            transform: rotateX(60deg) rotateZ(-45deg); z-index: 1; border-radius: 20px;
         }
 
-        .engine-active::before {
-            content: "● ";
-            animation: blink 1s infinite;
-        }
-
-        /* --- 3D VIEWPORT CONTAINER --- */
-        .viewport-3d {
-            position: relative;
-            width: 100%;
-            height: 420px;
-            background: radial-gradient(circle at center, #0e1933 0%, #060b19 70%);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Ambient Animated Sun */
-        .ambient-sun {
-            position: absolute;
-            top: 40px;
-            left: 40px;
-            color: #ffcc00;
-            font-size: 50px;
-            filter: drop-shadow(0 0 25px #ffaa00);
-            animation: rotateSun 20s linear infinite;
-        }
-
-        /* Isometric Wrapper */
         .iso-scene {
-            position: relative;
-            width: 320px;
-            height: 320px;
-            transform: rotateX(60deg) rotateZ(-45deg);
-            transform-style: preserve-3d;
+            position: relative; width: 340px; height: 340px; margin: 40px auto;
+            transform: rotateX(55deg) rotateZ(-45deg); transform-style: preserve-3d; z-index: 2;
         }
 
-        /* SVG Overlay for Flow Lines */
-        .flow-pipes {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            transform: translateZ(10px);
-        }
+        .flow-pipes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; transform: translateZ(5px); }
+        
+        .flow-line { fill: none; stroke-width: 3.5; stroke-dasharray: 6, 10; animation: dash 0.8s linear infinite; stroke-linecap: round; }
 
-        .flow-line {
-            fill: none;
-            stroke-width: 3;
-            stroke-dasharray: 8, 12;
-            animation: dash 1s linear infinite;
-        }
-
-        /* Isometric Nodes */
         .iso-node {
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            border-radius: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 10px;
-            font-weight: bold;
-            text-align: center;
-            padding: 5px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.6);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            transform-style: preserve-3d;
+            position: absolute; width: 85px; height: 85px; border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            font-size: 9px; font-weight: 700; text-align: center; padding: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; transform-style: preserve-3d; background: var(--glass-bg); backdrop-filter: blur(8px);
         }
 
-        .iso-node:hover {
-            transform: translateZ(10px);
-        }
+        .iso-node:hover { transform: translateZ(15px) scale(1.05); box-shadow: 0 25px 45px rgba(0,0,0,0.6); }
 
-        .node-val {
-            font-size: 14px;
-            margin-top: 4px;
-        }
+        .iso-node i { font-size: 20px; margin-bottom: 6px; }
+        .node-val { font-size: 13px; font-weight: 800; margin-top: 3px; font-family: monospace; }
 
-        /* Specific Node Positions & Styling */
-        .node-inverter {
-            top: 115px;
-            left: 115px;
-            background: rgba(255, 106, 0, 0.25);
-            border: 2px solid var(--primary-orange);
-            color: #fff;
-            box-shadow: 0 0 25px rgba(255, 106, 0, 0.4);
-            z-index: 10;
+        /* Node Position Matrix */
+        .node-solar { top: 125px; left: 0px; border: 2px solid var(--solar-blue); color: var(--solar-blue); }
+        .node-grid { top: 0px; left: 125px; border: 2px solid var(--grid-blue); color: var(--grid-blue); }
+        .node-inverter { 
+            top: 125px; left: 125px; border: 2px solid var(--primary-orange); color: #fff;
+            background: rgba(255, 106, 0, 0.15); box-shadow: 0 0 30px rgba(255, 106, 0, 0.3);
         }
+        .node-load { top: 125px; right: 0px; border: 2px solid var(--load-purple); color: var(--load-purple); }
+        .node-battery { bottom: 0px; left: 125px; border: 2px solid var(--battery-green); color: var(--battery-green); }
 
-        .node-solar {
-            top: 115px;
-            left: 0px;
-            background: rgba(0, 191, 255, 0.15);
-            border: 2px solid var(--solar-blue);
-        }
-
-        .node-grid {
-            top: 0px;
-            left: 115px;
-            background: rgba(74, 144, 226, 0.15);
-            border: 2px solid var(--grid-blue);
-        }
-
-        .node-load {
-            top: 115px;
-            right: 0px;
-            background: rgba(189, 0, 255, 0.15);
-            border: 2px solid var(--load-purple);
-        }
-
-        .node-battery {
-            bottom: 0px;
-            left: 115px;
-            background: rgba(0, 255, 170, 0.15);
-            border: 2px solid var(--battery-green);
-        }
-
-        .live-tag {
-            background: #ff0000;
-            font-size: 8px;
-            padding: 1px 4px;
-            border-radius: 4px;
-            margin-top: 2px;
-            animation: blink 0.8s ease infinite;
-        }
-
-        /* --- METRICS & TABS SECTION --- */
-        .dashboard-stats {
-            padding: 15px;
-            background: var(--card-bg);
-            border-top: 1px solid #16223d;
-        }
-
-        .time-tabs {
-            display: flex;
-            background: #060b19;
-            border-radius: 25px;
-            padding: 3px;
-            margin-bottom: 15px;
-        }
-
+        /* --- DASHBOARD METRICS --- */
+        .dashboard-analytics-layer { padding: 20px; background: var(--card-bg); border-radius: 30px 30px 0 0; box-shadow: 0 -15px 30px rgba(0,0,0,0.3); }
+        
+        .time-tabs { display: flex; background: #060b19; border-radius: 16px; padding: 4px; margin-bottom: 20px; }
         .tab-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            font-weight: bold;
-            font-size: 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
+            flex: 1; padding: 10px; border: none; background: transparent;
+            color: var(--text-muted); font-weight: 700; font-size: 11px; border-radius: 12px;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+        .tab-btn.active { background: var(--primary-orange); color: white; }
+
+        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+        .metric-card { background: #111a30; padding: 18px; border-radius: 16px; border-bottom: 3px solid var(--primary-orange); }
+        .metric-card.savings { border-bottom-color: var(--battery-green); }
+        .m-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .m-value { font-size: 22px; font-weight: 800; margin-top: 6px; }
+        .m-value span { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+
+        /* --- TAB LAYER SYSTEM --- */
+        .app-view { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .app-view.active { display: block; }
+
+        /* --- CONFIGURATION & PROVISIONING STYLES --- */
+        .config-section { padding: 20px; }
+        .config-card { background: #111a30; border: 1px solid var(--glass-border); padding: 20px; border-radius: 18px; margin-bottom: 15px; }
+        .config-card h3 { font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--primary-orange); }
+        
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+        
+        .select-field, .input-field {
+            width: 100%; padding: 12px; background: var(--bg-color); border: 1px solid #223154;
+            border-radius: 8px; color: white; outline: none; font-size: 13px;
         }
 
-        .tab-btn.active {
-            background: var(--primary-orange);
-            color: white;
+        /* --- WIFI CONNECTING UI --- */
+        .wifi-status-box {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px; background: rgba(0, 191, 255, 0.08); border: 1px dashed var(--solar-blue);
+            border-radius: 10px; margin-top: 10px; font-size: 12px;
+        }
+        
+        .pulse-loader {
+            width: 8px; height: 8px; background: var(--solar-blue); border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(0, 191, 255, 0.7); animation: pulse 1.5s infinite;
         }
 
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: #111a30;
-            padding: 15px;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary-orange);
-        }
-
-        .stat-card.savings {
-            border-left-color: var(--battery-green);
-        }
-
-        .card-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .card-value {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .card-value span {
-            font-size: 12px;
-            font-weight: normal;
-            color: var(--text-muted);
-        }
-
-        /* --- CHART STYLING --- */
-        .chart-container {
-            background: #111a30;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 10px;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        /* --- BOTTOM NAVIGATION --- */
+        /* --- APP NAVIGATION FOOTER --- */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: #0a1124;
-            border-top: 1px solid #16223d;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 68px;
+            background: #0a1124; border-top: 1px solid #16223d; display: flex;
+            justify-content: space-around; align-items: center; z-index: 9999;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
         }
-
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-muted);
-            font-size: 10px;
-            text-decoration: none;
-            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-muted); font-size: 10px; font-weight: 700;
+            text-decoration: none; cursor: pointer; transition: 0.2s;
         }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; transition: 0.2s; }
+        .nav-item.active { color: var(--primary-orange); }
+        .nav-item.active i { transform: translateY(-2px); }
 
-        .nav-item i {
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        .nav-item.active {
-            color: var(--primary-orange);
-        }
-
-        /* --- PAGES / VIEWS CONTAINER --- */
-        .app-view {
-            display: none;
-        }
-
-        .app-view.active {
-            display: block;
-        }
-
-        .protocol-list {
-            padding: 15px;
-        }
-
-        .protocol-item {
-            background: #111a30;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        @keyframes rotateSun {
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes dash {
-            to {
-                stroke-dashoffset: -20;
-            }
-        }
+        /* --- ANIMATION FRAMEWORKS --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        @keyframes rotateSun { 100% { transform: rotate(360deg); } }
+        @keyframes dash { to { stroke-dashoffset: -32; } }
+        @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(0, 191, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 191, 255, 0); } }
     </style>
 </head>
 <body>
 
-    <!-- 1. LAUNCH / LOGIN LAYER -->
     <div id="auth-screen">
         <div class="auth-card">
-            <h2>MS SOLAR CLOUD</h2>
-            <p style="color: var(--text-muted); font-size:12px; margin-bottom:15px;">Secure Inverter Gateway Login</p>
-            <input type="text" id="username" class="auth-input" placeholder="Username / Owner ID">
-            <input type="password" id="password" class="auth-input" placeholder="Access Password">
-            <button class="auth-btn" onclick="authenticateUser()">INITIALIZE SYSTEM</button>
+            <h2>MS SOLAR<span> CLOUD</span></h2>
+            <p style="color: var(--text-muted); font-size:12px; margin-bottom:20px;">Enterprise IoT Inverter Gateway Console</p>
+            <input type="text" id="app-user" class="auth-input" placeholder="Owner Username / ID" value="admin">
+            <input type="password" id="app-pass" class="auth-input" placeholder="Gateway Passcode" value="1234">
+            <button class="auth-btn" onclick="executeSystemAuth()">INITIALIZE CLOUD REVS</button>
         </div>
     </div>
 
-    <!-- MAIN APP STRUCTURE -->
     <header>
-        <div class="main-title">MS SOLAR CLOUD</div>
-        <div class="subtitle"><i class="fa-solid to-chip"></i> AI TWIN ENGINE ENTERPRISE V3</div>
+        <div class="brand-logo">MS SOLAR<span> CLOUD</span></div>
+        <div class="system-badge" id="active-profile-badge">5.0 kW SYSTEM</div>
     </header>
 
     <div class="status-bar">
-        <span class="engine-active">CORE ENGINE ACTIVE</span>
-        <span><i class="fa-solid fa-sun" style="color: #ffaa00;"></i> Sunny 34°C</span>
-        <span style="color: #00bfff;">IoT RATE: <span id="iot-rate">8s</span></span>
+        <span class="active-dot" id="engine-status-text">PROVISIONING COMPLETE</span>
+        <span><i class="fa-solid fa-cloud-sun" style="color: #ffaa00;"></i> Auto-Sync</span>
+        <span style="color: var(--solar-blue);">COMMS: <span id="iot-heartbeat">READY</span></span>
     </div>
 
-    <!-- VIEW 1: 3D DASHBOARD (MAIN) -->
-    <div id="view-3d" class="app-view active">
-        <div class="viewport-3d">
-            <!-- Sun Element -->
-            <i class="fa-solid fa-sun ambient-sun"></i>
-
-            <!-- Isometric Map Layout -->
+    <div id="view-home" class="app-view active">
+        <div class="viewport-container">
+            <div class="house-isometric-bg" style="top:140px; left:115px;"></div>
+            <i class="fa-solid fa-sun" style="position: absolute; top:30px; left:30px; color:#ffcc00; font-size:42px; filter: drop-shadow(0 0 20px #ffaa00); animation: rotateSun 25s linear infinite;"></i>
+            
             <div class="iso-scene">
-                <!-- SVG Flow Pipes Connecting Nodes -->
                 <svg class="flow-pipes">
-                    <!-- Solar to Inverter -->
-                    <path d="M 45 160 L 160 160" class="flow-line" stroke="#00bfff" />
-                    <!-- Grid to Inverter -->
-                    <path d="M 160 45 L 160 160" class="flow-line" stroke="#4a90e2" />
-                    <!-- Inverter to Load -->
-                    <path d="M 160 160 L 275 160" class="flow-line" stroke="#bd00ff" />
-                    <!-- Inverter to Battery -->
-                    <path d="M 160 160 L 160 275" class="flow-line" stroke="#00ffaa" />
+                    <path d="M 42 167 L 167 167" id="pipe-solar" class="flow-line" stroke="var(--solar-blue)" />
+                    <path d="M 167 42 L 167 167" id="pipe-grid" class="flow-line" stroke="var(--grid-blue)" />
+                    <path d="M 167 167 L 292 167" id="pipe-load" class="flow-line" stroke="var(--load-purple)" />
+                    <path d="M 167 167 L 167 292" id="pipe-battery" class="flow-line" stroke="var(--battery-green)" />
                 </svg>
 
-                <!-- Nodes -->
-                <div class="iso-node node-grid" onclick="showNodeDetails('WAPDA Grid')">
-                    <span>WAPDA GRID</span>
-                    <span class="node-val" id="val-grid">1.95 kW</span>
-                    <i class="fa-solid fa-tower-cell" style="margin-top:5px;"></i>
+                <div class="iso-node node-grid" onclick="inspectNode('Grid Matrix Node', 'Handles AC reference generation and net-metering telemetry.')">
+                    <span>AC GRID</span>
+                    <span class="node-val" id="node-txt-grid">1.20 kW</span>
+                    <i class="fa-solid fa-tower-cell"></i>
                 </div>
 
-                <div class="iso-node node-solar" onclick="showNodeDetails('Solar Plates')">
-                    <span>SOLAR PLATES</span>
-                    <span class="node-val" id="val-solar">4.82 kW</span>
-                    <i class="fa-solid fa-solar-panel" style="margin-top:5px;"></i>
+                <div class="iso-node node-solar" onclick="inspectNode('PV String Array', 'Monitors Voc, Isc and total solar irradiance transformation.')">
+                    <span>PV ARRAYS</span>
+                    <span class="node-val" id="node-txt-solar">3.80 kW</span>
+                    <i class="fa-solid fa-solar-panel"></i>
                 </div>
 
-                <div class="iso-node node-inverter" onclick="showNodeDetails('Smart Inverter')">
-                    <span>SMART INVERTER</span>
-                    <span style="font-size:8px; color: var(--text-muted)">SIEL / REVS | System Normal</span>
-                    <span class="live-tag">LIVE DATA</span>
+                <div class="iso-node node-inverter" onclick="inspectNode('Central Smart Inverter', 'Dual MPPT Central Logic Engine executing DSP syncing.')">
+                    <span>INVERTER</span>
+                    <span style="font-size:7px; color:#ccc; letter-spacing:0.5px;">SIEL HYBRID</span>
+                    <span class="node-val" id="node-txt-inv" style="font-size:10px; margin-top:2px; color:#ff6a00;">ON-GRID</span>
                 </div>
 
-                <div class="iso-node node-load" onclick="showNodeDetails('Consumer Load')">
-                    <span>CONSUMER LOAD</span>
-                    <span class="node-val" id="val-load">6.47... kW</span>
-                    <i class="fa-solid fa-house" style="margin-top:5px;"></i>
+                <div class="iso-node node-load" onclick="inspectNode('Consumer Premises Load', 'Real-time phase active consumption metrics calculated.')">
+                    <span>LOAD</span>
+                    <span class="node-val" id="node-txt-load">4.50 kW</span>
+                    <i class="fa-solid fa-house-lightning"></i>
                 </div>
 
-                <div class="iso-node node-battery" onclick="showNodeDetails('Battery Pack')">
-                    <span>BATTERY PACK</span>
-                    <span class="node-val" id="val-battery">90% (0.3kW)</span>
-                    <i class="fa-solid fa-battery-three-quarters" style="margin-top:5px;"></i>
+                <div class="iso-node node-battery" onclick="inspectNode('LiFePO4 Storage Vault', 'Lithium Storage Matrix monitoring SoC, temperature and BMS telemetry.')">
+                    <span>BATTERY</span>
+                    <span class="node-val" id="node-txt-bat">85%</span>
+                    <i class="fa-solid fa-battery-three-quarters"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Metrics Layer -->
-        <div class="dashboard-stats">
+        <div class="dashboard-analytics-layer">
             <div class="time-tabs">
-                <button class="tab-btn active" onclick="switchTimeframe('day')">DAY</button>
-                <button class="tab-btn" onclick="switchTimeframe('month')">MONTH</button>
-                <button class="tab-btn" onclick="switchTimeframe('year')">YEAR</button>
-                <button class="tab-btn" onclick="switchTimeframe('lifetime')">LIFETIME</button>
+                <button class="tab-btn active" onclick="alterTimeframe('day', this)">Day</button>
+                <button class="tab-btn" onclick="alterTimeframe('month', this)">Month</button>
+                <button class="tab-btn" onclick="alterTimeframe('year', this)">Year</button>
             </div>
 
-            <div class="cards-grid">
-                <div class="stat-card">
-                    <div class="card-label">Today Production</div>
-                    <div class="card-value" id="prod-val">25.31 <span>kWh</span></div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="m-label" id="yield-label">Today Yield</div>
+                    <div class="m-value" id="val-yield">18.40 <span>kWh</span></div>
                 </div>
-                <div class="stat-card savings">
-                    <div class="card-label">Today Savings</div>
-                    <div class="card-value" id="save-val">Rs. 1,420</div>
+                <div class="metric-card savings">
+                    <div class="m-label" id="savings-label">Today Earnings</div>
+                    <div class="m-value" id="val-savings">Rs. 1,104</div>
                 </div>
             </div>
 
-            <div class="chart-header">
-                <span>DAILY IRRADIANCE PROFILE</span>
-                <span style="color: var(--primary-orange);">AI CORE ENGINE</span>
+            <div class="chart-header" style="font-size: 12px; font-weight:700; margin-bottom:10px;">
+                <span>ENERGY ARCHITECTURE TRANSFORMATION</span>
             </div>
+            <div style="background:#111a30; padding:15px; border-radius:16px; height:180px; position:relative;">
+                <canvas id="primaryWaveChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-config" class="app-view">
+        <div class="config-section">
+            <h2 style="font-size:22px; margin-bottom:5px;">Hardware Commissioning</h2>
+            <p style="color:var(--text-muted); font-size:12px; margin-bottom:20px;">Configure physical hardware properties and provisioning hooks.</p>
+
+            <div class="config-card">
+                <h3><i class="fa-solid fa-microchip"></i> 1. Inverter Profile Registration</h3>
+                <div class="input-group">
+                    <label>Select Inverter Brand Architecture</label>
+                    <select id="cfg-brand" class="select-field" onchange="recalculateProfile()">
+                        <option value="Solis Hybrid Alpha">Solis Hybrid Alpha Series</option>
+                        <option value="Inverex Nitrox Pro">Inverex Nitrox Pro</option>
+                        <option value="Sunsynk Smart IoT">Sunsynk Smart IoT Gateway</option>
+                        <option value="Growatt SPH Matrix">Growatt SPH Matrix</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Assigned PV Array Capacity ($kW$)</label>
+                    <input type="number" id="cfg-capacity" class="input-field" value="5.0" step="0.5" oninput="recalculateProfile()">
+                </div>
+                <div class="input-group">
+                    <label>Storage Pack Capacity ($Ah$)</label>
+                    <input type="number" id="cfg-battery" class="input-field" value="200" step="50">
+                </div>
+            </div>
+
+            <div class="config-card">
+                <h3><i class="fa-solid fa-wifi"></i> 2. Datalogger Wi-Fi Provisioning</h3>
+                <div class="input-group">
+                    <label>Local Router SSID (Network Name)</label>
+                    <input type="text" id="wifi-ssid" class="input-field" placeholder="e.g., Home_Internet">
+                </div>
+                <div class="input-group">
+                    <label>Network Secure Security WPA Passphrase</label>
+                    <input type="password" id="wifi-pass" class="input-field" placeholder="••••••••">
+                </div>
+                <button class="auth-btn" style="background: linear-gradient(45deg, var(--solar-blue), var(--grid-blue)); box-shadow:0 4px 12px rgba(0,191,255,0.3);" onclick="executeWifiLinkSimulation()">BIND LOGGER VIA SMART-LINK</button>
+                
+                <div class="wifi-status-box" id="wifi-log-box" style="display:none;">
+                    <span id="wifi-status-message">Awaiting initialization packet...</span>
+                    <div class="pulse-loader" id="wifi-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-telemetry" class="app-view">
+        <div style="padding:20px;">
+            <h2 style="font-size:22px; margin-bottom:5px;">Modbus RTU Telemetry</h2>
+            <p style="color:var(--text-muted); font-size:12px; margin-bottom:20px;">Low-level hardware registers extracted over RS485 loop.</p>
             
-            <div class="chart-container">
-                <canvas id="irradianceChart" height="180"></canvas>
-            </div>
+            <div class="protocol-item"><span>Bus Connection State</span><span style="color:var(--battery-green); font-weight:700;">RS485 Modbus RTU (OK)</span></div>
+            <div class="protocol-item"><span>Physical Slave ID Address</span><span>0x01 (Hex Register)</span></div>
+            <div class="protocol-item"><span>PV Loop 1 / 2 Input Voltage</span><span id="tel-vpv">372.5 V / 381.0 V</span></div>
+            <div class="protocol-item"><span>Inverter Thermal Heat Sink</span><span id="tel-temp">41.2 °C</span></div>
+            <div class="protocol-item"><span>BMS Active Discharge Cut-off</span><span>44.0 V</span></div>
+            <div class="protocol-item"><span>Grid Frequency Synchronization</span><span>50.04 Hz</span></div>
+            <div class="protocol-item"><span>Grid Total Harmonic Distortion (THD)</span><span>&lt; 2.1%</span></div>
         </div>
     </div>
 
-    <!-- VIEW 2: ANALYTICS (LOGS & DATA) -->
-    <div id="view-analytics" class="app-view">
-        <div style="padding: 20px;">
-            <h3>Advanced Telemetry & Analytics</h3>
-            <p style="color: var(--text-muted); font-size:12px; margin-bottom:15px;">Real-time tracking of AI registers.</p>
-            <div class="chart-container">
-                <canvas id="analyticsExtendedChart" height="220"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIEW 3: INVERTER PROTOCOLS / DEVICES -->
-    <div id="view-devices" class="app-view">
-        <div class="protocol-list">
-            <h3>Inverter Protocol Registers (Modbus/RTU)</h3>
-            <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 15px;">Active Communication Protocols mapped over IoT Gateway.</p>
-            
-            <div class="protocol-item">
-                <span>Protocol Type</span>
-                <span style="color: var(--primary-orange);">RS485 / Modbus RTU</span>
-            </div>
-            <div class="protocol-item">
-                <span>Inverter ID / Register Address</span>
-                <span>0x01 (Master Node)</span>
-            </div>
-            <div class="protocol-item">
-                <span>Baud Rate</span>
-                <span>9600 bps</span>
-            </div>
-            <div class="protocol-item">
-                <span>PV Input Voltage (Vpv1 / Vpv2)</span>
-                <span id="proto-vpv">385.2 V / 390.1 V</span>
-            </div>
-            <div class="protocol-item">
-                <span>Grid Frequency State</span>
-                <span>50.02 Hz (Stable)</span>
-            </div>
-            <div class="protocol-item">
-                <span>AI Prediction Logic Status</span>
-                <span style="color: var(--battery-green);">Optimized Syncing</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIEW 4: MENU / SYSTEM OPTIONS -->
-    <div id="view-menu" class="app-view">
-        <div style="padding: 20px;">
-            <h3>System Settings & Control Panel</h3>
-            <hr style="border-color: #16223d; margin:15px 0;">
-            <p><strong>Firmware Version:</strong> v3.8.4-Build-2026</p>
-            <p style="margin-top:10px;"><strong>Client Profile:</strong> MS Solar Cloud Authorized Console</p>
-            <button class="auth-btn" style="background:#cc0000; margin-top:30px;" onclick="location.reload()">Lock Application / Logout</button>
-        </div>
-    </div>
-
-    <!-- BOTTOM NAVIGATION BAR -->
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchView('view-3d', this)">
-            <i class="fa-solid fa-cube"></i>
-            <span>3D VIEW</span>
-        </div>
-        <div class="nav-item" onclick="switchView('view-analytics', this)">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>ANALYTICS</span>
-        </div>
-        <div class="nav-item" onclick="switchView('view-devices', this)">
-            <i class="fa-solid fa-gears"></i>
-            <span>DEVICES</span>
-        </div>
-        <div class="nav-item" onclick="switchView('view-menu', this)">
-            <i class="fa-solid fa-bars"></i>
-            <span>MENU</span>
-        </div>
+        <div class="nav-item active" onclick="navigateTabs('view-home', this)"><i class="fa-solid fa-chart-pie"></i><span>DASHBOARD</span></div>
+        <div class="nav-item" onclick="navigateTabs('view-config', this)"><i class="fa-solid fa-sliders"></i><span>HARDWARE</span></div>
+        <div class="nav-item" onclick="navigateTabs('view-telemetry', this)"><i class="fa-solid fa-terminal"></i><span>REGISTERS</span></div>
+        <div class="nav-item" onclick="location.reload()"><i class="fa-solid fa-power-off"></i><span>LOCK OUT</span></div>
     </nav>
 
-    <!-- CORE ENGINE JAVA-SCRIPT -->
     <script>
-        // --- AUTH LOGIC ---
-        function authenticateUser() {
-            // Bypass checking for developer ease, or simple validation
-            document.getElementById('auth-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('auth-screen').style.display = 'none';
-            }, 300);
+        let waveChart;
+        let systemCapacity = 5.0; 
+
+        // Timeframe Historical Mapping Arrays
+        const cloudDataset = {
+            day: { yield: "18.40", save: "1,104", lbl: "Today Yield", slbl: "Today Earnings", time: ['08:00', '10:00', '12:00', '14:00', '16:00'], pv: [1.2, 2.8, 4.9, 3.5, 0.8] },
+            month: { yield: "560.20", save: "33,612", lbl: "Month Yield", slbl: "Month Earnings", time: ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4'], pv: [120, 150, 165, 125] },
+            year: { yield: "6840.00", save: "410,400", lbl: "Year Yield", slbl: "Year Earnings", time: ['Q1', 'Q2', 'Q3', 'Q4'], pv: [1400, 2100, 1950, 1390] }
+        };
+
+        // 1. APP ENTRY GATEWAY CONTROLLER
+        function executeSystemAuth() {
+            const u = document.getElementById('app-user').value;
+            const p = document.getElementById('app-pass').value;
+            if(u !== "" && p !== "") {
+                const screen = document.getElementById('auth-screen');
+                screen.style.opacity = '0';
+                setTimeout(() => screen.style.display = 'none', 500);
+                buildTelemetryWaves();
+                engageLiveInverterLoop();
+            } else {
+                alert("Provide credentials to hook cloud link.");
+            }
         }
 
-        // --- NAVIGATION CONTROLLER ---
-        function switchView(viewId, element) {
+        // 2. VIEW NAVIGATION CONTROLLER 
+        function navigateTabs(targetId, element) {
             document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            document.getElementById(viewId).classList.add('active');
+            document.getElementById(targetId).classList.add('active');
             element.classList.add('active');
         }
 
-        // --- TIMEFRAME TABS LOGIC ---
-        function switchTimeframe(type) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        // 3. HARDWARE CONFIGURATION ALIGNER
+        function recalculateProfile() {
+            const brand = document.getElementById('cfg-brand').value;
+            systemCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
+            document.getElementById('active-profile-badge').innerText = systemCapacity.toFixed(1) + " kW SYSTEM";
+            
+            // Adjust scaling of charts according to updated capacity
+            cloudDataset.day.pv = [
+                (systemCapacity * 0.24).toFixed(2),
+                (systemCapacity * 0.56).toFixed(2),
+                (systemCapacity * 0.98).toFixed(2),
+                (systemCapacity * 0.70).toFixed(2),
+                (systemCapacity * 0.16).toFixed(2)
+            ];
+            alterTimeframe('day', document.querySelectorAll('.tab-btn')[0]);
+        }
 
-            const prod = document.getElementById('prod-val');
-            const save = document.getElementById('save-val');
+        // 4. REALISTIC WI-FI COMMITTING CONTROLLER
+        function executeWifiLinkSimulation() {
+            const ssid = document.getElementById('wifi-ssid').value;
+            const pass = document.getElementById('wifi-pass').value;
+            if(!ssid || !pass) { alert("Input local router credentials."); return; }
 
-            if(type === 'day') {
-                prod.innerHTML = "25.31 <span>kWh</span>";
-                save.innerText = "Rs. 1,420";
-                updateChartData([2.1, 3.5, 5.8, 6.2, 4.9, 3.1, 6.5]);
-            } else if(type === 'month') {
-                prod.innerHTML = "842.10 <span>kWh</span>";
-                save.innerText = "Rs. 47,150";
-                updateChartData([4, 5, 6, 5.5, 7, 6.2, 5.8]);
-            } else if(type === 'year') {
-                prod.innerHTML = "9,850.45 <span>kWh</span>";
-                save.innerText = "Rs. 551,620";
-                updateChartData([5, 6.2, 5.9, 4.8, 6.5, 7.1, 6.9]);
-            } else if(type === 'lifetime') {
-                prod.innerHTML = "32,410.00 <span>kWh</span>";
-                save.innerText = "Rs. 1,814,960";
+            const logBox = document.getElementById('wifi-log-box');
+            const msg = document.getElementById('wifi-status-message');
+            const pulse = document.getElementById('wifi-pulse');
+
+            logBox.style.display = "flex";
+            msg.innerText = "Broadcasting UDP Smart-Link Packets...";
+            msg.style.color = "var(--solar-blue)";
+            pulse.style.background = "var(--solar-blue)";
+
+            setTimeout(() => {
+                msg.innerText = "Datalogger Handshake Acknowledged! Syncing TCP...";
+            }, 2000);
+
+            setTimeout(() => {
+                msg.innerText = "Inverter Cloud Link Securely Established! IP Assigned.";
+                msg.style.color = "var(--battery-green)";
+                pulse.style.background = "var(--battery-green)";
+                document.getElementById('engine-status-text').innerText = "IOT ROUTING NORMAL";
+                document.getElementById('engine-status-text').style.color = "var(--battery-green)";
+            }, 4500);
+        }
+
+        // 5. METRIC TIMEFRAME CONTROLLER
+        function alterTimeframe(type, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.getElementById('yield-label').innerText = cloudDataset[type].lbl;
+            document.getElementById('savings-label').innerText = cloudDataset[type].slbl;
+            document.getElementById('val-yield').innerHTML = `${cloudDataset[type].yield} <span>kWh</span>`;
+            document.getElementById('val-savings').innerText = `Rs. ${cloudDataset[type].save}`;
+
+            if(waveChart) {
+                waveChart.data.labels = cloudDataset[type].time;
+                waveChart.data.datasets[0].data = cloudDataset[type].pv;
+                waveChart.update();
             }
         }
 
-        // --- DYNAMIC DATA SIMULATOR (Inverter Protocols Live Stream) ---
-        setInterval(() => {
-            // Randomly oscillate values to simulate a real connected solar setup
-            const solar = (4.5 + Math.random() * 0.5).toFixed(2);
-            const grid = (1.8 + Math.random() * 0.3).toFixed(2);
-            const load = (parseFloat(solar) + parseFloat(grid) - 0.3).toFixed(2);
-            
-            document.getElementById('val-solar').innerText = solar + " kW";
-            document.getElementById('val-grid').innerText = grid + " kW";
-            document.getElementById('val-load').innerText = load + " kW";
-            
-            // Randomly update live protocol internal register inputs
-            document.getElementById('proto-vpv').innerText = (380 + Math.random()*10).toFixed(1) + " V / " + (388 + Math.random()*8).toFixed(1) + " V";
-        }, 3000); // Live update loop every 3 seconds
-
-        // --- CHART INTERFACES (Chart.js Configs matching the picture profile) ---
-        const ctx = document.getElementById('irradianceChart').getContext('2d');
-        let irradianceChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
-                datasets: [{
-                    label: 'Solar Line',
-                    data: [2, 3.5, 4.8, 4.5, 3.2, 1.5, 0.2],
-                    borderColor: '#ff6a00',
-                    backgroundColor: 'transparent',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    pointBackgroundColor: '#ff6a00'
-                }, {
-                    label: 'Load Line',
-                    data: [4, 3, 6.4, 6.1, 4.2, 5, 6.5],
-                    borderColor: '#bd00ff',
-                    borderDash: [5, 5],
-                    backgroundColor: 'transparent',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    pointBackgroundColor: '#bd00ff'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { grid: { display: false }, ticks: { color: '#7f8c8d' } },
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#7f8c8d' } }
+        // 6. INITIALIZE ENGINE PERFORMANCE CHARTS
+        function buildTelemetryWaves() {
+            const ctx = document.getElementById('primaryWaveChart').getContext('2d');
+            waveChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: cloudDataset.day.time,
+                    datasets: [{
+                        data: cloudDataset.day.pv,
+                        borderColor: '#ff6a00',
+                        backgroundColor: 'rgba(255, 106, 0, 0.08)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#7f8c8d', font: { size: 9 } } },
+                        x: { grid: { display: false }, ticks: { color: '#7f8c8d', font: { size: 9 } } }
+                    }
                 }
-            }
-        });
-
-        function updateChartData(newData) {
-            irradianceChart.data.datasets[0].data = newData;
-            irradianceChart.update();
+            });
         }
 
-        // Extended Analytics Chart Mockup
-        const ctxExt = document.getElementById('analyticsExtendedChart').getContext('2d');
-        new Chart(ctxExt, {
-            type: 'bar',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Yield',
-                    data: [22, 24, 26, 23, 25, 28, 24],
-                    backgroundColor: '#00bfff'
-                }]
-            },
-            options: { responsive: true, plugins: { legend: { display: false } } }
-        });
+        // 7. HIGH-FREQUENCY HARDWARE INTERACTION LOOP & ISOMETRIC ANIMATION UPDATER
+        function engageLiveInverterLoop() {
+            setInterval(() => {
+                // Generate relative hardware fluctuations anchored to user capacity configured
+                let peakSolar = (systemCapacity * (0.7 + Math.random() * 0.25));
+                let householdLoad = (systemCapacity * (0.5 + Math.random() * 0.4));
+                
+                let batteryExchange = 0.0;
+                let gridNetExchange = 0.0;
+                
+                // Real-world vector logic calculation 
+                if (peakSolar > householdLoad) {
+                    let surplus = peakSolar - householdLoad;
+                    batteryExchange = surplus * 0.4; 
+                    gridNetExchange = surplus * 0.6; // Exporting power via Net Metering
+                    
+                    // Direct pipe animations matching current direction
+                    document.getElementById('pipe-grid').style.animationDirection = "reverse"; 
+                    document.getElementById('pipe-battery').style.animationDirection = "normal";
+                } else {
+                    let deficit = householdLoad - peakSolar;
+                    gridNetExchange = deficit * 0.8; // Importing power from Grid
+                    batteryExchange = deficit * 0.2; // Discharging storage array
+                    
+                    document.getElementById('pipe-grid').style.animationDirection = "normal";
+                    document.getElementById('pipe-battery').style.animationDirection = "reverse";
+                }
 
-        // Simple alert helper for node actions
-        function showNodeDetails(nodeName) {
-            console.log("Fetching live registers for: " + nodeName);
+                // Update UI elements 
+                document.getElementById('node-txt-solar').innerText = peakSolar.toFixed(2) + " kW";
+                document.getElementById('node-txt-load').innerText = householdLoad.toFixed(2) + " kW";
+                document.getElementById('node-txt-grid').innerText = Math.abs(gridNetExchange).toFixed(2) + " kW" + (gridNetExchange > 0 ? " (In)" : " (Out)");
+                document.getElementById('node-txt-bat').innerText = `84% (${batteryExchange.toFixed(2)}kW)`;
+
+                // Update Modbus Register Tab UI Elements
+                document.getElementById('tel-vpv').innerText = (360 + Math.random()*25).toFixed(1) + " V / " + (370 + Math.random()*20).toFixed(1) + " V";
+                document.getElementById('tel-temp').innerText = (40 + Math.random()*4).toFixed(1) + " °C";
+
+                // Heartbeat indicator trigger
+                const hb = document.getElementById('iot-heartbeat');
+                hb.innerText = "SYNC"; hb.style.color = "var(--battery-green)";
+                setTimeout(() => { hb.innerText = "ONLINE"; hb.style.color = "var(--solar-blue)"; }, 800);
+
+            }, 4000);
+        }
+
+        function inspectNode(title, detail) {
+            alert(`[${title}]\n\n${detail}`);
         }
     </script>
 </body>
