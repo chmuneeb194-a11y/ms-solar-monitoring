@@ -13,6 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
@@ -240,6 +241,24 @@
                 <div>
                     <span style="font-size: 10px; color: var(--solar-blue); font-weight: bold; text-transform: uppercase;">
                         <i class="fa-solid fa-cloud-sun"></i> AI Weather & Production Forecast
+                        <div class="glass-card" id="ai-insights-card" style="margin: 10px 20px; padding: 15px; border-left: 4px solid var(--primary-orange); display: none;">
+    <span style="font-size: 11px; color: var(--primary-orange); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
+        <i class="fa-solid fa-brain"></i> MS AI Energy Consultant
+    </span>
+    <p id="ai-advice-text" style="font-size: 13px; margin-top: 6px; color: var(--text-light); line-height: 1.4;">
+        Analyzing system parameters...
+    </p>
+                            <div class="glass-card" style="margin: 15px 20px; padding: 15px;">
+    <span style="font-size: 11px; color: var(--solar-blue); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+        <i class="fa-solid fa-chart-line"></i> Live Power Analytics (24h Trend)
+    </span>
+    <div style="width: 100%; height: 200px; position: relative;">
+        <canvas id="liveSolarChart"></canvas>
+    </div>
+                            </div>
+                            
+                        </div>
+                        
                     </span>
                     <h4 id="weather-status-text" style="font-size: 14px; margin-top:2px;">Fetching local weather...</h4>
                 </div>
@@ -413,7 +432,9 @@
                 document.getElementById('connection-pipe-status').style.color = "var(--battery-green)";
             };
 
-            wsSocket.onmessage = (event) => {
+            // Line 429 par purani line hata kar ye likh dein (e.g., agar aapka ESP32 IP 192.168.1.10 hai)
+wsSocket = new WebSocket("ws://192.168.1.10:81");
+            
                 try {
                     // JSON structured parsed incoming metrics packet from ESP32/NodeMCU
                     const data = JSON.parse(event.data);
@@ -542,10 +563,56 @@
                 document.getElementById('val-node-bat').innerText = `${batSoc}% (-${(deficit * 0.25).toFixed(2)}kW)`;
                 if(gw) gw.style.animationDirection = "normal";
                 if(bw) bw.style.animationDirection = "reverse";
+                executeAIEnergyConsultant(solarProd, houseLoad, batSoc);
             }
         }
+// 2026 AI Insight Algorithm Engine
+function executeAIEnergyConsultant(solarProd, houseLoad, batSoc) {
+    const aiCard = document.getElementById('ai-insights-card');
+    const aiText = document.getElementById('ai-advice-text');
+    let advice = "";
+    let statusColor = "var(--primary-orange)";
 
+    if (solarProd > (systemCapacity * 0.7) && batSoc >= 95 && (solarProd - houseLoad) > 1.0) {
+        advice = "⚡ <b>Solar Energy Waste Alert!</b> Aapki battery full hai aur solar production load se zyada hai. Is waqt AC, Water Pump ya heavy appliances on karein taake muft bijli ka poora faida uthaya ja sake.";
+        statusColor = "var(--battery-green)";
+    }
+    else if (solarProd < 0.5 && houseLoad > (systemCapacity * 0.5) && batSoc < 30) {
+        advice = "⚠️ <b>Battery Depletion Risk!</b> Solar na hone ke barabar hai aur ghar ka load zyada hai jabki battery critical level par hai. Fauri tor par heavy load band karein.";
+        statusColor = "#ff3333";
+    }
+    else if ((solarProd - houseLoad) > 2.0) {
+        advice = "💰 <b>Net Metering Active!</b> Is waqt aapki extra bijli WAPDA grid ko export ho rahi hai. Bachat graph tezi se oopar ja raha hai.";
+        statusColor = "var(--solar-blue)";
+    }
+    else {
+        advice = "🔄 <b>Smart Automation Optimal:</b> System bilkul balanced chal raha hai. AI engine parameters ko closely monitor kar raha hai.";
+        statusColor = "var(--text-dim)";
+    }
+
+    if(aiCard && aiText) {
+        aiCard.style.display = "block";
+        aiCard.style.borderLeftColor = statusColor;
+        aiText.innerHTML = advice;
+    }
+
+    logRealTimeProductionToDatabase(solarProd, houseLoad);
+}
+
+// Local Database Pipeline
+function logRealTimeProductionToDatabase(solar, load) {
+    let currentData = JSON.parse(localStorage.getItem('solar_history_logs')) || [];
+    if(currentData.length > 24) currentData.shift();
+    currentData.push({
+        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+        solar: solar.toFixed(2),
+        load: load.toFixed(2)
+    });
+    localStorage.setItem('solar_history_logs', JSON.stringify(currentData));
+}
+            
         function runLiveTelemetryPipelineLoop() {
+            renderLiveAnalyticsChart();
             recalculateResponsiveWires();
             window.addEventListener('resize', recalculateResponsiveWires);
             fetchWeatherForecast();
@@ -577,8 +644,60 @@
                 alert("PWA Gateway Active. Ready to run offline.");
             }
         }
+let solarChartInstance = null;
 
+function renderLiveAnalyticsChart() {
+    const ctx = document.getElementById('liveSolarChart');
+    if (!ctx) return;
+
+    let historyData = JSON.parse(localStorage.getItem('solar_history_logs')) || [];
+    let timeLabels = historyData.map(d => d.time);
+    let solarPoints = historyData.map(d => parseFloat(d.solar));
+    let loadPoints = historyData.map(d => parseFloat(d.load));
+
+    if (solarChartInstance) {
+        solarChartInstance.destroy();
+    }
+
+    solarChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: timeLabels.length > 0 ? timeLabels : ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+            datasets: [
+                {
+                    label: 'Solar (kW)',
+                    data: solarPoints.length > 0 ? solarPoints : [0, 0, 2.1, 4.5, 1.2, 0],
+                    borderColor: '#00bfff',
+                    backgroundColor: 'rgba(0, 191, 255, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Load (kW)',
+                    data: loadPoints.length > 0 ? loadPoints : [1.1, 0.9, 1.5, 3.2, 2.0, 1.8],
+                    borderColor: '#bd00ff',
+                    backgroundColor: 'rgba(189, 0, 255, 0.05)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: '#7f8c8d', font: { size: 9 } } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#7f8c8d', font: { size: 9 } } }
+            }
+        }
+    });
+}
+        
         window.onload = runLiveTelemetryPipelineLoop;
     </script>
 </body>
 </html>
+
