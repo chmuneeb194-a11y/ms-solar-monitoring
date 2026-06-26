@@ -264,6 +264,16 @@
                     <h3 style="font-size:22px; margin-top:5px; font-family:monospace;" id="txt-yield-price">Rs. 1,104</h3>
                 </div>
             </div>
+                                <div class="metrics-grid" style="margin-top: 15px; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--solar-blue);">
+                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Daily Charge</span>
+                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;">0 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
+                    </div>
+                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--primary-orange);">
+                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Daily Discharge</span>
+                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;">1 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
+                    </div>
+             </div>    
         </div>
     </div>
 
@@ -327,11 +337,6 @@
         <button class="action-btn" onclick="commitHardwareChangesToApp()">COMMIT & SYNC DATA OVER WI-FI</button>
     </div>
     </div>
-    
-            <button class="action-btn" onclick="commitHardwareChangesToApp()">COMMIT & SYNC DATA OVER WI-FI</button>
-        </div>
-    </div>
-
     <div id="panel-registers" class="app-panel">
         <div class="glass-card">
             <h3><i class="fa-solid fa-terminal"></i> Live Diagnostic Registers</h3>
@@ -442,10 +447,12 @@ let countdownSeconds = 30;
             batteryBrand = document.getElementById('cfg-battery-brand').value;
             systemCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
         }
-function commitHardwareChangesToApp() {
+
+       function commitHardwareChangesToApp() {
     synchronizeSystemRegisters();
-document.getElementById('active-capacity-badge').innerText = `${systemCapacity.toFixed(1)} kW SYSTEM`;
     
+    // Wi-Fi Name input read karna
+    const wifiSSID = document.getElementById('cfg-wifi-ssid').value;
 
     // LocalStorage mein data permanently save karna
     localStorage.setItem('savedBrand', systemBrand);
@@ -453,16 +460,25 @@ document.getElementById('active-capacity-badge').innerText = `${systemCapacity.t
     localStorage.setItem('savedCapacity', systemCapacity);
     localStorage.setItem('savedWifi', wifiSSID);
 
-    // UI elements update karna
-    document.getElementById('active-capacity-badge').innerText = `${systemCapacity.toFixed(1)} kW SYSTEM`;
-    document.getElementById('ui-inverter-brand-badge').innerText = systemBrand.toUpperCase();
-    document.getElementById('txt-node-brand-label').innerText = systemBrand.split(' ')[0];
-    document.getElementById('txt-node-battery-label').innerText = batteryBrand.split(' ')[0];
+    // UI elements dashboard par render karna
+    if(document.getElementById('active-capacity-badge')) {
+        document.getElementById('active-capacity-badge').innerText = systemCapacity.toFixed(1) + " kW SYSTEM";
+    }
+    if(document.getElementById('ui-inverter-brand-badge')) {
+        document.getElementById('ui-inverter-brand-badge').innerText = systemBrand.toUpperCase();
+    }
+    if(document.getElementById('txt-node-brand-label')) {
+        document.getElementById('txt-node-brand-label').innerText = systemBrand.split(' ')[0];
+    }
+    if(document.getElementById('txt-node-battery-label')) {
+        document.getElementById('txt-node-battery-label').innerText = batteryBrand.split(' ')[0];
+    }
     
-alert(`Wi-Fi Connection Authenticated!\nConnected to: ${wifiSSID}\nParameters synced successfully.`);
+    // Dynamic message string handling with custom concatenation to avoid template errors
+    alert("Wi-Fi Connection Authenticated!\nConnected to: " + wifiSSID + "\nParameters synced successfully.");
     switchMainViews('panel-dashboard', document.querySelectorAll('.nav-tab')[0]);
 }
-        
+ 
         // 30 SECONDS LIVE ENGINE WITH COUNTDOWN
         function runLiveTelemetryPipelineLoop() {
             recalculateResponsiveWires();
