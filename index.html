@@ -3,318 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Solar Cloud - Adaptive Glass Edition</title>
+    <title>MS Solar Cloud - 2026 Pro Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styling - Responsive Background and Flow */
         body {
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* ---------------- LEVEL 1: SYSTEM LIGHT MODE ---------------- */
-        @media (prefers-color-scheme: light) {
-            body {
-                background-image: linear-gradient(to bottom, rgba(225, 238, 253, 0.75), rgba(240, 246, 255, 0.85)), 
-                                  url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
-                color: #1e293b;
-            }
-            /* Subtle glass color blending with the blue/white background behind it */
-            .adaptive-glass {
-                background: rgba(255, 255, 255, 0.25);
-                backdrop-filter: blur(20px) saturate(170%);
-                -webkit-backdrop-filter: blur(20px) saturate(170%);
-                border: 1px solid rgba(255, 255, 255, 0.4);
-                box-shadow: 0 8px 32px 0 rgba(30, 41, 59, 0.08);
-            }
-            .adaptive-glass-header {
-                background: rgba(219, 234, 254, 0.45);
-                backdrop-filter: blur(20px);
-                border-b: 1px solid rgba(255, 255, 255, 0.3);
-            }
-            .text-muted { color: #475569; }
-            .text-main-title { color: #0f172a; }
-            .inner-hub { background: rgba(255, 255, 255, 0.45); border-color: rgba(255, 255, 255, 0.5); }
+        /* ---------------- THEME STYLING MANIFEST ---------------- */
+        body.light-theme {
+            background-image: linear-gradient(to bottom, rgba(215, 230, 250, 0.85), rgba(235, 244, 255, 0.9)), 
+                              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
+            color: #1e293b;
         }
-
-        /* ---------------- LEVEL 2: SYSTEM DARK MODE ---------------- */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-image: linear-gradient(to bottom, rgba(10, 15, 30, 0.92), rgba(15, 23, 42, 0.95)), 
-                                  url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
-                background-color: #0f172a;
-                color: #f8fafc;
-            }
-            .adaptive-glass {
-                background: rgba(30, 41, 59, 0.45);
-                backdrop-filter: blur(25px) saturate(160%);
-                -webkit-backdrop-filter: blur(25px) saturate(160%);
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-            }
-            .adaptive-glass-header {
-                background: rgba(15, 23, 42, 0.6);
-                backdrop-filter: blur(20px);
-                border-b: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            .text-muted { color: #94a3b8; }
-            .text-main-title { color: #ffffff; }
-            .inner-hub { background: rgba(15, 23, 42, 0.8); border-color: #1e293b; }
+        body.light-theme .premium-card {
+            background: rgba(147, 197, 253, 0.22);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px 0 rgba(30, 58, 138, 0.04);
         }
+        body.light-theme .header-glass {
+            background: rgba(191, 219, 254, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        body.light-theme .text-heading { color: #0f172a; }
+        body.light-theme .text-sub { color: #475569; }
+        body.light-theme .flow-node { background: rgba(255, 255, 255, 0.85); border-color: rgba(147, 197, 253, 0.5); }
 
-        /* Glowing Blinking Animation for Online Badge */
-        @keyframes glowing-blink {
+        body.dark-theme {
+            background-image: linear-gradient(to bottom, rgba(10, 20, 42, 0.94), rgba(15, 23, 42, 0.97)), 
+                              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
+            background-color: #0b0f19;
+            color: #f8fafc;
+        }
+        body.dark-theme .premium-card {
+            background: rgba(22, 32, 54, 0.55);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+        body.dark-theme .header-glass {
+            background: rgba(11, 15, 25, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        body.dark-theme .text-heading { color: #ffffff; }
+        body.dark-theme .text-sub { color: #94a3b8; }
+        body.dark-theme .flow-node { background: rgba(15, 23, 42, 0.9); border-color: rgba(255, 255, 255, 0.1); }
+
+        /* ---------------- ANIMATED FLOW LINE VECTOR CORE ---------------- */
+        .flow-line {
+            stroke-dasharray: 8, 12;
+            animation: flow-dash-move 1.2s linear infinite;
+        }
+        @keyframes flow-dash-move {
+            to { stroke-dashoffset: -20; }
+        }
+        @keyframes high-pulse-glow {
             0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 14px #22c55e; }
-            50% { transform: scale(1.1); opacity: 0.35; box-shadow: 0 0 4px #22c55e; }
+            50% { transform: scale(1.15); opacity: 0.4; box-shadow: 0 0 4px #22c55e; }
         }
-        .glowing-dot {
-            animation: glowing-blink 1.4s infinite ease-in-out;
-        }
+        .online-blink-badge { animation: high-pulse-glow 1.5s infinite ease-in-out; }
     </style>
 </head>
-<body class="min-h-screen font-sans pb-28">
+<body class="min-h-screen font-sans pb-28 dark-theme">
 
-    <div class="sticky top-0 z-50 adaptive-glass-header">
+    <div class="sticky top-0 z-50 header-glass backdrop-blur-xl transition">
         <div class="p-4 flex justify-between items-center max-w-lg mx-auto">
-            <button class="text-xl text-slate-400"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="text-xl text-slate-400"><i class="fa-solid fa-angle-left"></i></button>
             <div class="text-center">
-                <h1 class="text-2xl font-black tracking-wide text-main-title">MS Solar Cloud</h1>
+                <h1 class="text-2xl font-black tracking-wide text-heading transition">MS Solar Cloud</h1>
                 <p class="text-[10px] text-orange-500 font-bold uppercase tracking-widest mt-0.5">Logger ID: MS-99X-CLK</p>
             </div>
-            <button class="text-xl text-orange-500"><i class="fa-solid fa-circle-nodes animate-pulse"></i></button>
+            <button class="text-xl text-orange-500"><i class="fa-solid fa-bolt-lightning animate-bounce"></i></button>
+        </div>
+    </div>
+
+    <div class="mt-3 px-4 max-w-lg mx-auto">
+        <div class="bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 p-3 rounded-2xl flex items-center gap-3 text-xs font-medium backdrop-blur-md shadow-xs">
+            <i class="fa-solid fa-cloud-sun-rain text-lg text-amber-500 animate-pulse"></i>
+            <div>
+                <span class="font-bold">Sahiwal Hub Advisory:</span> High peak irradiance expected today. Charging limits automatically adjusted to optimize battery SOH lifecycle.
+            </div>
         </div>
     </div>
 
     <div class="mt-4 px-5 flex justify-between items-center max-w-lg mx-auto">
         <div class="flex items-center gap-3">
-            <span class="flex items-center gap-2 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-black px-3 py-1 rounded-full border border-green-500/40">
-                <span class="w-2.5 h-2.5 bg-green-500 rounded-full glowing-dot inline-block"></span>
+            <span class="flex items-center gap-2 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-black px-3 py-1 rounded-full border border-green-500/30">
+                <span class="w-2.5 h-2.5 bg-green-500 rounded-full online-blink-badge inline-block"></span>
                 ONLINE
             </span>
-            <span class="bg-slate-500/10 dark:bg-slate-800/60 text-orange-500 text-xs font-bold px-3 py-1 rounded-full border border-slate-400/20"><i class="fa-solid fa-sun mr-1"></i> 34°C</span>
+            <span class="bg-slate-500/10 dark:bg-slate-800/60 text-orange-500 text-xs font-bold px-3 py-1 rounded-full border border-slate-400/10"><i class="fa-solid fa-sun mr-1"></i> 34°C</span>
         </div>
         <div class="text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 px-2.5 py-1 rounded-md font-medium">
             <i class="fa-solid fa-stopwatch mr-1"></i> Sync: <span id="sync-timer">30s</span> ago
         </div>
     </div>
 
-    <div class="mt-5 px-4 max-w-lg mx-auto">
-        <div class="adaptive-glass rounded-3xl p-6 flex flex-col gap-6 relative overflow-hidden">
+    <div class="mt-4 px-4 max-w-lg mx-auto relative">
+        <div class="premium-card rounded-3xl p-6 transition flex flex-col items-center relative overflow-hidden min-h-[340px]">
             
-            <div class="flex justify-between z-10">
-                <div class="flex items-center gap-3">
-                    <div class="p-3 bg-orange-500/10 rounded-2xl border border-orange-500/20 text-orange-500 text-2xl">
-                        <i class="fa-solid fa-solar-panel"></i>
-                    </div>
-                    <div>
-                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Solar Power</p>
-                        <p class="text-2xl font-black tracking-tight" id="val-solar">4.120 <span class="text-xs font-normal text-muted">kW</span></p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-3 text-right">
-                    <div>
-                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Home Load</p>
-                        <p class="text-2xl font-black tracking-tight" id="val-load">1.850 <span class="text-xs font-normal text-muted">kW</span></p>
-                    </div>
-                    <div class="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-blue-500 text-2xl">
-                        <i class="fa-solid fa-house-laptop"></i>
-                    </div>
-                </div>
+            <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 60 70 L 190 150" stroke="#f97316" stroke-width="2.5" fill="none" class="flow-line" />
+                <path d="M 320 70 L 190 150" stroke="#3b82f6" stroke-width="2.5" fill="none" class="flow-line" id="line-grid-flow" />
+                <path d="M 190 150 L 190 270" stroke="#a855f7" stroke-width="3" fill="none" class="flow-line" />
+                <path d="M 60 230 L 190 150" stroke="#10b981" stroke-width="2.5" fill="none" class="flow-line" id="line-battery-flow" />
+            </svg>
+
+            <div class="absolute top-6 left-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition">
+                <i class="fa-solid fa-solar-panel text-orange-500 text-2xl mb-1"></i>
+                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Solar Input</span>
+                <span class="text-xs font-black text-heading transition" id="flow-val-solar">4.12 kW</span>
             </div>
 
-            <div class="flex justify-center my-1 z-10">
-                <div class="text-center inner-hub backdrop-blur-md px-6 py-3.5 rounded-2xl border w-full max-w-xs shadow-inner transition">
-                    <i class="fa-solid fa-bolt text-yellow-500 text-3xl mb-1.5 block drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]"></i>
-                    <span class="text-xs font-black tracking-wider uppercase">Voltronic Universal Bridge</span>
-                    <p class="text-[9px] text-emerald-600 dark:text-emerald-400 mt-1 font-mono uppercase tracking-widest bg-emerald-500/10 py-0.5 px-2 rounded inline-block border border-emerald-500/20">Interval: 30s Polling</p>
-                </div>
+            <div class="absolute top-6 right-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition">
+                <i class="fa-solid fa-tower-broadcast text-blue-500 text-2xl mb-1"></i>
+                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Wapda Grid</span>
+                <span class="text-xs font-black text-heading transition" id="flow-val-grid">2.29 kW</span>
             </div>
 
-            <div class="flex justify-between items-end z-10">
-                <div class="flex items-center gap-3">
-                    <div class="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-emerald-500 text-2xl">
-                        <i class="fa-solid fa-battery-full"></i>
-                    </div>
-                    <div>
-                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Battery <span class="text-emerald-500 font-black" id="val-bat-pct">100%</span></p>
-                        <p class="text-2xl font-black tracking-tight" id="val-battery">0.020 <span class="text-xs font-normal text-muted">kW</span></p>
-                        <span class="inline-block text-[9px] bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-emerald-500/30">Floating</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-3 text-right">
-                    <div>
-                        <p class="text-[11px] text-muted font-bold uppercase tracking-wide">Wapda Grid</p>
-                        <p class="text-2xl font-black tracking-tight" id="val-grid">2.290 <span class="text-xs font-normal text-muted">kW</span></p>
-                        <span class="inline-block text-[9px] bg-blue-500/20 text-blue-600 dark:text-blue-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-blue-500/30" id="val-grid-status">Exporting</span>
-                    </div>
-                    <div class="p-3 bg-rose-500/10 rounded-2xl border border-rose-500/20 text-rose-500 text-2xl">
-                        <i class="fa-solid fa-tower-broadcast"></i>
-                    </div>
-                </div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-amber-500 to-orange-600 border border-amber-400 p-4 rounded-2xl flex flex-col items-center shadow-2xl z-20 w-32 text-white">
+                <i class="fa-solid fa-microchip text-2xl mb-1 animate-pulse"></i>
+                <span class="text-[10px] font-black tracking-widest uppercase text-center">Smart Inverter</span>
+                <span class="text-[8px] font-mono opacity-80 mt-0.5">Voltronic V3.1</span>
+            </div>
+
+            <div class="absolute bottom-6 left-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition">
+                <i class="fa-solid fa-battery-three-quarters text-emerald-500 text-2xl mb-1"></i>
+                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Battery <span class="text-emerald-500 font-extrabold" id="flow-val-bat-pct">100%</span></span>
+                <span class="text-xs font-black text-heading transition" id="flow-val-battery">0.02 kW</span>
+            </div>
+
+            <div class="absolute bottom-6 right-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition ring-2 ring-purple-500/30">
+                <i class="fa-solid fa-house-chimney-window text-purple-500 text-2xl mb-1"></i>
+                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Home Load</span>
+                <span class="text-xs font-black text-heading transition" id="flow-val-load">1.85 kW</span>
             </div>
 
         </div>
     </div>
 
+    <div class="mt-4 px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
+        <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 transition border-l-4 border-l-emerald-500">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 text-xl"><i class="fa-solid fa-wallet"></i></div>
+            <div>
+                <p class="text-[9px] text-sub font-bold uppercase tracking-wider transition">Estimated Savings</p>
+                <p class="text-md font-black text-emerald-600 dark:text-emerald-400 mt-0.5"><span class="text-xs font-normal">Rs.</span> <span id="val-savings">1,420</span></p>
+            </div>
+        </div>
+        <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 transition border-l-4 border-l-teal-500">
+            <div class="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-500 text-xl"><i class="fa-solid fa-tree"></i></div>
+            <div>
+                <p class="text-[9px] text-sub font-bold uppercase tracking-wider transition">Carbon Offset</p>
+                <p class="text-md font-black text-teal-600 dark:text-teal-400 mt-0.5" id="val-trees">3.4 <span class="text-xs font-normal text-sub">Trees Saved</span></p>
+            </div>
+        </div>
+    </div>
+
     <div class="mt-4 px-4 max-w-lg mx-auto">
-        <div class="adaptive-glass rounded-2xl p-4 flex justify-between items-center gap-4">
+        <div class="premium-card rounded-2xl p-4 flex justify-between items-center gap-4 transition">
             <div class="flex items-center gap-3.5">
                 <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 text-xl">
-                    <i class="fa-solid fa-wave-square"></i>
+                    <i class="fa-solid fa-temperature-arrow-up"></i>
                 </div>
                 <div>
-                    <p class="text-sm font-black tracking-wide">Diagnostics Control</p>
-                    <p class="text-xs text-muted mt-0.5">SOH: 99% | Inverter Temp: <span id="val-temp">32</span>°C</p>
+                    <p class="text-sm font-black tracking-wide text-heading transition">Inverter Diagnostic Link</p>
+                    <p class="text-xs text-sub mt-0.5 transition">Inverter SOH: 99% | Operational Temp: <span id="val-temp">33</span>°C</p>
                 </div>
             </div>
-            <div class="relative w-14 h-14 rounded-full border-4 border-slate-300 dark:border-slate-700 flex items-center justify-center">
+            <div class="relative w-14 h-14 rounded-full border-4 border-slate-300 dark:border-slate-700 flex items-center justify-center transition">
                 <div class="absolute inset-0 rounded-full border-4 border-emerald-500 drop-shadow-[0_0_6px_rgba(52,211,153,0.4)]" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);"></div>
-                <p class="text-md font-black" id="val-bat-pct-center">100%</p>
+                <p class="text-md font-black text-heading transition">100%</p>
             </div>
         </div>
     </div>
 
     <div class="mt-4 px-4 max-w-lg mx-auto">
-        <div class="adaptive-glass rounded-3xl p-5">
+        <div class="premium-card rounded-3xl p-5 transition">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-md font-black tracking-wide uppercase text-xs">Live Analytics Loop</h2>
-                <span class="bg-orange-500 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full shadow-xs">30s Interval</span>
+                <h2 class="text-md font-black tracking-wide uppercase text-xs text-heading transition">Irradiance vs Yield Curve</h2>
+                <span class="bg-orange-500 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full shadow-xs">30s Live Matrix</span>
             </div>
-            <div class="h-52">
-                <canvas id="adaptiveCloudChart"></canvas>
+            <div class="h-48">
+                <canvas id="automatedCloudChart"></canvas>
             </div>
         </div>
     </div>
 
     <div class="mt-4 px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
-        <div class="adaptive-glass rounded-2xl p-4 text-center border-l-4 border-l-orange-500">
-            <p class="text-[10px] text-muted font-bold uppercase tracking-wider">Today Production</p>
-            <p class="text-xl font-black text-orange-500 mt-1" id="val-yield">25.30 <span class="text-xs font-normal text-muted">kWh</span></p>
+        <div class="premium-card rounded-2xl p-4 text-center border-l-4 border-l-orange-500 transition">
+            <p class="text-[10px] text-sub font-bold uppercase tracking-wider transition">Today Production</p>
+            <p class="text-xl font-black text-orange-500 mt-1" id="val-yield">25.31 <span class="text-xs font-normal text-sub transition">kWh</span></p>
         </div>
-        <div class="adaptive-glass rounded-2xl p-4 text-center border-l-4 border-l-yellow-500">
-            <p class="text-[10px] text-muted font-bold uppercase tracking-wider">System Efficiency</p>
-            <p class="text-xl font-black text-yellow-600 dark:text-yellow-400 mt-1">97.8 <span class="text-xs font-normal text-muted">%</span></p>
+        <div class="premium-card rounded-2xl p-4 text-center border-l-4 border-l-yellow-500 transition">
+            <p class="text-[10px] text-sub font-bold uppercase tracking-wider transition">Conversion Eff.</p>
+            <p class="text-xl font-black text-yellow-600 dark:text-yellow-400 mt-1 transition">97.8 <span class="text-xs font-normal text-sub transition">%</span></p>
         </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark-style-nav dark:bg-slate-950/85 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 shadow-2xl">
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/85 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 shadow-2xl transition">
         <div class="max-w-lg mx-auto px-2 py-3 flex justify-around items-center">
             <a href="#" class="flex flex-col items-center gap-1 text-center flex-1">
                 <i class="fa-solid fa-chart-line text-xl text-orange-500 drop-shadow-[0_0_6px_rgba(249,115,22,0.3)]"></i>
                 <span class="text-[10px] font-black text-orange-500 tracking-wide">Overview</span>
             </a>
             <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                <i class="fa-solid fa-chart-pie text-xl"></i>
+                <i class="fa-solid fa-history text-xl"></i>
                 <span class="text-[10px] font-bold">History</span>
             </a>
             <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                <i class="fa-solid fa-circle-info text-xl"></i>
+                <i class="fa-solid fa-server text-xl"></i>
                 <span class="text-[10px] font-bold">Devices</span>
             </a>
         </div>
     </div>
 
     <script>
-        // Setup Charts Context
-        const ctx = document.getElementById('adaptiveCloudChart').getContext('2d');
-        
-        // Detect current text colors for chart matching dynamically
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const axisColor = isDarkMode ? '#94a3b8' : '#475569';
-        const gridColor = isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+        const bodyElement = document.body;
+        let chartInstance = null;
+        const ctx = document.getElementById('automatedCloudChart').getContext('2d');
 
-        const liveChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['12:00', '12:10', '12:20', '12:30', '12:40', '12:50', 'Live Sync'],
-                datasets: [{
-                    label: 'Solar output (kW)',
-                    data: [3.8, 3.9, 4.0, 4.1, 4.05, 4.12, 4.12],
-                    borderColor: '#f97316', 
-                    backgroundColor: 'rgba(249, 115, 22, 0.1)',
-                    fill: true,
-                    tension: 0.35,
-                    borderWidth: 2.5
-                }, {
-                    label: 'Home Load (kW)',
-                    data: [1.6, 1.7, 1.5, 1.9, 1.8, 1.85, 1.85],
-                    borderColor: '#3b82f6',
-                    borderDash: [4, 4],
-                    fill: false,
-                    tension: 0.35,
-                    borderWidth: 1.5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { grid: { display: false }, ticks: { color: axisColor, font: { size: 9, weight: 'bold' } } },
-                    y: { grid: { color: gridColor }, ticks: { color: axisColor, font: { size: 9 } } }
-                },
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { boxWidth: 10, font: { size: 10, weight: 'bold' }, color: axisColor }
-                    }
-                }
-            }
-        });
-
-        // Loop Countdown System
-        let syncCountdown = 30;
-        let totalYield = 25.30;
-
-        function updateInverterMetrics() {
-            // Generates micro-fluctuations matching active modbus data delays (30s)
-            const solarChange = (Math.random() * 0.3) - 0.15;
-            const loadChange = (Math.random() * 0.2) - 0.1;
-            
-            let currentSolar = Math.max(0, 4.120 + solarChange);
-            let currentLoad = Math.max(0.4, 1.850 + loadChange);
-            let netGrid = currentSolar - currentLoad;
-            
-            // Inject to text elements smooth updating
-            document.getElementById('val-solar').innerHTML = currentSolar.toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
-            document.getElementById('val-load').innerHTML = currentLoad.toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
-            
-            if (netGrid >= 0) {
-                document.getElementById('val-grid').innerHTML = netGrid.toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
-                document.getElementById('val-grid-status').innerText = "Exporting";
-                document.getElementById('val-grid-status').className = "inline-block text-[9px] bg-blue-500/20 text-blue-600 dark:text-blue-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-blue-500/30";
+        function handleSystemThemeUpdate(e) {
+            const isDark = e.matches;
+            if (isDark) {
+                bodyElement.classList.remove('light-theme');
+                bodyElement.classList.add('dark-theme');
             } else {
-                document.getElementById('val-grid').innerHTML = Math.abs(netGrid).toFixed(3) + ' <span class="text-xs font-normal text-muted">kW</span>';
-                document.getElementById('val-grid-status').innerText = "Importing";
-                document.getElementById('val-grid-status').className = "inline-block text-[9px] bg-rose-500/20 text-rose-600 dark:text-rose-300 px-2 py-0.5 rounded mt-1.5 font-bold uppercase tracking-wider border border-rose-500/30";
+                bodyElement.classList.remove('dark-theme');
+                bodyElement.classList.add('light-theme');
             }
-
-            // Yield increments slightly over time
-            totalYield += 0.01;
-            document.getElementById('val-yield').innerHTML = totalYield.toFixed(2) + ' <span class="text-xs font-normal text-muted">kWh</span>';
-            
-            // Randomize temperature reading inside a safe bracket
-            document.getElementById('val-temp').innerText = Math.floor(Math.random() * 6) + 29;
-
-            // Shift datasets dynamically
-            liveChart.data.datasets[0].data.shift();
-            liveChart.data.datasets[0].data.push(parseFloat(currentSolar.toFixed(2)));
-            liveChart.data.datasets[1].data.shift();
-            liveChart.data.datasets[1].data.push(parseFloat(currentLoad.toFixed(2)));
-            liveChart.update();
+            renderAdaptiveChart(isDark);
         }
 
-        // Timer Execution
-        setInterval(() => {
-            syncCountdown--;
-            if (syncCountdown <= 0) {
-                updateInverterMetrics();
-                syncCountdown = 30; // Max 30 seconds threshold limit reset
+        const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        themeMediaQuery.addEventListener('change', handleSystemThemeUpdate);
+        handleSystemThemeUpdate(themeMediaQuery);
+
+        function renderAdaptiveChart(isDark) {
+            const labelColor = isDark ? '#94a3b8' : '#475569';
+            const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['12:00', '12:10', '12:20', '12:30', '12:40', '12:50', 'Live'],
+                    datasets: [{
+                        label: 'Solar Output (kW)',
+                        data: [3.8, 3.9, 4.0, 4.1, 4.05, 4.12, 4.12],
+                        borderColor: '#f97316', 
+                        backgroundColor: isDark ? 'rgba(249, 115, 22, 0.1)' : 'rgba(249, 115, 22, 0.05)',
+                        fill: true, tension: 0.35, borderWidth: 2.5
+                    }, {
+                        label: 'Home Load (kW)',
+                        data: [1.6, 1.7, 1.5, 1.9, 1.8, 1.85, 1.85],
+                        borderColor: '#a855f7',
+                        borderDash: [4, 4], fill: false, tension: 0.35, borderWidth: 1.5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 9, weight: 'bold' } } },
+                        y: { grid: { color: gridColor }, ticks: { color: labelColor, font: { size: 9 } } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10, weight: 'bold' }, color: labelColor } }
+                    }
+                }
+            });
+        }
+
+        // Live Calculations & Multi-Directional Flow Modification Logic
+        let clockCounter = 30;
+        let runningAccumulation = 25.31;
+        let currentSavings = 1420;
+        let currentTrees = 3.4;
+
+        function triggerMetricsSync() {
+            const solarDelta = (Math.random() * 0.4) - 0.2;
+            const loadDelta = (Math.random() * 0.3) - 0.15;
+            
+            let currentSolarValue = Math.max(0, 4.120 + solarDelta);
+            let currentLoadValue = Math.max(0.5, 1.850 + loadDelta);
+            let netGridPower = currentSolarValue - currentLoadValue;
+            
+            // Push values to components
+            document.getElementById('flow-val-solar').innerText = currentSolarValue.toFixed(2) + ' kW';
+            document.getElementById('flow-val-load').innerText = currentLoadValue.toFixed(2) + ' kW';
+            
+            // Grid Export/Import Dynamic Arrow Routing Color Control
+            const gridFlowPath = document.getElementById('line-grid-flow');
+            if (netGridPower >= 0) {
+                document.getElementById('flow-val-grid').innerText = netGridPower.toFixed(2) + ' kW';
+                gridFlowPath.setAttribute('stroke', '#3b82f6'); // Export Blue
+                gridFlowPath.style.animationDirection = "reverse"; // Flowing outwards to grid
+            } else {
+                document.getElementById('flow-val-grid').innerText = Math.abs(netGridPower).toFixed(2) + ' kW';
+                gridFlowPath.setAttribute('stroke', '#f43f5e'); // Import Rose Red
+                gridFlowPath.style.animationDirection = "normal"; // Flowing inwards to house
             }
-            document.getElementById('sync-timer').innerText = syncCountdown + 's';
+
+            // Fluctuating Financial Accumulators
+            runningAccumulation += 0.01;
+            currentSavings += 1;
+            currentTrees += 0.002;
+
+            document.getElementById('val-yield').innerHTML = runningAccumulation.toFixed(2) + ' <span class="text-xs font-normal text-sub">kWh</span>';
+            document.getElementById('val-savings').innerText = currentSavings.toLocaleString();
+            document.getElementById('val-trees').innerHTML = currentTrees.toFixed(3) + ' <span class="text-xs font-normal text-sub">Trees Saved</span>';
+            document.getElementById('val-temp').innerText = Math.floor(Math.random() * 4) + 31;
+
+            if (chartInstance) {
+                chartInstance.data.datasets[0].data.shift();
+                chartInstance.data.datasets[0].data.push(parseFloat(currentSolarValue.toFixed(2)));
+                chartInstance.data.datasets[1].data.shift();
+                chartInstance.data.datasets[1].data.push(parseFloat(currentLoadValue.toFixed(2)));
+                chartInstance.update();
+            }
+        }
+
+        setInterval(() => {
+            clockCounter--;
+            if (clockCounter <= 0) {
+                triggerMetricsSync();
+                clockCounter = 30; 
+            }
+            document.getElementById('sync-timer').innerText = clockCounter + 's';
         }, 1000);
     </script>
 </body>
