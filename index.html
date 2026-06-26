@@ -3,529 +3,723 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Solar Cloud - 2026 Premium 3D Production Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>MS Solar Cloud - Enterprise V3</title>
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Irradiance Profile -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ---------------- ROOT ARCHITECTURE & RESET SYSTEM ---------------- */
-        *, *::before, *::after {
-            box-sizing: border-box;
+        :root {
+            --bg-color: #060b19;
+            --card-bg: #0d1527;
+            --primary-orange: #ff6a00;
+            --solar-blue: #00bfff;
+            --grid-blue: #4a90e2;
+            --load-purple: #bd00ff;
+            --battery-green: #00ffaa;
+            --text-main: #ffffff;
+            --text-muted: #7f8c8d;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: var(--bg-color);
+            color: var(--text-main);
             overflow-x: hidden;
+            padding-bottom: 70px;
         }
 
-        /* ---------------- ADVANCED MATRIX THEME REGISTRY ---------------- */
-        body.dark-theme {
-            background-image: linear-gradient(to bottom, rgba(5, 9, 22, 0.98), rgba(10, 15, 30, 0.99)), 
-                              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80');
-            background-color: #03060f;
-            color: #f1f5f9;
+        /* --- AUTH SYSTEM LAYER --- */
+        #auth-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 11, 25, 0.98);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        body.dark-theme .premium-card {
-            background: rgba(10, 18, 36, 0.8);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
-        }
-        body.dark-theme .header-glass {
-            background: rgba(4, 7, 15, 0.85);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        body.dark-theme .text-heading { color: #ffffff; }
-        body.dark-theme .text-sub { color: #94a3b8; }
-        body.dark-theme .tab-btn.active { 
-            background: linear-gradient(135deg, #f97316, #d97706); 
-            color: #ffffff; 
-            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4); 
-        }
-        body.dark-theme .tab-btn:not(.active) { background: rgba(15, 23, 42, 0.9); color: #64748b; }
-        body.dark-theme .inner-accent-block { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); }
 
-        body.light-theme {
-            background-image: linear-gradient(to bottom, rgba(218, 232, 251, 0.94), rgba(238, 244, 255, 0.97)), 
-                              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80');
-            background-color: #f1f5f9;
-            color: #0f172a;
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 106, 0, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
         }
-        body.light-theme .premium-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(147, 197, 253, 0.4);
-            box-shadow: 0 15px 35px rgba(30, 58, 138, 0.07);
-        }
-        body.light-theme .header-glass {
-            background: rgba(230, 240, 255, 0.85);
-            border-bottom: 1px solid rgba(147, 197, 253, 0.3);
-        }
-        body.light-theme .text-heading { color: #0f172a; }
-        body.light-theme .text-sub { color: #475569; }
-        body.light-theme .tab-btn.active { 
-            background: linear-gradient(135deg, #f97316, #ea580c); 
-            color: #ffffff; 
-            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); 
-        }
-        body.light-theme .tab-btn:not(.active) { background: rgba(255, 255, 255, 0.9); color: #475569; }
-        body.light-theme .inner-accent-block { background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.05); }
 
-        /* ---------------- INTERACTIVE 3D ISOMETRIC VECTOR VIEWPORT ---------------- */
-        .stage-3d-viewport {
-            perspective: 1500px;
-            transform-style: preserve-3d;
+        .auth-card h2 {
+            color: var(--primary-orange);
+            margin-bottom: 20px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #111a30;
+            border: 1px solid #223154;
+            color: white;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, var(--primary-orange), #ff9900);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        /* --- HEADER SECTION --- */
+        header {
+            text-align: center;
+            padding: 15px 10px 5px 10px;
+            background: linear-gradient(to bottom, #0a1124, transparent);
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .subtitle {
+            color: var(--primary-orange);
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* --- STATUS BAR --- */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 15px;
+            font-size: 11px;
+            background: rgba(13, 21, 39, 0.8);
+            border-y: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .engine-active {
+            color: #00ff66;
+            font-weight: bold;
+        }
+
+        .engine-active::before {
+            content: "● ";
+            animation: blink 1s infinite;
+        }
+
+        /* --- 3D VIEWPORT CONTAINER --- */
+        .viewport-3d {
             position: relative;
+            width: 100%;
+            height: 420px;
+            background: radial-gradient(circle at center, #0e1933 0%, #060b19 70%);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .house-isometric-rig {
-            transform: rotateX(58deg) rotateZ(-45deg);
-            transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.1, 1, 0.2, 1);
-        }
-        
-        /* Rigid Layer Heights */
-        .layer-z-ground { transform: translateZ(0px); }
-        .layer-z-battery { transform: translateZ(25px); }
-        .layer-z-house { transform: translateZ(40px); }
-        .layer-z-inverter { transform: translateZ(55px); }
-        .layer-z-solar { transform: translateZ(70px); }
 
-        /* Reverse Translation Matrix to Keep Text Badges Horizontally Upright */
-        .node-3d-badge {
-            transform: rotateZ(45deg) rotateX(-58deg) translateY(-32px);
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
+        /* Ambient Animated Sun */
+        .ambient-sun {
             position: absolute;
-            z-index: 50;
+            top: 40px;
+            left: 40px;
+            color: #ffcc00;
+            font-size: 50px;
+            filter: drop-shadow(0 0 25px #ffaa00);
+            animation: rotateSun 20s linear infinite;
         }
 
-        /* ---------------- ADVANCED ELECTROSTATIC FLOW CHANNELS ---------------- */
-        .energy-particle-stream {
-            stroke-dasharray: 10, 18;
-            animation: stream-particle-flow 0.6s linear infinite;
-        }
-        @keyframes stream-particle-flow {
-            to { stroke-dashoffset: -56; }
-        }
-        
-        /* Environmental Lens Particles */
-        .sun-ray-lens-flare {
-            animation: sun-ray-flare-glow 4s infinite ease-in-out;
-        }
-        @keyframes sun-ray-flare-glow {
-            0%, 100% { opacity: 0.3; transform: scale(1) rotate(0deg); }
-            50% { opacity: 0.9; transform: scale(1.25) rotate(20deg); }
-        }
-        
-        .cloud-drift-engine {
-            animation: cloud-drift-flow 12s infinite linear;
-        }
-        @keyframes cloud-drift-flow {
-            0% { transform: translateX(-80px); opacity: 0; }
-            15% { opacity: 0.9; }
-            85% { opacity: 0.9; }
-            100% { transform: translateX(240px); opacity: 0; }
+        /* Isometric Wrapper */
+        .iso-scene {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            transform: rotateX(60deg) rotateZ(-45deg);
+            transform-style: preserve-3d;
         }
 
-        /* Live Core Systems Heartbeats */
-        @keyframes core-telemetry-glow {
-            0%, 100% { box-shadow: 0 0 18px rgba(34, 197, 94, 0.75); transform: scale(1); }
-            50% { box-shadow: 0 0 6px rgba(34, 197, 94, 0.2); transform: scale(0.97); }
+        /* SVG Overlay for Flow Lines */
+        .flow-pipes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transform: translateZ(10px);
         }
-        .live-pulse-glow { animation: core-telemetry-glow 2s infinite ease-in-out; }
 
-        /* Structural Roof Architectural Facets */
-        .roof-3d-facet-left {
-            transform: rotateY(30deg) skewY(10deg);
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+        .flow-line {
+            fill: none;
+            stroke-width: 3;
+            stroke-dasharray: 8, 12;
+            animation: dash 1s linear infinite;
         }
-        .roof-3d-facet-right {
-            transform: rotateX(30deg) skewX(10deg);
-            background: linear-gradient(135deg, #334155, #1e293b);
+
+        /* Isometric Nodes */
+        .iso-node {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        .iso-node:hover {
+            transform: translateZ(10px);
+        }
+
+        .node-val {
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* Specific Node Positions & Styling */
+        .node-inverter {
+            top: 115px;
+            left: 115px;
+            background: rgba(255, 106, 0, 0.25);
+            border: 2px solid var(--primary-orange);
+            color: #fff;
+            box-shadow: 0 0 25px rgba(255, 106, 0, 0.4);
+            z-index: 10;
+        }
+
+        .node-solar {
+            top: 115px;
+            left: 0px;
+            background: rgba(0, 191, 255, 0.15);
+            border: 2px solid var(--solar-blue);
+        }
+
+        .node-grid {
+            top: 0px;
+            left: 115px;
+            background: rgba(74, 144, 226, 0.15);
+            border: 2px solid var(--grid-blue);
+        }
+
+        .node-load {
+            top: 115px;
+            right: 0px;
+            background: rgba(189, 0, 255, 0.15);
+            border: 2px solid var(--load-purple);
+        }
+
+        .node-battery {
+            bottom: 0px;
+            left: 115px;
+            background: rgba(0, 255, 170, 0.15);
+            border: 2px solid var(--battery-green);
+        }
+
+        .live-tag {
+            background: #ff0000;
+            font-size: 8px;
+            padding: 1px 4px;
+            border-radius: 4px;
+            margin-top: 2px;
+            animation: blink 0.8s ease infinite;
+        }
+
+        /* --- METRICS & TABS SECTION --- */
+        .dashboard-stats {
+            padding: 15px;
+            background: var(--card-bg);
+            border-top: 1px solid #16223d;
+        }
+
+        .time-tabs {
+            display: flex;
+            background: #060b19;
+            border-radius: 25px;
+            padding: 3px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-orange);
+            color: white;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #111a30;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-orange);
+        }
+
+        .stat-card.savings {
+            border-left-color: var(--battery-green);
+        }
+
+        .card-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .card-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .card-value span {
+            font-size: 12px;
+            font-weight: normal;
+            color: var(--text-muted);
+        }
+
+        /* --- CHART STYLING --- */
+        .chart-container {
+            background: #111a30;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* --- BOTTOM NAVIGATION --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #0a1124;
+            border-top: 1px solid #16223d;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-orange);
+        }
+
+        /* --- PAGES / VIEWS CONTAINER --- */
+        .app-view {
+            display: none;
+        }
+
+        .app-view.active {
+            display: block;
+        }
+
+        .protocol-list {
+            padding: 15px;
+        }
+
+        .protocol-item {
+            background: #111a30;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes rotateSun {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -20;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen pb-36 dark-theme">
+<body>
 
-    <div class="sticky top-0 z-50 header-glass backdrop-blur-3xl transition-all duration-300">
-        <div class="p-4 flex justify-between items-center max-w-lg mx-auto">
-            <button class="text-xl text-slate-400 p-2.5 rounded-2xl inner-accent-block transition hover:text-white" onclick="toggleControlCenter()" title="AI Diagnostic Engine Switcher">
-                <i class="fa-solid fa-sliders"></i>
-            </button>
-            <div class="text-center">
-                <h1 class="text-2xl font-black tracking-widest text-heading transition-colors">MS SOLAR CLOUD</h1>
-                <p class="text-[9px] text-orange-500 font-black uppercase tracking-widest mt-0.5"><i class="fa-solid fa-microchip mr-1"></i> AI Twin Engine Enterprise V3</p>
+    <!-- 1. LAUNCH / LOGIN LAYER -->
+    <div id="auth-screen">
+        <div class="auth-card">
+            <h2>MS SOLAR CLOUD</h2>
+            <p style="color: var(--text-muted); font-size:12px; margin-bottom:15px;">Secure Inverter Gateway Login</p>
+            <input type="text" id="username" class="auth-input" placeholder="Username / Owner ID">
+            <input type="password" id="password" class="auth-input" placeholder="Access Password">
+            <button class="auth-btn" onclick="authenticateUser()">INITIALIZE SYSTEM</button>
+        </div>
+    </div>
+
+    <!-- MAIN APP STRUCTURE -->
+    <header>
+        <div class="main-title">MS SOLAR CLOUD</div>
+        <div class="subtitle"><i class="fa-solid to-chip"></i> AI TWIN ENGINE ENTERPRISE V3</div>
+    </header>
+
+    <div class="status-bar">
+        <span class="engine-active">CORE ENGINE ACTIVE</span>
+        <span><i class="fa-solid fa-sun" style="color: #ffaa00;"></i> Sunny 34°C</span>
+        <span style="color: #00bfff;">IoT RATE: <span id="iot-rate">8s</span></span>
+    </div>
+
+    <!-- VIEW 1: 3D DASHBOARD (MAIN) -->
+    <div id="view-3d" class="app-view active">
+        <div class="viewport-3d">
+            <!-- Sun Element -->
+            <i class="fa-solid fa-sun ambient-sun"></i>
+
+            <!-- Isometric Map Layout -->
+            <div class="iso-scene">
+                <!-- SVG Flow Pipes Connecting Nodes -->
+                <svg class="flow-pipes">
+                    <!-- Solar to Inverter -->
+                    <path d="M 45 160 L 160 160" class="flow-line" stroke="#00bfff" />
+                    <!-- Grid to Inverter -->
+                    <path d="M 160 45 L 160 160" class="flow-line" stroke="#4a90e2" />
+                    <!-- Inverter to Load -->
+                    <path d="M 160 160 L 275 160" class="flow-line" stroke="#bd00ff" />
+                    <!-- Inverter to Battery -->
+                    <path d="M 160 160 L 160 275" class="flow-line" stroke="#00ffaa" />
+                </svg>
+
+                <!-- Nodes -->
+                <div class="iso-node node-grid" onclick="showNodeDetails('WAPDA Grid')">
+                    <span>WAPDA GRID</span>
+                    <span class="node-val" id="val-grid">1.95 kW</span>
+                    <i class="fa-solid fa-tower-cell" style="margin-top:5px;"></i>
+                </div>
+
+                <div class="iso-node node-solar" onclick="showNodeDetails('Solar Plates')">
+                    <span>SOLAR PLATES</span>
+                    <span class="node-val" id="val-solar">4.82 kW</span>
+                    <i class="fa-solid fa-solar-panel" style="margin-top:5px;"></i>
+                </div>
+
+                <div class="iso-node node-inverter" onclick="showNodeDetails('Smart Inverter')">
+                    <span>SMART INVERTER</span>
+                    <span style="font-size:8px; color: var(--text-muted)">SIEL / REVS | System Normal</span>
+                    <span class="live-tag">LIVE DATA</span>
+                </div>
+
+                <div class="iso-node node-load" onclick="showNodeDetails('Consumer Load')">
+                    <span>CONSUMER LOAD</span>
+                    <span class="node-val" id="val-load">6.47... kW</span>
+                    <i class="fa-solid fa-house" style="margin-top:5px;"></i>
+                </div>
+
+                <div class="iso-node node-battery" onclick="showNodeDetails('Battery Pack')">
+                    <span>BATTERY PACK</span>
+                    <span class="node-val" id="val-battery">90% (0.3kW)</span>
+                    <i class="fa-solid fa-battery-three-quarters" style="margin-top:5px;"></i>
+                </div>
             </div>
-            <button class="text-xl text-orange-500 p-2.5 rounded-2xl inner-accent-block transition-all" onclick="cycleWeatherState()" title="Simulate Atmospheric Variables">
-                <i class="fa-solid fa-cloud-sun animate-pulse"></i>
-            </button>
         </div>
-    </div>
 
-    <div id="controlCenter" class="hidden max-w-lg mx-auto px-4 mt-3 transition-all duration-500">
-        <div class="bg-slate-950/95 border border-slate-800/90 p-4 rounded-3xl grid grid-cols-2 gap-3 text-xs shadow-2xl">
-            <div class="col-span-2 text-center text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 border-b border-slate-900 pb-1.5">
-                <i class="fa-solid fa-terminal mr-1"></i> Core Simulation Control Matrix
+        <!-- Metrics Layer -->
+        <div class="dashboard-stats">
+            <div class="time-tabs">
+                <button class="tab-btn active" onclick="switchTimeframe('day')">DAY</button>
+                <button class="tab-btn" onclick="switchTimeframe('month')">MONTH</button>
+                <button class="tab-btn" onclick="switchTimeframe('year')">YEAR</button>
+                <button class="tab-btn" onclick="switchTimeframe('lifetime')">LIFETIME</button>
             </div>
-            <button onclick="simulateState('normal')" class="bg-slate-900 border border-slate-800 hover:border-orange-500 p-3 rounded-2xl text-white font-black transition cursor-pointer">☀️ Full Generation Flow</button>
-            <button onclick="simulateState('no-wapda')" class="bg-red-950/30 border border-red-900/20 p-3 rounded-2xl text-red-400 font-black transition cursor-pointer">⚡ Wapda Outage Block</button>
-            <button onclick="simulateState('bat-discharging')" class="bg-purple-950/30 border border-purple-900/20 p-3 rounded-2xl text-purple-400 font-black transition cursor-pointer">🔋 Battery Backup Load</button>
-            <button onclick="simulateState('no-solar')" class="bg-amber-950/30 border border-amber-900/20 p-3 rounded-2xl text-amber-500 font-black transition cursor-pointer">🌙 Pure Grid Night Flow</button>
-        </div>
-    </div>
 
-    <div class="mt-4 px-5 flex justify-between items-center max-w-lg mx-auto">
-        <div class="flex items-center gap-2">
-            <span class="flex items-center gap-2 bg-green-500/10 text-green-500 text-xs font-black px-3 py-1.5 rounded-full border border-green-500/20 live-pulse-glow">
-                <span class="w-2 h-2 bg-green-500 rounded-full inline-block"></span> CORE ENGINE ACTIVE
-            </span>
-            <span id="weather-badge" class="bg-orange-500/10 text-orange-500 text-xs font-black px-3 py-1.5 rounded-full border border-orange-500/20"><i class="fa-solid fa-sun mr-1"></i> Sunny 34°C</span>
-        </div>
-        <div class="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1.5 rounded-xl font-black tracking-wider">
-            IoT RATE: <span id="sync-timer">30s</span>
-        </div>
-    </div>
+            <div class="cards-grid">
+                <div class="stat-card">
+                    <div class="card-label">Today Production</div>
+                    <div class="card-value" id="prod-val">25.31 <span>kWh</span></div>
+                </div>
+                <div class="stat-card savings">
+                    <div class="card-label">Today Savings</div>
+                    <div class="card-value" id="save-val">Rs. 1,420</div>
+                </div>
+            </div>
 
-    <div class="mt-4 px-4 max-w-lg mx-auto stage-3d-viewport">
-        <div class="premium-card rounded-3xl p-4 transition-all duration-300 min-h-[450px] w-full relative overflow-hidden flex items-center justify-center">
+            <div class="chart-header">
+                <span>DAILY IRRADIANCE PROFILE</span>
+                <span style="color: var(--primary-orange);">AI CORE ENGINE</span>
+            </div>
             
-            <div class="absolute inset-0 z-30 pointer-events-none">
-                <div id="weather-sun-glow" class="absolute top-6 left-12 w-36 h-36 bg-gradient-to-r from-yellow-400/20 to-orange-500/0 rounded-full filter blur-xl sun-ray-lens-flare"></div>
-                <i id="weather-sun-icon" class="fa-solid fa-sun text-amber-400 text-5xl absolute top-8 left-16 drop-shadow-[0_0_25px_rgba(251,191,36,0.8)] sun-ray-lens-flare"></i>
-                
-                <div id="weather-cloud" class="hidden absolute top-12 left-6 opacity-95 cloud-drift-engine">
-                    <i class="fa-solid fa-cloud text-slate-400 text-6xl drop-shadow-2xl"></i>
-                </div>
-            </div>
-
-            <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 85 110 L 200 195" stroke="#f97316" stroke-width="3" fill="none" class="energy-particle-stream" id="stream-solar-inv" />
-                <path d="M 315 110 L 200 195" stroke="#3b82f6" stroke-width="3" fill="none" class="energy-particle-stream" id="stream-grid-inv" />
-                <path d="M 85 305 L 200 195" stroke="#10b981" stroke-width="3" fill="none" class="energy-particle-stream" id="stream-battery-inv" />
-                <path d="M 200 195 L 315 305" stroke="#a855f7" stroke-width="3.5" fill="none" class="energy-particle-stream" id="stream-inv-house" />
-            </svg>
-
-            <div class="house-isometric-rig w-72 h-72 relative mt-8">
-                
-                <div class="absolute inset-0 bg-slate-500/5 dark:bg-slate-800/10 border-2 border-dashed border-slate-700/20 rounded-[36px] layer-z-ground"></div>
-
-                <div class="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-blue-950 to-slate-950 rounded-2xl border-2 border-blue-500 shadow-2xl flex flex-col items-center justify-center layer-z-solar">
-                    <div class="grid grid-cols-3 gap-1 p-1.5 w-full h-full opacity-90">
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                        <div class="bg-blue-600/30 border border-blue-400/40 rounded-sm shadow-inner"></div>
-                    </div>
-                    <div class="node-3d-badge bg-slate-950/95 border border-orange-500/60 px-2.5 py-1.5 rounded-xl text-center w-28 text-white shadow-2xl">
-                        <p class="text-[8px] font-black uppercase text-orange-500 tracking-widest">Solar Plates</p>
-                        <p class="text-xs font-black mt-0.5 text-orange-400" id="badge-solar-val">4.82 kW</p>
-                    </div>
-                </div>
-
-                <div class="absolute top-2 right-2 w-16 h-16 bg-slate-900/40 rounded-2xl border border-blue-500/20 flex items-center justify-center layer-z-ground">
-                    <div class="text-blue-500/60 p-3.5 border border-dashed border-blue-500/30 rounded-xl inner-accent-block">
-                        <i class="fa-solid fa-tower-broadcast text-3xl animate-pulse"></i>
-                    </div>
-                    <div class="node-3d-badge bg-slate-950/95 border border-blue-500/60 px-2.5 py-1.5 rounded-xl text-center w-28 text-white shadow-2xl">
-                        <p class="text-[8px] font-black uppercase text-blue-400 tracking-widest">Wapda Grid</p>
-                        <p class="text-xs font-black mt-0.5 text-blue-400" id="badge-grid-val">1.95 kW</p>
-                    </div>
-                </div>
-
-                <div id="obj-inverter" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-20 bg-gradient-to-b from-orange-500 to-amber-600 rounded-xl shadow-[0_0_40px_rgba(249,115,22,0.65)] border border-amber-300 flex flex-col items-center justify-center z-20 layer-z-inverter">
-                    <div class="w-12 h-1.5 bg-slate-950 rounded-full mb-2 opacity-60 shadow-inner"></div>
-                    <i class="fa-solid fa-bolt-lightning text-white text-2xl animate-bounce"></i>
-                    <div class="w-10 h-2 bg-slate-950/50 rounded-xs mt-2 text-[5px] text-center text-emerald-400 font-mono font-bold tracking-wider">SYNC DATA</div>
-                    <div class="node-3d-badge bg-slate-950/95 border border-amber-400 px-3 py-1.5 rounded-xl text-center w-32 text-white shadow-2xl">
-                        <p class="text-[8px] font-black tracking-widest text-amber-400 uppercase">Smart Inverter</p>
-                        <p class="text-[7px] text-slate-400 font-mono mt-0.5" id="badge-inv-status">SOH: 100% | System Optimal</p>
-                    </div>
-                </div>
-
-                <div id="obj-battery" class="absolute bottom-2 left-2 w-16 h-16 bg-slate-950 rounded-2xl border-2 border-emerald-500 shadow-2xl flex flex-col items-center justify-center layer-z-battery">
-                    <i class="fa-solid fa-car-battery text-emerald-500 text-xl mb-2"></i>
-                    <div class="w-12 h-3 bg-slate-900 rounded border border-emerald-500/40 p-0.5 relative overflow-hidden shadow-inner">
-                        <div id="battery-fill-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-xs transition-all duration-700" style="width: 90%;"></div>
-                    </div>
-                    <div class="node-3d-badge bg-slate-950/95 border border-emerald-500/60 px-2.5 py-1.5 rounded-xl text-center w-28 text-white shadow-2xl">
-                        <p class="text-[8px] font-black uppercase text-emerald-400 tracking-widest">Battery Pack</p>
-                        <p class="text-xs font-black mt-0.5 text-emerald-400"><span id="badge-bat-pct">90</span>% (<span id="badge-bat-kw">0.3kW</span>)</p>
-                    </div>
-                </div>
-
-                <div class="absolute bottom-0 right-0 w-28 h-28 bg-gradient-to-br from-purple-950/40 to-slate-900/90 rounded-3xl border-2 border-purple-500 shadow-[0_20px_50px_rgba(168,85,247,0.3)] flex flex-col items-center justify-center layer-z-house">
-                    <div class="absolute -top-3.5 left-4 w-20 h-6 roof-3d-facet-left rounded-md border-t border-l border-purple-400/30 shadow-md"></div>
-                    <div class="flex gap-5 mb-1 opacity-90 z-10">
-                        <div class="w-4 h-4 bg-yellow-300 rounded shadow-[0_0_8px_#fde047] animate-pulse"></div>
-                        <div class="w-4 h-4 bg-yellow-300 rounded shadow-[0_0_8px_#fde047]"></div>
-                    </div>
-                    <i class="fa-solid fa-house-user text-purple-400 text-3xl z-10 drop-shadow-md"></i>
-                    <div class="node-3d-badge bg-slate-950/95 border border-purple-500/60 px-2.5 py-1.5 rounded-xl text-center w-28 text-white shadow-2xl">
-                        <p class="text-[8px] font-black uppercase text-purple-400 tracking-widest">Consumer Load</p>
-                        <p class="text-xs font-black mt-0.5 text-purple-400" id="badge-load-val">6.47 kW</p>
-                    </div>
-                </div>
-
+            <div class="chart-container">
+                <canvas id="irradianceChart" height="180"></canvas>
             </div>
         </div>
     </div>
 
-    <div class="mt-5 px-4 max-w-lg mx-auto">
-        <div class="p-1.5 rounded-2xl bg-slate-500/10 dark:bg-slate-900/80 flex justify-between gap-1 border border-slate-400/10 shadow-inner">
-            <button onclick="switchTimeFrame('day')" id="btn-day" class="tab-btn active flex-1 py-3 text-xs font-black rounded-xl uppercase tracking-widest transition-all duration-300 cursor-pointer">Day</button>
-            <button onclick="switchTimeFrame('month')" id="btn-month" class="tab-btn flex-1 py-3 text-xs font-black rounded-xl uppercase tracking-widest transition-all duration-300 cursor-pointer">Month</button>
-            <button onclick="switchTimeFrame('year')" id="btn-year" class="tab-btn flex-1 py-3 text-xs font-black rounded-xl uppercase tracking-widest transition-all duration-300 cursor-pointer">Year</button>
-            <button onclick="switchTimeFrame('lifetime')" id="btn-lifetime" class="tab-btn flex-1 py-3 text-xs font-black rounded-xl uppercase tracking-widest transition-all duration-300 cursor-pointer">Lifetime</button>
-        </div>
-    </div>
-
-    <div class="mt-4 px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
-        <div class="premium-card rounded-2xl p-4 border-l-4 border-l-orange-500 transition-all duration-300">
-            <p id="yield-title" class="text-[10px] text-sub font-black uppercase tracking-widest transition-all">Today Production</p>
-            <p class="text-2xl font-black text-orange-500 mt-1 tracking-wide shadow-xs" id="val-yield">25.31 <span class="text-xs font-normal text-sub tracking-normal">kWh</span></p>
-        </div>
-        <div class="premium-card rounded-2xl p-4 border-l-4 border-l-emerald-500 transition-all duration-300">
-            <p id="savings-title" class="text-[10px] text-sub font-black uppercase tracking-widest transition-all">Today Savings</p>
-            <p class="text-2xl font-black text-emerald-500 mt-1 tracking-wide">Rs. <span id="val-savings">1,420</span></p>
-        </div>
-    </div>
-
-    <div class="mt-4 px-4 max-w-lg mx-auto">
-        <div class="premium-card rounded-3xl p-5 transition-all duration-300 shadow-xl">
-            <div class="flex justify-between items-center mb-4">
-                <h2 id="chart-title" class="text-md font-black tracking-wider uppercase text-xs text-heading transition-colors">Daily Irradiance Profile</h2>
-                <span class="bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[9px] font-black px-3 py-1 rounded-full shadow-md uppercase tracking-widest">AI Core Engine</span>
-            </div>
-            <div class="h-52 relative">
-                <canvas id="automatedCloudChart"></canvas>
+    <!-- VIEW 2: ANALYTICS (LOGS & DATA) -->
+    <div id="view-analytics" class="app-view">
+        <div style="padding: 20px;">
+            <h3>Advanced Telemetry & Analytics</h3>
+            <p style="color: var(--text-muted); font-size:12px; margin-bottom:15px;">Real-time tracking of AI registers.</p>
+            <div class="chart-container">
+                <canvas id="analyticsExtendedChart" height="220"></canvas>
             </div>
         </div>
     </div>
 
-    <div class="mt-4 px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
-        <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 transition-all">
-            <div class="w-11 h-11 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-500 text-xl border border-teal-500/20 shadow-xs"><i class="fa-solid fa-leaf"></i></div>
-            <div>
-                <p class="text-[9px] text-sub font-black uppercase tracking-widest transition-all">Carbon Offset</p>
-                <p class="text-sm font-black text-teal-500 mt-0.5 tracking-wide" id="val-trees">3.41 Trees</p>
+    <!-- VIEW 3: INVERTER PROTOCOLS / DEVICES -->
+    <div id="view-devices" class="app-view">
+        <div class="protocol-list">
+            <h3>Inverter Protocol Registers (Modbus/RTU)</h3>
+            <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 15px;">Active Communication Protocols mapped over IoT Gateway.</p>
+            
+            <div class="protocol-item">
+                <span>Protocol Type</span>
+                <span style="color: var(--primary-orange);">RS485 / Modbus RTU</span>
             </div>
-        </div>
-        <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 transition-all">
-            <div class="w-11 h-11 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-xl border border-amber-500/20 shadow-xs"><i class="fa-solid fa-temperature-three-quarters"></i></div>
-            <div>
-                <p class="text-[9px] text-sub font-black uppercase tracking-widest transition-all">Inverter Temp</p>
-                <p class="text-sm font-black text-amber-500 mt-0.5 tracking-wide"><span id="val-temp">33</span> °C</p>
+            <div class="protocol-item">
+                <span>Inverter ID / Register Address</span>
+                <span>0x01 (Master Node)</span>
+            </div>
+            <div class="protocol-item">
+                <span>Baud Rate</span>
+                <span>9600 bps</span>
+            </div>
+            <div class="protocol-item">
+                <span>PV Input Voltage (Vpv1 / Vpv2)</span>
+                <span id="proto-vpv">385.2 V / 390.1 V</span>
+            </div>
+            <div class="protocol-item">
+                <span>Grid Frequency State</span>
+                <span>50.02 Hz (Stable)</span>
+            </div>
+            <div class="protocol-item">
+                <span>AI Prediction Logic Status</span>
+                <span style="color: var(--battery-green);">Optimized Syncing</span>
             </div>
         </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/90 backdrop-blur-2xl border-t border-slate-200 dark:border-slate-800 shadow-[0_-15px_40px_rgba(0,0,0,0.2)] transition-colors duration-300">
-        <div class="max-w-lg mx-auto px-3 py-3.5 flex justify-around items-center">
-            <a href="#" class="flex flex-col items-center gap-1.5 text-center flex-1">
-                <i class="fa-solid fa-cube text-xl text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]"></i>
-                <span class="text-[9px] font-black text-orange-500 tracking-widest uppercase">3D View</span>
-            </a>
-            <a href="#" class="flex flex-col items-center gap-1.5 text-center flex-1 text-slate-400 hover:text-slate-200 transition-colors">
-                <i class="fa-solid fa-chart-line text-xl"></i>
-                <span class="text-[9px] font-black tracking-widest uppercase">Analytics</span>
-            </a>
-            <a href="#" class="flex flex-col items-center gap-1.5 text-center flex-1 text-slate-400 hover:text-slate-200 transition-colors">
-                <i class="fa-solid fa-gears text-xl"></i>
-                <span class="text-[9px] font-black tracking-widest uppercase">Devices</span>
-            </a>
+    <!-- VIEW 4: MENU / SYSTEM OPTIONS -->
+    <div id="view-menu" class="app-view">
+        <div style="padding: 20px;">
+            <h3>System Settings & Control Panel</h3>
+            <hr style="border-color: #16223d; margin:15px 0;">
+            <p><strong>Firmware Version:</strong> v3.8.4-Build-2026</p>
+            <p style="margin-top:10px;"><strong>Client Profile:</strong> MS Solar Cloud Authorized Console</p>
+            <button class="auth-btn" style="background:#cc0000; margin-top:30px;" onclick="location.reload()">Lock Application / Logout</button>
         </div>
     </div>
 
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchView('view-3d', this)">
+            <i class="fa-solid fa-cube"></i>
+            <span>3D VIEW</span>
+        </div>
+        <div class="nav-item" onclick="switchView('view-analytics', this)">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>ANALYTICS</span>
+        </div>
+        <div class="nav-item" onclick="switchView('view-devices', this)">
+            <i class="fa-solid fa-gears"></i>
+            <span>DEVICES</span>
+        </div>
+        <div class="nav-item" onclick="switchView('view-menu', this)">
+            <i class="fa-solid fa-bars"></i>
+            <span>MENU</span>
+        </div>
+    </nav>
+
+    <!-- CORE ENGINE JAVA-SCRIPT -->
     <script>
-        const rootBody = document.body;
-        let chartInstance = null;
-        const ctx = document.getElementById('automatedCloudChart').getContext('2d');
-        let currentFrame = 'day';
-        let currentWeather = 'sunny';
+        // --- AUTH LOGIC ---
+        function authenticateUser() {
+            // Bypass checking for developer ease, or simple validation
+            document.getElementById('auth-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('auth-screen').style.display = 'none';
+            }, 300);
+        }
 
-        // Deep Analytical Multi-Chrono Dataset Bank Mapping Manifest
-        const historicalData = {
-            day: { 
-                title: "Today Production", sTitle: "Today Savings", cTitle: "Daily Irradiance Profile", 
-                yield: "25.31", savings: "1,420", 
-                labels: ['06:00', '09:00', '12:00', '15:00', '18:00', 'Live'], 
-                solar: [0.5, 3.1, 4.82, 3.9, 1.2, 4.82], load: [1.2, 2.5, 6.47, 4.1, 2.0, 6.47] 
-            },
-            month: { 
-                title: "Monthly Production", sTitle: "Monthly Savings", cTitle: "Current Month Progression", 
-                yield: "765.40", savings: "42,850", 
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], 
-                solar: [180.2, 195.4, 210.1, 180.4], load: [95.1, 112.3, 95.8, 102.3] 
-            },
-            year: { 
-                title: "Annual Production", sTitle: "Annual Savings", cTitle: "12-Month Accumulation Chart", 
-                yield: "9,120.50", savings: "510,700", 
-                labels: ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'], 
-                solar: [710, 850, 920, 890, 780, 690], load: [410, 450, 520, 490, 430, 390] 
-            },
-            lifetime: { 
-                title: "Lifetime Production", sTitle: "Lifetime Total Savings", cTitle: "Lifetime Yield Curve", 
-                yield: "28,450.00", savings: "1,593,200", 
-                labels: ['2023', '2024', '2025', '2026'], 
-                solar: [5200, 7800, 8900, 6550], load: [2900, 3900, 4200, 3100] 
-            }
-        };
-
-        // Chrono Filter State Multi-Switches Orchestrator
-        function switchTimeFrame(frame) {
-            currentFrame = frame;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-' + frame).classList.add('active');
+        // --- NAVIGATION CONTROLLER ---
+        function switchView(viewId, element) {
+            document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             
-            // Atomic Telemetry View Field Upgrades
-            document.getElementById('yield-title').innerText = historicalData[frame].title;
-            document.getElementById('savings-title').innerText = historicalData[frame].sTitle;
-            document.getElementById('chart-title').innerText = historicalData[frame].cTitle;
-            document.getElementById('val-yield').innerHTML = historicalData[frame].yield + ' <span class="text-xs font-normal text-sub tracking-normal">kWh</span>';
-            document.getElementById('val-savings').innerText = historicalData[frame].savings;
-
-            renderAdaptiveChart(window.matchMedia('(prefers-color-scheme: dark)').matches);
+            document.getElementById(viewId).classList.add('active');
+            element.classList.add('active');
         }
 
-        // Comprehensive Realtime Dynamic Particle Vector Flow & Node Configuration Routing Engine
-        function simulateState(state) {
-            const streamSolar = document.getElementById('stream-solar-inv');
-            const streamGrid = document.getElementById('stream-grid-inv');
-            const streamBattery = document.getElementById('stream-battery-inv');
-            const streamHouse = document.getElementById('stream-inv-house');
+        // --- TIMEFRAME TABS LOGIC ---
+        function switchTimeframe(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
 
-            if (state === 'normal') {
-                updateNodeBadges("4.82 kW", "1.95 kW", "90%", "0.3kW", "6.47 kW");
-                streamSolar.setAttribute('stroke', '#f97316'); streamSolar.style.animationPlayState = "running";
-                streamGrid.setAttribute('stroke', '#3b82f6'); streamGrid.style.animationDirection = "normal"; streamGrid.style.animationPlayState = "running";
-                streamBattery.setAttribute('stroke', '#10b981'); streamBattery.style.animationDirection = "normal"; streamBattery.style.animationPlayState = "running"; 
-                streamHouse.setAttribute('stroke', '#a855f7'); streamHouse.style.animationPlayState = "running";
-                document.getElementById('badge-inv-status').innerText = "SOH: 100% | System Optimal";
-            } 
-            else if (state === 'no-wapda') {
-                updateNodeBadges("4.82 kW", "0.00 kW", "85%", "1.65kW", "6.47 kW");
-                streamSolar.setAttribute('stroke', '#f97316'); streamSolar.style.animationPlayState = "running";
-                streamGrid.setAttribute('stroke', '#475569'); streamGrid.style.animationPlayState = "paused"; // Grid Terminal Isolation
-                streamBattery.setAttribute('stroke', '#10b981'); streamBattery.style.animationDirection = "normal"; streamBattery.style.animationPlayState = "running";
-                streamHouse.setAttribute('stroke', '#a855f7'); streamHouse.style.animationPlayState = "running";
-                document.getElementById('badge-inv-status').innerText = "🚨 Wapda Outage Block Active";
-            } 
-            else if (state === 'bat-discharging') {
-                updateNodeBadges("0.00 kW", "0.00 kW", "62%", "6.47kW", "6.47 kW");
-                streamSolar.setAttribute('stroke', '#475569'); streamSolar.style.animationPlayState = "paused"; // Solar Irradiation Drop
-                streamGrid.setAttribute('stroke', '#475569'); streamGrid.style.animationPlayState = "paused"; // Grid Cutoff
-                streamBattery.setAttribute('stroke', '#ef4444'); streamBattery.style.animationDirection = "reverse"; streamBattery.style.animationPlayState = "running"; // Reverse Discharging Flow
-                streamHouse.setAttribute('stroke', '#a855f7'); streamHouse.style.animationPlayState = "running";
-                document.getElementById('badge-inv-status').innerText = "🔋 Battery Discharge Backup";
-            }
-            else if (state === 'no-solar') {
-                updateNodeBadges("0.00 kW", "6.47 kW", "40%", "0.0kW", "6.47 kW");
-                streamSolar.setAttribute('stroke', '#475569'); streamSolar.style.animationPlayState = "paused"; // Absolute Night Configuration
-                streamGrid.setAttribute('stroke', '#3b82f6'); streamGrid.style.animationDirection = "normal"; streamGrid.style.animationPlayState = "running"; 
-                streamBattery.setAttribute('stroke', '#475569'); streamBattery.style.animationPlayState = "paused"; // Standby
-                streamHouse.setAttribute('stroke', '#a855f7'); streamHouse.style.animationPlayState = "running";
-                document.getElementById('badge-inv-status').innerText = "🌙 Pure Grid Night Flow Configuration";
+            const prod = document.getElementById('prod-val');
+            const save = document.getElementById('save-val');
+
+            if(type === 'day') {
+                prod.innerHTML = "25.31 <span>kWh</span>";
+                save.innerText = "Rs. 1,420";
+                updateChartData([2.1, 3.5, 5.8, 6.2, 4.9, 3.1, 6.5]);
+            } else if(type === 'month') {
+                prod.innerHTML = "842.10 <span>kWh</span>";
+                save.innerText = "Rs. 47,150";
+                updateChartData([4, 5, 6, 5.5, 7, 6.2, 5.8]);
+            } else if(type === 'year') {
+                prod.innerHTML = "9,850.45 <span>kWh</span>";
+                save.innerText = "Rs. 551,620";
+                updateChartData([5, 6.2, 5.9, 4.8, 6.5, 7.1, 6.9]);
+            } else if(type === 'lifetime') {
+                prod.innerHTML = "32,410.00 <span>kWh</span>";
+                save.innerText = "Rs. 1,814,960";
             }
         }
 
-        // Live Node Badge Text Updater
-        function updateNodeBadges(sol, grid, batPct, batKw, load) {
-            document.getElementById('badge-solar-val').innerText = sol;
-            document.getElementById('badge-grid-val').innerText = grid;
-            document.getElementById('badge-bat-pct').innerText = batPct.replace('%','');
-            document.getElementById('badge-bat-kw').innerText = batKw;
-            document.getElementById('badge-load-val').innerText = load;
-            document.getElementById('battery-fill-bar').style.width = batPct;
-        }
-
-        // Diagnostics Center Dashboard Collapsible Toggler
-        function toggleControlCenter() {
-            document.getElementById('controlCenter').classList.toggle('hidden');
-        }
-
-        // Interactive Atmospheric Machine Vector System State Cycles
-        function cycleWeatherState() {
-            const sunIcon = document.getElementById('weather-sun-icon');
-            const sunGlow = document.getElementById('weather-sun-glow');
-            const cloud = document.getElementById('weather-cloud');
-            const badge = document.getElementById('weather-badge');
-
-            if (currentWeather === 'sunny') {
-                currentWeather = 'cloudy';
-                sunIcon.className = "fa-solid fa-cloud-sun text-slate-400 text-5xl absolute top-8 left-16 z-40";
-                sunGlow.style.opacity = "0.02";
-                cloud.classList.remove('hidden');
-                badge.innerHTML = `<i class="fa-solid fa-cloud mr-1"></i> Overcast Cloud 27°C`;
-                simulateState('bat-discharging'); // AI Automated trigger cascade
-            } else {
-                currentWeather = 'sunny';
-                sunIcon.className = "fa-solid fa-sun text-amber-400 text-5xl absolute top-8 left-16 drop-shadow-[0_0_25px_rgba(251,191,36,0.8)] sun-ray-lens-flare";
-                sunGlow.style.opacity = "0.2";
-                cloud.classList.add('hidden');
-                badge.innerHTML = `<i class="fa-solid fa-sun mr-1"></i> Sunny Day 34°C`;
-                simulateState('normal');
-            }
-        }
-
-        // Platform Wide System Theme Dark/Light Interceptors & Chart Synchronization Rules
-        function handleSystemThemeUpdate(e) {
-            const isDark = e.matches;
-            if (isDark) { rootBody.className = "min-h-screen pb-36 dark-theme"; }
-            else { rootBody.className = "min-h-screen pb-36 light-theme"; }
-            renderAdaptiveChart(isDark);
-        }
-        const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        themeMediaQuery.addEventListener('change', handleSystemThemeUpdate);
-        handleSystemThemeUpdate(themeMediaQuery);
-
-        // Standard Vector Component Graphic Chart Compilers
-        function renderAdaptiveChart(isDark) {
-            const labelColor = isDark ? '#94a3b8' : '#475569';
-            const gridColor = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)';
-            const activeSet = historicalData[currentFrame];
-
-            if (chartInstance) chartInstance.destroy();
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: activeSet.labels,
-                    datasets: [{
-                        label: 'Solar Output (kW)', data: activeSet.solar, borderColor: '#f97316', backgroundColor: 'rgba(249, 115, 22, 0.08)', fill: true, tension: 0.38, borderWidth: 2.5
-                    }, {
-                        label: 'House Load (kW)', data: activeSet.load, borderColor: '#a855f7', borderDash: [5, 5], fill: false, tension: 0.38, borderWidth: 1.5
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 9, weight: 'bold' } } },
-                        y: { grid: { color: gridColor }, ticks: { color: labelColor, font: { size: 9 } } }
-                    },
-                    plugins: { legend: { position: 'bottom', labels: { color: labelColor, font: { size: 10, weight: 'bold' } } } }
-                }
-            });
-        }
-
-        // Live Periodic Pulse Sequence Execution Node Loop (30s)
-        let clockCounter = 30;
+        // --- DYNAMIC DATA SIMULATOR (Inverter Protocols Live Stream) ---
         setInterval(() => {
-            clockCounter--;
-            if (clockCounter <= 0) { clockCounter = 30; }
-            document.getElementById('sync-timer').innerText = clockCounter + 's';
-        }, 1000);
+            // Randomly oscillate values to simulate a real connected solar setup
+            const solar = (4.5 + Math.random() * 0.5).toFixed(2);
+            const grid = (1.8 + Math.random() * 0.3).toFixed(2);
+            const load = (parseFloat(solar) + parseFloat(grid) - 0.3).toFixed(2);
+            
+            document.getElementById('val-solar').innerText = solar + " kW";
+            document.getElementById('val-grid').innerText = grid + " kW";
+            document.getElementById('val-load').innerText = load + " kW";
+            
+            // Randomly update live protocol internal register inputs
+            document.getElementById('proto-vpv').innerText = (380 + Math.random()*10).toFixed(1) + " V / " + (388 + Math.random()*8).toFixed(1) + " V";
+        }, 3000); // Live update loop every 3 seconds
+
+        // --- CHART INTERFACES (Chart.js Configs matching the picture profile) ---
+        const ctx = document.getElementById('irradianceChart').getContext('2d');
+        let irradianceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
+                datasets: [{
+                    label: 'Solar Line',
+                    data: [2, 3.5, 4.8, 4.5, 3.2, 1.5, 0.2],
+                    borderColor: '#ff6a00',
+                    backgroundColor: 'transparent',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointBackgroundColor: '#ff6a00'
+                }, {
+                    label: 'Load Line',
+                    data: [4, 3, 6.4, 6.1, 4.2, 5, 6.5],
+                    borderColor: '#bd00ff',
+                    borderDash: [5, 5],
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointBackgroundColor: '#bd00ff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#7f8c8d' } },
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#7f8c8d' } }
+                }
+            }
+        });
+
+        function updateChartData(newData) {
+            irradianceChart.data.datasets[0].data = newData;
+            irradianceChart.update();
+        }
+
+        // Extended Analytics Chart Mockup
+        const ctxExt = document.getElementById('analyticsExtendedChart').getContext('2d');
+        new Chart(ctxExt, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Yield',
+                    data: [22, 24, 26, 23, 25, 28, 24],
+                    backgroundColor: '#00bfff'
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+
+        // Simple alert helper for node actions
+        function showNodeDetails(nodeName) {
+            console.log("Fetching live registers for: " + nodeName);
+        }
     </script>
 </body>
 </html>
