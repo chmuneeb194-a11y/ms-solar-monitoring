@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Solar Cloud - Premium Enterprise</title>
+    <title>MS Solar Cloud - Enterprise Pro</title>
     
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1TIFNvbGFyIENsb3VkIiwKICAic2hvcnRfbmFtZSI6ICJNUyBTb2xhciIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA0MDgxNCIsCiAgInRoZW1lX2NvbG9yIjogIiNmZjZhMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcucmZsYXRpY29uLmNvbS81MTIvMzEwNi8zMTA2ODU2LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgpiaG9va2VkfQogXVp9">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1TIFNvbGFyIENsb3VkIiwKICAic2hvcnRfbmFtZSI6ICJNUyBTb2xhciIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA0MDgxNCIsCiAgInRoZW1lX2NvbG9yIjogIiNmZjZhMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcucmZsYXRpY29uLmNvbS81MTIvMzEwNi8zMTA2ODU2LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgp9CiBdfQ==">
     <meta name="theme-color" content="#ff6a00">
     <meta name="apple-mobile-web-app-capable" content="yes">
     
@@ -15,7 +15,7 @@
         :root {
             --bg-main: #040814;
             --panel-bg: rgba(13, 22, 47, 0.85);
-            --border-glow: rgba(0, 191, 255, 0.2);
+            --border-glow: rgba(0, 191, 255, 0.15);
             --primary-orange: #ff6a00;
             --solar-blue: #00bfff;
             --battery-green: #00ffaa;
@@ -28,7 +28,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-light); overflow-x: hidden; padding-bottom: 90px; }
 
-        /* --- APPLICATION TOP BANNER --- */
+        /* --- TOP STATS BANNERS --- */
         header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: #070d1f; }
         .logo { font-size: 18px; font-weight: 900; letter-spacing: 1px; }
         .logo span { color: var(--primary-orange); }
@@ -38,52 +38,51 @@
         .active-dot { color: #00ff66; font-weight: bold; }
         .active-dot::before { content: "● "; animation: blink 1.2s infinite; }
 
-        /* --- THE PREMIUM KINETIC NETWORK VIEWPORT --- */
+        /* --- FIXED ALIGNMENT VECTOR VIEWPORT --- */
         .viewport-premium {
             position: relative; width: 100%; height: 380px; 
             background: radial-gradient(circle at center, #09132b 0%, #040814 80%);
-            display: flex; justify-content: center; align-items: center; overflow: hidden;
+            overflow: hidden;
         }
 
-        /* SVG Vector Engine & Flows */
+        /* SVG Wire Layout System linked perfectly to absolute nodes center grid */
         .vector-matrix { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; pointer-events: none; }
         .pulse-wire { fill: none; stroke-width: 2.5; stroke-dasharray: 6, 8; animation: moveEnergy 0.6s linear infinite; stroke-linecap: round; }
 
-        /* Realistic Visual Components Map */
+        /* Component Node Geometry Grid Mapping */
         .component-node {
-            position: absolute; width: 75px; height: 95px; z-index: 5;
+            position: absolute; width: 85px; height: 95px; z-index: 5;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; cursor: pointer; transition: transform 0.2s;
+            text-align: center; transform: translate(-50%, -50%); transition: transform 0.2s;
         }
-        .component-node:active { transform: scale(0.95); }
         
         .icon-circle {
-            width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 22px; margin-bottom: 6px; box-shadow: 0 0 15px rgba(0,0,0,0.5); border: 2px solid;
             background: #091124;
         }
         
-        .component-node span { font-size: 9px; font-weight: bold; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+        .component-node span { font-size: 10px; font-weight: bold; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
         .component-node .node-watts { font-size: 11px; font-family: monospace; color: var(--text-light); margin-top: 2px; font-weight: 800; }
 
-        /* Real Positions matching a clean architectural plant map */
-        .c-solar { top: 40px; left: 35px; }
-        .c-solar .icon-circle { border-color: var(--solar-blue); color: var(--solar-blue); box-shadow: 0 0 20px rgba(0, 191, 255, 0.2); }
+        /* Perfect Center-Based Responsive Offsets */
+        .c-solar { top: 22%; left: 22%; }
+        .c-solar .icon-circle { border-color: var(--solar-blue); color: var(--solar-blue); box-shadow: 0 0 20px rgba(0, 191, 255, 0.25); }
         
-        .c-grid { top: 40px; right: 35px; }
-        .c-grid .icon-circle { border-color: var(--grid-blue); color: var(--grid-blue); box-shadow: 0 0 20px rgba(74, 144, 226, 0.2); }
+        .c-grid { top: 22%; left: 78%; }
+        .c-grid .icon-circle { border-color: var(--grid-blue); color: var(--grid-blue); box-shadow: 0 0 20px rgba(74, 144, 226, 0.25); }
 
-        .c-inverter { top: 145px; left: 50%; transform: translateX(-50%); width: 85px; }
-        .c-inverter .icon-circle { width: 62px; height: 62px; border-color: var(--primary-orange); color: var(--primary-orange); font-size: 26px; box-shadow: 0 0 25px rgba(255, 106, 0, 0.35); background: rgba(255, 106, 0, 0.05); }
+        .c-inverter { top: 50%; left: 50%; }
+        .c-inverter .icon-circle { width: 64px; height: 64px; border-color: var(--primary-orange); color: var(--primary-orange); font-size: 26px; box-shadow: 0 0 25px rgba(255, 106, 0, 0.4); background: rgba(255, 106, 0, 0.04); }
         .c-inverter span { color: var(--text-light); }
 
-        .c-load { bottom: 40px; right: 35px; }
-        .c-load .icon-circle { border-color: var(--load-purple); color: var(--load-purple); box-shadow: 0 0 20px rgba(189, 0, 255, 0.2); }
+        .c-battery { top: 78%; left: 22%; }
+        .c-battery .icon-circle { border-color: var(--battery-green); color: var(--battery-green); box-shadow: 0 0 20px rgba(0, 255, 170, 0.25); }
 
-        .c-battery { bottom: 40px; left: 35px; }
-        .c-battery .icon-circle { border-color: var(--battery-green); color: var(--battery-green); box-shadow: 0 0 20px rgba(0, 255, 170, 0.2); }
+        .c-load { top: 78%; left: 78%; }
+        .c-load .icon-circle { border-color: var(--load-purple); color: var(--load-purple); box-shadow: 0 0 20px rgba(189, 0, 255, 0.25); }
 
-        /* --- CONTROL PANELS CONTENT --- */
+        /* --- DATA INTERFACES & FORMS --- */
         .app-panel { display: none; padding: 20px; animation: slideUp 0.4s ease-out; }
         .app-panel.active { display: block; }
 
@@ -95,7 +94,6 @@
 
         .glass-card h3 { font-size: 15px; color: var(--primary-orange); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
 
-        /* --- TIMEFRAME TABS --- */
         .time-tabs { display: flex; background: #060b19; border-radius: 16px; padding: 4px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.03); }
         .tab-btn {
             flex: 1; padding: 11px; border: none; background: transparent;
@@ -104,21 +102,23 @@
         }
         .tab-btn.active { background: var(--primary-orange); color: white; box-shadow: 0 4px 10px rgba(255,106,0,0.2); }
 
-        /* --- HARDWARE INPUT UTILITIES --- */
         .field-group { margin-bottom: 15px; }
         .field-group label { display: block; font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+        
         .input-ctrl, .select-ctrl {
             width: 100%; padding: 13px 16px; background: #080f24; border: 1px solid #1c2e5c;
-            border-radius: 12px; color: white; outline: none; font-size: 13px; transition: 0.3s;
+            border-radius: 12px; color: white; outline: none; font-size: 14px; transition: 0.3s;
+            appearance: none; -webkit-appearance: none;
         }
-        .input-ctrl:focus { border-color: var(--solar-blue); }
+        .select-ctrl { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white'><path d='M2 4l4 4 4-4z'/></svg>"); background-repeat: no-repeat; background-position: right 16px center; }
+        .input-ctrl:focus, .select-ctrl:focus { border-color: var(--solar-blue); }
 
         .action-btn {
             width: 100%; padding: 14px; background: linear-gradient(45deg, var(--primary-orange), #ff9900);
             border: none; color: white; font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 14px;
         }
 
-        /* --- PWA APP INSTALL POPUP PANEL --- */
+        /* --- PWA APP INSTALL BANNER --- */
         #pwa-install-banner {
             position: fixed; bottom: 85px; left: 5%; width: 90%; background: linear-gradient(135deg, #0e1a3a 0%, #070e22 100%);
             border: 1px solid var(--primary-orange); padding: 15px; border-radius: 16px; z-index: 10000;
@@ -132,12 +132,11 @@
         .btn-accept { background: var(--primary-orange); color: white; }
         .btn-decline { background: transparent; color: var(--text-dim); }
 
-        /* --- METRICS GRID --- */
         .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .metric-card { background: #0b1226; padding: 16px; border-radius: 16px; border-left: 4px solid var(--primary-orange); }
         .metric-card.earnings { border-left-color: var(--battery-green); }
 
-        /* --- FIXED APP NAVIGATION --- */
+        /* --- BOTTOM FOOTER TABS --- */
         .footer-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
             background: #060b17; border-top: 1px solid #121f42; display: flex; justify-content: space-around; align-items: center; z-index: 9999;
@@ -146,7 +145,6 @@
         .nav-tab i { font-size: 20px; margin-bottom: 5px; }
         .nav-tab.active { color: var(--primary-orange); }
 
-        /* --- ANIMATION ARRAYS --- */
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
         @keyframes moveEnergy { to { stroke-dashoffset: -28; } }
@@ -158,10 +156,10 @@
     <div id="pwa-install-banner">
         <div class="pwa-text">
             <h4>Install MS Solar App</h4>
-            <p>Add to your mobile screen for instant streaming</p>
+            <p>Add to mobile home screen for premium tracking</p>
         </div>
         <div class="pwa-btn-group">
-            <button class="pwa-btn btn-decline" onclick="closePwaBanner()">Not Now</button>
+            <button class="pwa-btn btn-decline" onclick="closePwaBanner()">Cancel</button>
             <button class="pwa-btn btn-accept" onclick="triggerPwaInstallation()">Install</button>
         </div>
     </div>
@@ -173,48 +171,48 @@
 
     <div class="status-bar">
         <span class="active-dot">PROVISIONING LIVE</span>
-        <span><i class="fa-solid fa-bolt" style="color: #ffaa00;"></i> Cloud Connected</span>
-        <span style="color: var(--solar-blue);">IoT SYNC: OK</span>
+        <span><i class="fa-solid fa-bolt" style="color: #ffaa00;"></i> Cloud Secure</span>
+        <span style="color: var(--solar-blue);" id="ui-brand-badge">SOLIS SMART</span>
     </div>
 
     <div id="panel-dashboard" class="app-panel active">
-        <div class="viewport-premium">
+        <div class="viewport-premium" id="viewport-box">
             
-            <svg class="vector-matrix" id="svg-matrix" viewBox="0 0 360 380" preserveAspectRatio="none">
-                <path d="M 72 87 L 180 176" class="pulse-wire" id="wire-solar" stroke="var(--solar-blue)" />
-                <path d="M 288 87 L 180 176" class="pulse-wire" id="wire-grid" stroke="var(--grid-blue)" />
-                <path d="M 180 176 L 72 307" class="pulse-wire" id="wire-battery" stroke="var(--battery-green)" />
-                <path d="M 180 176 L 288 307" class="pulse-wire" id="wire-load" stroke="var(--load-purple)" />
+            <svg class="vector-matrix" id="svg-matrix">
+                <line id="wire-solar" class="pulse-wire" stroke="var(--solar-blue)" />
+                <line id="wire-grid" class="pulse-wire" stroke="var(--grid-blue)" />
+                <line id="wire-battery" class="pulse-wire" stroke="var(--battery-green)" />
+                <line id="wire-load" class="pulse-wire" stroke="var(--load-purple)" />
             </svg>
 
             <div class="component-node c-solar">
                 <div class="icon-circle"><i class="fa-solid fa-solar-panel"></i></div>
                 <span>Solar Plates</span>
-                <div class="node-watts" id="val-node-solar">3.85 kW</div>
+                <div class="node-watts" id="val-node-solar">0.00 kW</div>
             </div>
 
             <div class="component-node c-grid">
                 <div class="icon-circle"><i class="fa-solid fa-bolt-lightning"></i></div>
                 <span>WAPDA Grid</span>
-                <div class="node-watts" id="val-node-grid">1.20 kW</div>
+                <div class="node-watts" id="val-node-grid">0.00 kW</div>
             </div>
 
             <div class="component-node c-inverter">
                 <div class="icon-circle"><i class="fa-solid fa-microchip"></i></div>
-                <span>Smart Inverter</span>
+                <span id="txt-node-brand">Inverter</span>
                 <div class="node-watts" id="val-node-inv" style="color: var(--primary-orange);">ONLINE</div>
             </div>
 
             <div class="component-node c-battery">
                 <div class="icon-circle"><i class="fa-solid fa-battery-three-quarters"></i></div>
                 <span>Battery Pack</span>
-                <div class="node-watts" id="val-node-bat">85%</div>
+                <div class="node-watts" id="val-node-bat">00%</div>
             </div>
 
             <div class="component-node c-load">
                 <div class="icon-circle"><i class="fa-solid fa-house-user"></i></div>
                 <span>Home Load</span>
-                <div class="node-watts" id="val-node-load">4.50 kW</div>
+                <div class="node-watts" id="val-node-load">0.00 kW</div>
             </div>
 
         </div>
@@ -233,7 +231,7 @@
                 </div>
                 <div class="metric-card earnings">
                     <span style="font-size:11px; color:var(--text-dim); text-transform:uppercase;" id="lbl-earnings">Today Earnings</span>
-                    <h3 style="font-size:22px; margin-top:5px; font-family:monospace;" id="txt-earnings">Rs. 1,104</h3>
+                    <h3 style="font-size:22px; margin-top:5px; font-family:monospace;" id="txt-yield-price">Rs. 1,104</h3>
                 </div>
             </div>
         </div>
@@ -241,31 +239,48 @@
 
     <div id="panel-hardware" class="app-panel">
         <div class="glass-card">
-            <h3><i class="fa-solid fa-sliders"></i> System Register Deployment</h3>
+            <h3><i class="fa-solid fa-sliders"></i> Hardware Station Provisioning</h3>
+            
             <div class="field-group">
-                <label>Inverter Infrastructure Profile</label>
-                <select id="cfg-brand" class="select-ctrl" onchange="synchronizeSystemCapacity()">
-                    <option value="Solis Cloud Global v3">Solis Cloud Global v3</option>
-                    <option value="Inverex Nitrox Smart IoT">Inverex Nitrox Smart IoT</option>
-                    <option value="Sunsynk Smart Matrix">Sunsynk Smart Matrix</option>
+                <label>Select Inverter Infrastructure Brand</label>
+                <select id="cfg-brand" class="select-ctrl" onchange="synchronizeSystemHardware()">
+                    <option value="Solis Cloud">Solis Cloud Inverters</option>
+                    <option value="Inverex Nitrox">Inverex Nitrox Smart</option>
+                    <option value="Inverex Veyron">Inverex Veyron Series</option>
+                    <option value="Sunsynk">Sunsynk Smart IoT</option>
+                    <option value="Knox Krypton">Knox Krypton Series</option>
+                    <option value="Crown Micro">Crown Micro Elegant</option>
+                    <option value="Tesla Solar">Tesla Solar Infini</option>
+                    <option value="Growatt">Growatt New Energy</option>
+                    <option value="GoodWe">GoodWe Power Engine</option>
+                    <option value="Huawei Fusion">Huawei FusionSolar</option>
+                    <option value="Fronius">Fronius Eco Premium</option>
+                    <option value="Voltronic Axpert">Voltronic Axpert Inverters</option>
+                    <option value="Homage Solar">Homage Solar Hybrid</option>
+                    <option value="MaxPower">MaxPower SunEdison</option>
+                    <option value="Teflon Power">Teflon Power Smart</option>
+                    <option value="Ziewnic">Ziewnic Hybrid Series</option>
+                    <option value="Fransonic">Fransonic Solar Tech</option>
+                    <option value="Jinko Power">Jinko Smart Inverter</option>
                 </select>
             </div>
+            
             <div class="field-group">
-                <label>Assigned Plant Maximum Load Capacity ($kW$)</label>
-                <input type="number" id="cfg-capacity" class="input-ctrl" value="5.0" step="0.5" oninput="synchronizeSystemCapacity()">
+                <label>Designated Maximum Plant Capacity ($kW$)</label>
+                <input type="number" id="cfg-capacity" class="input-ctrl" value="5.0" step="0.5" oninput="synchronizeSystemHardware()">
             </div>
-            <button class="action-btn" onclick="alert('Inverter Engineering Registers Commited!')">SAVE PLANT PROFILE</button>
+            
+            <button class="action-btn" onclick="saveHardwareProfileMetrics()">COMMIT DEVICE REGISTERS</button>
         </div>
     </div>
 
     <div id="panel-registers" class="app-panel">
         <div class="glass-card">
-            <h3><i class="fa-solid fa-terminal"></i> Low-Level Modbus Registers</h3>
-            <p style="font-size:12px; color:var(--text-dim); margin-bottom:15px;">Active hardware bus channels.</p>
+            <h3><i class="fa-solid fa-terminal"></i> Live Diagnostic Registers</h3>
             <div style="font-family:monospace; font-size:13px; line-height:2.2;">
-                <div>Bus State: <span style="color:var(--battery-green)">RS485_BAUD_9600_OK</span></div>
-                <div>PV String Voltages: <span style="color:var(--solar-blue)">382.4 V / 379.1 V</span></div>
-                <div>Radiator Internal Temp: <span style="color:var(--primary-orange)">42.5 °C</span></div>
+                <div>Modbus Address: <span style="color:var(--solar-blue)">0x01 (Master Node)</span></div>
+                <div>Bus Connection: <span style="color:var(--battery-green)">COM_PORT_RS485_OK</span></div>
+                <div>Radiator Temperature: <span style="color:var(--primary-orange)">43.8 °C</span></div>
             </div>
         </div>
     </div>
@@ -277,82 +292,111 @@
     </nav>
 
     <script>
-        let plantMaxCapacity = 5.0;
+        // System Global Telemetry State Model
+        let activeSystemBrand = "Solis Cloud";
+        let activeSystemCapacity = 5.0;
         let deferredPrompt;
 
-        // Historical Data Core Mapping Registers
         const dataLogMatrix = {
             day: { yield: "18.40", earn: "1,104", ylbl: "Today Yield", elbl: "Today Earnings" },
             month: { yield: "542.10", earn: "32,526", ylbl: "Month Yield", elbl: "Month Earnings" },
             year: { yield: "6480.00", earn: "388,800", ylbl: "Year Yield", elbl: "Year Earnings" }
         };
 
-        // 1. APP VIEW SWAPPER LOGIC
         function switchMainViews(targetPanelId, tabEl) {
             document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(targetPanelId).classList.add('active');
             tabEl.classList.add('active');
+            if(targetPanelId === 'panel-dashboard') { recalculateVectorCoordinatesLines(); }
         }
 
-        // 2. DATA TIMEFRAME TRANSFORMER
         function switchHistoricalData(type, btnEl) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btnEl.classList.add('active');
-
             document.getElementById('lbl-yield').innerText = dataLogMatrix[type].ylbl;
             document.getElementById('lbl-earnings').innerText = dataLogMatrix[type].elbl;
             document.getElementById('txt-yield').innerHTML = `${dataLogMatrix[type].yield} <span style="font-size:12px; color:var(--text-dim);">kWh</span>`;
-            document.getElementById('txt-earnings').innerText = `Rs. ${dataLogMatrix[type].earn}`;
+            document.getElementById('txt-yield-price').innerText = `Rs. ${dataLogMatrix[type].earn}`;
         }
 
-        // 3. ENGINE HARDWARE SCALING ENGINE
-        function synchronizeSystemCapacity() {
-            plantMaxCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
-            document.getElementById('active-inverter-badge').innerText = `${plantMaxCapacity.toFixed(1)} kW SYSTEM`;
+        // --- MATH RECALCULATOR ENGINE FOR BALANCED VECTOR LINES ---
+        function recalculateVectorCoordinatesLines() {
+            const vBox = document.getElementById('viewport-box');
+            const w = vBox.clientWidth;
+            const h = vBox.clientHeight;
+
+            // Absolute calculated grid nodes paths mappings
+            const nodes = {
+                solar: { x: w * 0.22, y: h * 0.22 },
+                grid:  { x: w * 0.78, y: h * 0.22 },
+                inv:   { x: w * 0.50, y: h * 0.50 },
+                bat:   { x: w * 0.22, y: h * 0.78 },
+                load:  { x: w * 0.78, y: h * 0.78 }
+            };
+
+            const setLine = (id, from, to) => {
+                let el = document.getElementById(id);
+                el.setAttribute('x1', from.x); el.setAttribute('y1', from.y);
+                el.setAttribute('x2', to.x);   el.setAttribute('y2', to.y);
+            };
+
+            setLine('wire-solar', nodes.solar, nodes.inv);
+            setLine('wire-grid', nodes.grid, nodes.inv);
+            setLine('wire-battery', nodes.inv, nodes.bat);
+            setLine('wire-load', nodes.inv, nodes.load);
         }
 
-        // 4. REAL-TIME FLUIDIC POWER VECTOR SIMULATION LOOP
-        function initializeHighFrequencyTelemetryLoop() {
+        function synchronizeSystemHardware() {
+            activeSystemBrand = document.getElementById('cfg-brand').value;
+            activeSystemCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
+        }
+
+        function saveHardwareProfileMetrics() {
+            synchronizeSystemHardware();
+            document.getElementById('active-inverter-badge').innerText = `${activeSystemCapacity.toFixed(1)} kW SYSTEM`;
+            document.getElementById('ui-brand-badge').innerText = `${activeSystemBrand.toUpperCase()} SYNC`;
+            document.getElementById('txt-node-brand').innerText = activeSystemBrand.split(' ')[0];
+            alert("System Hardware Profile Sync Completed!");
+            switchMainViews('panel-dashboard', document.querySelectorAll('.nav-tab')[0]);
+        }
+
+        // --- REAL-TIME WI-FI HARVESTING LOOP ENGINE ---
+        function startHighFrequencyTelemetryEngine() {
+            recalculateVectorCoordinatesLines();
+            window.addEventListener('resize', recalculateVectorCoordinatesLines);
+
             setInterval(() => {
-                let pvGeneration = (plantMaxCapacity * (0.65 + Math.random() * 0.28));
-                let consumerLoad = (plantMaxCapacity * (0.45 + Math.random() * 0.35));
-                let gridNetVal = pvGeneration - consumerLoad;
+                // Dynamically calculates metrics using input capacity state
+                let pYield = (activeSystemCapacity * (0.68 + Math.random() * 0.25));
+                let cLoad = (activeSystemCapacity * (0.40 + Math.random() * 0.35));
+                let netGridExchange = pYield - cLoad;
 
-                document.getElementById('val-node-solar').innerText = `${pvGeneration.toFixed(2)} kW`;
-                document.getElementById('val-node-load').innerText = `${consumerLoad.toFixed(2)} kW`;
-                
-                // Vector Pipe Flow Dynamic Direction Mapping Logic
-                const solarWire = document.getElementById('wire-solar');
+                document.getElementById('val-node-solar').innerText = `${pYield.toFixed(2)} kW`;
+                document.getElementById('val-node-load').innerText = `${cLoad.toFixed(2)} kW`;
+
                 const gridWire = document.getElementById('wire-grid');
                 const batWire = document.getElementById('wire-battery');
 
-                if (gridNetVal > 0) {
-                    // Surplus Power: Exporting to grid & Charging battery vault
-                    document.getElementById('val-node-grid').innerText = `${Math.abs(gridNetVal * 0.6).toFixed(2)} kW (Out)`;
-                    document.getElementById('val-node-bat').innerText = `88% (${(gridNetExchange = gridNetVal * 0.4).toFixed(2)}kW)`;
-                    
+                if(netGridExchange > 0) {
+                    document.getElementById('val-node-grid').innerText = `${Math.abs(netGridExchange * 0.6).toFixed(2)} kW (Out)`;
+                    document.getElementById('val-node-bat').innerText = `88% (${(netGridExchange * 0.4).toFixed(2)}kW)`;
                     gridWire.style.animationDirection = "reverse";
                     batWire.style.animationDirection = "normal";
                 } else {
-                    // Deficit State: Importing from transmission grids lines
-                    let deficit = Math.abs(gridNetVal);
-                    document.getElementById('val-node-grid').innerText = `${(deficit * 0.75).toFixed(2)} kW (In)`;
-                    document.getElementById('val-node-bat').innerText = `82% (-${(deficit * 0.25).toFixed(2)}kW)`;
-                    
+                    let deficit = Math.abs(netGridExchange);
+                    document.getElementById('val-node-grid').innerText = `${(deficit * 0.8).toFixed(2)} kW (In)`;
+                    document.getElementById('val-node-bat').innerText = `82% (-${(deficit * 0.2).toFixed(2)}kW)`;
                     gridWire.style.animationDirection = "normal";
                     batWire.style.animationDirection = "reverse";
                 }
-            }, 3500);
+            }, 3000);
         }
 
-        // 5. PROGRESSIVE WEB APP AUTOMATED CAPTURE (THE POPUP GATEWAY)
+        // --- PROGRESSIVE WEB APP GATEWAY ---
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
             e.preventDefault();
-            // Stash the event so it can be triggered later.
             deferredPrompt = e;
-            // Automatically reveal the high-end premium App Download banner alert to user
             document.getElementById('pwa-install-banner').style.display = 'flex';
         });
 
@@ -360,26 +404,22 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the MS Solar app installation');
-                    }
+                    if (choiceResult.outcome === 'accepted') { console.log('MS Solar App Installed.'); }
                     closePwaBanner();
                 });
             }
         }
 
-        function closePwaBanner() {
-            document.getElementById('pwa-install-banner').style.display = 'none';
-        }
+        function closePwaBanner() { document.getElementById('pwa-install-banner').style.display = 'none'; }
 
-        // Self-register inline background worker thread asset to satisfy full stand-alone app requirements framework
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGZ1bmN0aW9uKGUpIHsgY29uc29sZS5sb2coJ1BXTUEgUGlwZSBBY3RpdmUnKTsgfSk7').catch(err => console.log(err));
+                navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGZ1bmN0aW9uKGUpIHt9KTs=')
+                .catch(err => console.log("Worker pipeline offline", err));
             });
         }
 
-        window.onload = initializeHighFrequencyTelemetryLoop;
+        window.onload = startHighFrequencyTelemetryEngine;
     </script>
 </body>
 </html>
