@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Solar Cloud - 2026 Pro Edition</title>
+    <title>MS Solar Cloud - 2026 Ultimate 3D Flow Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,181 +15,237 @@
             transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* ---------------- THEME STYLING MANIFEST ---------------- */
-        body.light-theme {
-            background-image: linear-gradient(to bottom, rgba(215, 230, 250, 0.85), rgba(235, 244, 255, 0.9)), 
-                              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
-            color: #1e293b;
-        }
-        body.light-theme .premium-card {
-            background: rgba(147, 197, 253, 0.22);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 30px 0 rgba(30, 58, 138, 0.04);
-        }
-        body.light-theme .header-glass {
-            background: rgba(191, 219, 254, 0.5);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        body.light-theme .text-heading { color: #0f172a; }
-        body.light-theme .text-sub { color: #475569; }
-        body.light-theme .flow-node { background: rgba(255, 255, 255, 0.85); border-color: rgba(147, 197, 253, 0.5); }
-
+        /* ---------------- THEME MANIFEST ---------------- */
         body.dark-theme {
-            background-image: linear-gradient(to bottom, rgba(10, 20, 42, 0.94), rgba(15, 23, 42, 0.97)), 
+            background-image: linear-gradient(to bottom, rgba(7, 11, 22, 0.96), rgba(13, 18, 33, 0.98)), 
                               url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
-            background-color: #0b0f19;
+            background-color: #050811;
             color: #f8fafc;
         }
         body.dark-theme .premium-card {
-            background: rgba(22, 32, 54, 0.55);
-            backdrop-filter: blur(25px) saturate(160%);
-            -webkit-backdrop-filter: blur(25px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+            background: rgba(13, 22, 43, 0.65);
+            backdrop-filter: blur(30px) saturate(170%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
         body.dark-theme .header-glass {
-            background: rgba(11, 15, 25, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(6, 10, 20, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         body.dark-theme .text-heading { color: #ffffff; }
         body.dark-theme .text-sub { color: #94a3b8; }
-        body.dark-theme .flow-node { background: rgba(15, 23, 42, 0.9); border-color: rgba(255, 255, 255, 0.1); }
+        body.dark-theme .tab-btn.active { background: linear-gradient(135deg, #f97316, #ea580c); color: white; box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4); }
+        body.dark-theme .tab-btn:not(.active) { background: rgba(22, 32, 54, 0.8); color: #64748b; }
 
-        /* ---------------- ANIMATED FLOW LINE VECTOR CORE ---------------- */
-        .flow-line {
-            stroke-dasharray: 8, 12;
-            animation: flow-dash-move 1.2s linear infinite;
+        body.light-theme {
+            background-image: linear-gradient(to bottom, rgba(224, 236, 252, 0.9), rgba(243, 247, 255, 0.95)), 
+                              url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=80');
+            color: #0f172a;
         }
-        @keyframes flow-dash-move {
-            to { stroke-dashoffset: -20; }
+        body.light-theme .premium-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(147, 197, 253, 0.4);
+            box-shadow: 0 15px 35px rgba(30, 58, 138, 0.05);
         }
-        @keyframes high-pulse-glow {
-            0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 14px #22c55e; }
-            50% { transform: scale(1.15); opacity: 0.4; box-shadow: 0 0 4px #22c55e; }
+        body.light-theme .header-glass {
+            background: rgba(235, 242, 255, 0.7);
+            border-bottom: 1px solid rgba(147, 197, 253, 0.3);
         }
-        .online-blink-badge { animation: high-pulse-glow 1.5s infinite ease-in-out; }
+        body.light-theme .text-heading { color: #0f172a; }
+        body.light-theme .text-sub { color: #475569; }
+        body.light-theme .tab-btn.active { background: linear-gradient(135deg, #f97316, #ea580c); color: white; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3); }
+        body.light-theme .tab-btn:not(.active) { background: rgba(255, 255, 255, 0.7); color: #475569; }
+
+        /* ---------------- ADVANCED ISOMETRIC 3D SCENE RIGGING ---------------- */
+        .stage-3d {
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+        .house-isometric {
+            transform: rotateX(60deg) rotateZ(-45deg);
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* 3D Node Floating Badges */
+        .node-3d-badge {
+            transform: rotateZ(45deg) rotateX(-60deg) translateY(-25px);
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+
+        /* ---------------- ADVANCED ENERGY STREAM PATHS ---------------- */
+        .energy-particle-stream {
+            stroke-dasharray: 6, 14;
+            animation: stream-flow 0.8s linear infinite;
+        }
+        @keyframes stream-flow {
+            to { stroke-dashoffset: -40; }
+        }
+        
+        /* Weather Simulator Aesthetics */
+        .sun-ray-lens {
+            animation: sun-pulsate 3s infinite ease-in-out;
+        }
+        @keyframes sun-pulsate {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.15); }
+        }
+        
+        .cloud-drift {
+            animation: cloud-pass-thru 8s infinite linear;
+        }
+        @keyframes cloud-pass-thru {
+            0% { transform: translateX(-40px); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateX(180px); opacity: 0; }
+        }
+
+        /* Pulse Core State Badges */
+        @keyframes live-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); }
+            50% { box-shadow: 0 0 4px rgba(34, 197, 94, 0.2); }
+        }
+        .live-pulse { animation: live-glow 2s infinite; }
     </style>
 </head>
 <body class="min-h-screen font-sans pb-28 dark-theme">
 
-    <div class="sticky top-0 z-50 header-glass backdrop-blur-xl transition">
+    <div class="sticky top-0 z-50 header-glass backdrop-blur-2xl transition">
         <div class="p-4 flex justify-between items-center max-w-lg mx-auto">
-            <button class="text-xl text-slate-400"><i class="fa-solid fa-angle-left"></i></button>
+            <button class="text-xl text-slate-400" onclick="toggleControlCenter()"><i class="fa-solid fa-sliders"></i></button>
             <div class="text-center">
-                <h1 class="text-2xl font-black tracking-wide text-heading transition">MS Solar Cloud</h1>
-                <p class="text-[10px] text-orange-500 font-bold uppercase tracking-widest mt-0.5">Logger ID: MS-99X-CLK</p>
+                <h1 class="text-2xl font-black tracking-wider text-heading transition">MS SOLAR CLOUD</h1>
+                <p class="text-[10px] text-orange-500 font-black uppercase tracking-widest mt-0.5"><i class="fa-solid fa-microchip mr-1"></i> AI Twin Engine V3</p>
             </div>
-            <button class="text-xl text-orange-500"><i class="fa-solid fa-bolt-lightning animate-bounce"></i></button>
+            <button class="text-xl text-orange-500" onclick="cycleWeatherState()"><i class="fa-solid fa-cloud-sun animate-pulse"></i></button>
         </div>
     </div>
 
-    <div class="mt-3 px-4 max-w-lg mx-auto">
-        <div class="bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 p-3 rounded-2xl flex items-center gap-3 text-xs font-medium backdrop-blur-md shadow-xs">
-            <i class="fa-solid fa-cloud-sun-rain text-lg text-amber-500 animate-pulse"></i>
-            <div>
-                <span class="font-bold">Sahiwal Hub Advisory:</span> High peak irradiance expected today. Charging limits automatically adjusted to optimize battery SOH lifecycle.
-            </div>
+    <div id="controlCenter" class="hidden max-w-lg mx-auto px-4 mt-3">
+        <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-2xl grid grid-cols-2 gap-3 text-xs">
+            <button onclick="simulateState('normal')" class="bg-slate-800 p-2 rounded-xl text-white font-bold">State: Normal Flow</button>
+            <button onclick="simulateState('no-wapda')" class="bg-red-900/40 p-2 rounded-xl text-red-400 font-bold">State: Wapda Outage</button>
+            <button onclick="simulateState('bat-discharging')" class="bg-purple-900/40 p-2 rounded-xl text-purple-400 font-bold">State: Battery Backup</button>
+            <button onclick="simulateState('no-solar')" class="bg-amber-950/50 p-2 rounded-xl text-amber-500 font-bold">State: Night Mode</button>
         </div>
     </div>
 
-    <div class="mt-4 px-5 flex justify-between items-center max-w-lg mx-auto">
-        <div class="flex items-center gap-3">
-            <span class="flex items-center gap-2 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-black px-3 py-1 rounded-full border border-green-500/30">
-                <span class="w-2.5 h-2.5 bg-green-500 rounded-full online-blink-badge inline-block"></span>
-                ONLINE
+    <div class="mt-3 px-5 flex justify-between items-center max-w-lg mx-auto">
+        <div class="flex items-center gap-2">
+            <span class="flex items-center gap-2 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-black px-3 py-1 rounded-full border border-green-500/30 live-pulse">
+                <span class="w-2.5 h-2.5 bg-green-500 rounded-full inline-block"></span> CORE ACTIVE
             </span>
-            <span class="bg-slate-500/10 dark:bg-slate-800/60 text-orange-500 text-xs font-bold px-3 py-1 rounded-full border border-slate-400/10"><i class="fa-solid fa-sun mr-1"></i> 34°C</span>
+            <span id="weather-badge" class="bg-orange-500/10 text-orange-500 text-xs font-black px-3 py-1 rounded-full border border-orange-500/20"><i class="fa-solid fa-sun mr-1"></i> Sunny 34°C</span>
         </div>
-        <div class="text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 px-2.5 py-1 rounded-md font-medium">
-            <i class="fa-solid fa-stopwatch mr-1"></i> Sync: <span id="sync-timer">30s</span> ago
+        <div class="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-1 rounded-md font-bold">
+            Sync Rate: <span id="sync-timer">30s</span>
         </div>
     </div>
 
-    <div class="mt-4 px-4 max-w-lg mx-auto relative">
-        <div class="premium-card rounded-3xl p-6 transition flex flex-col items-center relative overflow-hidden min-h-[340px]">
+    <div class="mt-4 px-4 max-w-lg mx-auto stage-3d">
+        <div class="premium-card rounded-3xl p-4 transition min-h-[410px] w-full relative overflow-hidden flex items-center justify-center">
             
-            <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 60 70 L 190 150" stroke="#f97316" stroke-width="2.5" fill="none" class="flow-line" />
-                <path d="M 320 70 L 190 150" stroke="#3b82f6" stroke-width="2.5" fill="none" class="flow-line" id="line-grid-flow" />
-                <path d="M 190 150 L 190 270" stroke="#a855f7" stroke-width="3" fill="none" class="flow-line" />
-                <path d="M 60 230 L 190 150" stroke="#10b981" stroke-width="2.5" fill="none" class="flow-line" id="line-battery-flow" />
+            <div class="absolute inset-0 z-30 pointer-events-none">
+                <div id="weather-sun-glow" class="absolute top-6 left-12 w-28 h-28 bg-gradient-to-r from-yellow-400/30 to-orange-500/0 rounded-full filter blur-xl sun-ray-lens"></div>
+                <i id="weather-sun-icon" class="fa-solid fa-sun text-amber-400 text-4xl absolute top-8 left-16 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]"></i>
+                
+                <div id="weather-cloud" class="hidden absolute top-8 left-4 opacity-80 cloud-drift">
+                    <i class="fa-solid fa-cloud text-slate-400 text-5xl drop-shadow-md"></i>
+                </div>
+            </div>
+
+            <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 90 120 L 195 190" stroke="#f97316" stroke-width="3" fill="none" class="energy-particle-stream" id="stream-solar-inv" />
+                <path d="M 310 120 L 195 190" stroke="#3b82f6" stroke-width="3" fill="none" class="energy-particle-stream" id="stream-grid-inv" />
+                <path d="M 90 280 L 195 190" stroke="#10b981" stroke-width="3" fill="none" class="energy-particle-stream" id="stream-battery-inv" />
+                <path d="M 195 190 L 310 280" stroke="#a855f7" stroke-width="3.5" fill="none" class="energy-particle-stream" id="stream-inv-house" />
             </svg>
 
-            <div class="absolute top-6 left-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition">
-                <i class="fa-solid fa-solar-panel text-orange-500 text-2xl mb-1"></i>
-                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Solar Input</span>
-                <span class="text-xs font-black text-heading transition" id="flow-val-solar">4.12 kW</span>
-            </div>
+            <div class="house-isometric w-64 h-64 relative mt-4">
+                
+                <div class="absolute inset-0 bg-slate-500/5 dark:bg-slate-800/20 border-2 border-dashed border-slate-700/30 rounded-3xl"></div>
 
-            <div class="absolute top-6 right-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition">
-                <i class="fa-solid fa-tower-broadcast text-blue-500 text-2xl mb-1"></i>
-                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Wapda Grid</span>
-                <span class="text-xs font-black text-heading transition" id="flow-val-grid">2.29 kW</span>
-            </div>
+                <div class="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-blue-900 to-slate-900 rounded-xl border-2 border-blue-500 shadow-2xl flex items-center justify-center transform translate-Z-[30px]">
+                    <div class="grid grid-cols-3 gap-1 p-1 w-full h-full opacity-80">
+                        <div class="bg-blue-600/40 border border-blue-400/30 rounded-xs"></div><div class="bg-blue-600/40 border border-blue-400/30 rounded-xs"></div><div class="bg-blue-600/40 border border-blue-400/30 rounded-xs"></div>
+                        <div class="bg-blue-600/40 border border-blue-400/30 rounded-xs"></div><div class="bg-blue-600/40 border border-blue-400/30 rounded-xs"></div><div class="bg-blue-600/40 border border-blue-400/30 rounded-xs"></div>
+                    </div>
+                    <div class="absolute node-3d-badge bg-slate-900/90 border border-orange-500/50 px-2 py-1 rounded-lg text-center w-24 text-white shadow-xl">
+                        <p class="text-[8px] font-black uppercase text-orange-500 tracking-wider">Solar Array</p>
+                        <p class="text-[11px] font-black" id="badge-solar-val">4.50 kW</p>
+                    </div>
+                </div>
 
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-amber-500 to-orange-600 border border-amber-400 p-4 rounded-2xl flex flex-col items-center shadow-2xl z-20 w-32 text-white">
-                <i class="fa-solid fa-microchip text-2xl mb-1 animate-pulse"></i>
-                <span class="text-[10px] font-black tracking-widest uppercase text-center">Smart Inverter</span>
-                <span class="text-[8px] font-mono opacity-80 mt-0.5">Voltronic V3.1</span>
-            </div>
+                <div class="absolute top-0 right-0 w-16 h-16 bg-slate-800/40 rounded-xl border border-blue-500/30 flex items-center justify-center transform translate-Z-[10px]">
+                    <div class="text-blue-500 opacity-60"><i class="fa-solid fa-tower-cell text-3xl"></i></div>
+                    <div class="absolute node-3d-badge bg-slate-900/90 border border-blue-500/50 px-2 py-1 rounded-lg text-center w-24 text-white shadow-xl">
+                        <p class="text-[8px] font-black uppercase text-blue-400 tracking-wider">Wapda Grid</p>
+                        <p class="text-[11px] font-black" id="badge-grid-val">2.10 kW</p>
+                    </div>
+                </div>
 
-            <div class="absolute bottom-6 left-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition">
-                <i class="fa-solid fa-battery-three-quarters text-emerald-500 text-2xl mb-1"></i>
-                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Battery <span class="text-emerald-500 font-extrabold" id="flow-val-bat-pct">100%</span></span>
-                <span class="text-xs font-black text-heading transition" id="flow-val-battery">0.02 kW</span>
-            </div>
+                <div id="obj-inverter" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-tr from-orange-500 to-amber-600 rounded-xl shadow-[0_0_30px_rgba(249,115,22,0.5)] border border-amber-300 flex flex-col items-center justify-center z-20 translate-Z-[45px]">
+                    <i class="fa-solid fa-charging-station text-white text-xl animate-pulse"></i>
+                    <div class="absolute node-3d-badge bg-slate-950/95 border border-amber-400 px-2 py-1 rounded-lg text-center w-28 text-white shadow-2xl">
+                        <p class="text-[8px] font-black tracking-widest text-amber-400 uppercase">Smart Inverter</p>
+                        <p class="text-[7px] text-slate-400 font-mono" id="badge-inv-status">SOH: 100% | Normal</p>
+                    </div>
+                </div>
 
-            <div class="absolute bottom-6 right-6 flow-node border p-3 rounded-2xl flex flex-col items-center shadow-md w-24 transition ring-2 ring-purple-500/30">
-                <i class="fa-solid fa-house-chimney-window text-purple-500 text-2xl mb-1"></i>
-                <span class="text-[9px] text-sub font-bold uppercase tracking-wider">Home Load</span>
-                <span class="text-xs font-black text-heading transition" id="flow-val-load">1.85 kW</span>
-            </div>
+                <div id="obj-battery" class="absolute bottom-0 left-0 w-16 h-16 bg-slate-900 rounded-xl border-2 border-emerald-500 shadow-xl flex items-center justify-center transform translate-Z-[20px]">
+                    <div class="w-12 h-4 bg-emerald-900/40 rounded border border-emerald-500/50 p-0.5 relative overflow-hidden">
+                        <div id="battery-fill-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-xs" style="width: 85%;"></div>
+                    </div>
+                    <div class="absolute node-3d-badge bg-slate-900/90 border border-emerald-500/50 px-2 py-1 rounded-lg text-center w-24 text-white shadow-xl">
+                        <p class="text-[8px] font-black uppercase text-emerald-400 tracking-wider">Battery Pack</p>
+                        <p class="text-[11px] font-black"><span id="badge-bat-pct">85</span>% (<span id="badge-bat-kw">1.2kW</span>)</p>
+                    </div>
+                </div>
 
+                <div class="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-950/40 to-slate-900/90 rounded-2xl border-2 border-purple-500 shadow-[0_15px_35px_rgba(168,85,247,0.2)] flex flex-col items-center justify-center transform translate-Z-[35px]">
+                    <div class="flex gap-4 mb-2 opacity-70">
+                        <div class="w-3 h-3 bg-yellow-400 rounded-xs animate-pulse"></div>
+                        <div class="w-3 h-3 bg-yellow-400 rounded-xs"></div>
+                    </div>
+                    <i class="fa-solid fa-house-chimney text-purple-400 text-2xl"></i>
+                    <div class="absolute node-3d-badge bg-slate-900/90 border border-purple-500/50 px-2 py-1 rounded-lg text-center w-24 text-white shadow-xl">
+                        <p class="text-[8px] font-black uppercase text-purple-400 tracking-wider">Home Load</p>
+                        <p class="text-[11px] font-black" id="badge-load-val">3.60 kW</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 px-4 max-w-lg mx-auto">
+        <div class="p-1 rounded-2xl bg-slate-500/10 dark:bg-slate-900/60 flex justify-between gap-1 border border-slate-400/10">
+            <button onclick="switchTimeFrame('day')" id="btn-day" class="tab-btn active flex-1 py-2.5 text-xs font-black rounded-xl uppercase tracking-wider transition cursor-pointer">Day</button>
+            <button onclick="switchTimeFrame('month')" id="btn-month" class="tab-btn flex-1 py-2.5 text-xs font-black rounded-xl uppercase tracking-wider transition cursor-pointer">Month</button>
+            <button onclick="switchTimeFrame('year')" id="btn-year" class="tab-btn flex-1 py-2.5 text-xs font-black rounded-xl uppercase tracking-wider transition cursor-pointer">Year</button>
+            <button onclick="switchTimeFrame('lifetime')" id="btn-lifetime" class="tab-btn flex-1 py-2.5 text-xs font-black rounded-xl uppercase tracking-wider transition cursor-pointer">Lifetime</button>
         </div>
     </div>
 
     <div class="mt-4 px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
-        <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 transition border-l-4 border-l-emerald-500">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 text-xl"><i class="fa-solid fa-wallet"></i></div>
-            <div>
-                <p class="text-[9px] text-sub font-bold uppercase tracking-wider transition">Estimated Savings</p>
-                <p class="text-md font-black text-emerald-600 dark:text-emerald-400 mt-0.5"><span class="text-xs font-normal">Rs.</span> <span id="val-savings">1,420</span></p>
-            </div>
+        <div class="premium-card rounded-2xl p-4 text-center border-l-4 border-l-orange-500 transition">
+            <p id="yield-title" class="text-[10px] text-sub font-bold uppercase tracking-wider transition">Today Production</p>
+            <p class="text-2xl font-black text-orange-500 mt-1" id="val-yield">25.31 <span class="text-xs font-normal text-sub transition">kWh</span></p>
         </div>
-        <div class="premium-card rounded-2xl p-4 flex items-center gap-3.5 transition border-l-4 border-l-teal-500">
-            <div class="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-500 text-xl"><i class="fa-solid fa-tree"></i></div>
-            <div>
-                <p class="text-[9px] text-sub font-bold uppercase tracking-wider transition">Carbon Offset</p>
-                <p class="text-md font-black text-teal-600 dark:text-teal-400 mt-0.5" id="val-trees">3.4 <span class="text-xs font-normal text-sub">Trees Saved</span></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-4 px-4 max-w-lg mx-auto">
-        <div class="premium-card rounded-2xl p-4 flex justify-between items-center gap-4 transition">
-            <div class="flex items-center gap-3.5">
-                <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 text-xl">
-                    <i class="fa-solid fa-temperature-arrow-up"></i>
-                </div>
-                <div>
-                    <p class="text-sm font-black tracking-wide text-heading transition">Inverter Diagnostic Link</p>
-                    <p class="text-xs text-sub mt-0.5 transition">Inverter SOH: 99% | Operational Temp: <span id="val-temp">33</span>°C</p>
-                </div>
-            </div>
-            <div class="relative w-14 h-14 rounded-full border-4 border-slate-300 dark:border-slate-700 flex items-center justify-center transition">
-                <div class="absolute inset-0 rounded-full border-4 border-emerald-500 drop-shadow-[0_0_6px_rgba(52,211,153,0.4)]" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);"></div>
-                <p class="text-md font-black text-heading transition">100%</p>
-            </div>
+        <div class="premium-card rounded-2xl p-4 text-center border-l-4 border-l-emerald-500 transition">
+            <p id="savings-title" class="text-[10px] text-sub font-bold uppercase tracking-wider transition">Today Savings</p>
+            <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">Rs. <span id="val-savings">1,420</span></p>
         </div>
     </div>
 
     <div class="mt-4 px-4 max-w-lg mx-auto">
         <div class="premium-card rounded-3xl p-5 transition">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-md font-black tracking-wide uppercase text-xs text-heading transition">Irradiance vs Yield Curve</h2>
-                <span class="bg-orange-500 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full shadow-xs">30s Live Matrix</span>
+                <h2 id="chart-title" class="text-md font-black tracking-wide uppercase text-xs text-heading transition">Daily Irradiance Profile</h2>
+                <span class="bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full">AI Analytics</span>
             </div>
             <div class="h-48">
                 <canvas id="automatedCloudChart"></canvas>
@@ -198,29 +254,35 @@
     </div>
 
     <div class="mt-4 px-4 max-w-lg mx-auto grid grid-cols-2 gap-4">
-        <div class="premium-card rounded-2xl p-4 text-center border-l-4 border-l-orange-500 transition">
-            <p class="text-[10px] text-sub font-bold uppercase tracking-wider transition">Today Production</p>
-            <p class="text-xl font-black text-orange-500 mt-1" id="val-yield">25.31 <span class="text-xs font-normal text-sub transition">kWh</span></p>
+        <div class="premium-card rounded-2xl p-4 flex items-center gap-3 transition">
+            <div class="w-9 h-9 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-500 text-lg"><i class="fa-solid fa-leaf"></i></div>
+            <div>
+                <p class="text-[9px] text-sub font-bold uppercase tracking-wider transition">Carbon Offset</p>
+                <p class="text-sm font-black text-teal-600 dark:text-teal-400 mt-0.5" id="val-trees">3.41 Trees</p>
+            </div>
         </div>
-        <div class="premium-card rounded-2xl p-4 text-center border-l-4 border-l-yellow-500 transition">
-            <p class="text-[10px] text-sub font-bold uppercase tracking-wider transition">Conversion Eff.</p>
-            <p class="text-xl font-black text-yellow-600 dark:text-yellow-400 mt-1 transition">97.8 <span class="text-xs font-normal text-sub transition">%</span></p>
+        <div class="premium-card rounded-2xl p-4 flex items-center gap-3 transition">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-lg"><i class="fa-solid fa-temperature-three-quarters"></i></div>
+            <div>
+                <p class="text-[9px] text-sub font-bold uppercase tracking-wider transition">Inverter Temp</p>
+                <p class="text-sm font-black text-amber-600 dark:text-amber-400 mt-0.5"><span id="val-temp">33</span> °C</p>
+            </div>
         </div>
     </div>
 
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/85 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 shadow-2xl transition">
         <div class="max-w-lg mx-auto px-2 py-3 flex justify-around items-center">
             <a href="#" class="flex flex-col items-center gap-1 text-center flex-1">
-                <i class="fa-solid fa-chart-line text-xl text-orange-500 drop-shadow-[0_0_6px_rgba(249,115,22,0.3)]"></i>
-                <span class="text-[10px] font-black text-orange-500 tracking-wide">Overview</span>
+                <i class="fa-solid fa-cube text-xl text-orange-500 drop-shadow-[0_0_8px_rgba(249,115,22,0.4)]"></i>
+                <span class="text-[10px] font-black text-orange-500 tracking-wide">3D View</span>
             </a>
-            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                <i class="fa-solid fa-history text-xl"></i>
+            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400">
+                <i class="fa-solid fa-chart-pie text-xl"></i>
                 <span class="text-[10px] font-bold">History</span>
             </a>
-            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                <i class="fa-solid fa-server text-xl"></i>
-                <span class="text-[10px] font-bold">Devices</span>
+            <a href="#" class="flex flex-col items-center gap-1 text-center flex-1 text-slate-400">
+                <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
+                <span class="text-[10px] font-bold">Settings</span>
             </a>
         </div>
     </div>
@@ -229,19 +291,112 @@
         const bodyElement = document.body;
         let chartInstance = null;
         const ctx = document.getElementById('automatedCloudChart').getContext('2d');
+        let currentFrame = 'day';
+        let currentWeather = 'sunny';
 
-        function handleSystemThemeUpdate(e) {
-            const isDark = e.matches;
-            if (isDark) {
-                bodyElement.classList.remove('light-theme');
-                bodyElement.classList.add('dark-theme');
-            } else {
-                bodyElement.classList.remove('dark-theme');
-                bodyElement.classList.add('light-theme');
-            }
-            renderAdaptiveChart(isDark);
+        // Historical Data Registry Bank
+        const historicalData = {
+            day: { title: "Today Production", sTitle: "Today Savings", cTitle: "Daily Irradiance Profile", yield: "25.31", savings: "1,420", labels: ['08:00', '10:00', '12:00', '14:00', '16:00', 'Live'], solar: [1.2, 2.8, 4.5, 4.1, 2.3, 4.5], load: [1.5, 2.0, 3.6, 2.2, 1.8, 3.6] },
+            month: { title: "Monthly Production", sTitle: "Monthly Savings", cTitle: "Current Month Progression", yield: "765.40", savings: "42,850", labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], solar: [180, 195, 210, 180.4], load: [90, 110, 95, 102.3] },
+            year: { title: "Annual Production", sTitle: "Annual Savings", cTitle: "12-Month Accumulation Chart", yield: "9,120.50", savings: "510,700", labels: ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'], solar: [710, 850, 920, 890, 780, 690], load: [410, 450, 520, 490, 430, 390] },
+            lifetime: { title: "Lifetime Production", sTitle: "Lifetime Total Savings", cTitle: "Lifetime Yield Curve", yield: "28,450.00", savings: "1,593,200", labels: ['2023', '2024', '2025', '2026'], solar: [5200, 7800, 8900, 6550], load: [2900, 3900, 4200, 3100] }
+        };
+
+        function switchTimeFrame(frame) {
+            currentFrame = frame;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + frame).classList.add('active');
+            
+            document.getElementById('yield-title').innerText = historicalData[frame].title;
+            document.getElementById('savings-title').innerText = historicalData[frame].sTitle;
+            document.getElementById('chart-title').innerText = historicalData[frame].cTitle;
+            document.getElementById('val-yield').innerHTML = historicalData[frame].yield + ' <span class="text-xs font-normal text-sub">kWh</span>';
+            document.getElementById('val-savings').innerText = historicalData[frame].savings;
+
+            renderAdaptiveChart(window.matchMedia('(prefers-color-scheme: dark)').matches);
         }
 
+        // Realtime AI Routing & Simulation Engine
+        function simulateState(state) {
+            const streamSolar = document.getElementById('stream-solar-inv');
+            const streamGrid = document.getElementById('stream-grid-inv');
+            const streamBattery = document.getElementById('stream-battery-inv');
+            const streamHouse = document.getElementById('stream-inv-house');
+
+            if (state === 'normal') {
+                updateBadges("4.50 kW", "2.10 kW", "85%", "1.2 kW", "3.60 kW");
+                streamSolar.setAttribute('stroke', '#f97316'); streamSolar.style.animationPlayState = "running";
+                streamGrid.setAttribute('stroke', '#3b82f6'); streamGrid.style.animationDirection = "normal"; streamGrid.style.animationPlayState = "running";
+                streamBattery.setAttribute('stroke', '#10b981'); streamBattery.style.animationDirection = "normal"; // Charging
+                document.getElementById('badge-inv-status').innerText = "SOH: 100% | Normal";
+            } 
+            else if (state === 'no-wapda') {
+                updateBadges("4.50 kW", "0.00 kW", "80%", "0.9 kW", "3.60 kW");
+                streamSolar.setAttribute('stroke', '#f97316');
+                streamGrid.setAttribute('stroke', '#64748b'); streamGrid.style.animationPlayState = "paused"; // Wapda Dead
+                streamBattery.setAttribute('stroke', '#10b981'); streamBattery.style.animationDirection = "normal"; 
+                document.getElementById('badge-inv-status').innerText = "Wapda Failure | Backing Up";
+            } 
+            else if (state === 'bat-discharging') {
+                updateBadges("1.00 kW", "0.00 kW", "54%", "2.6 kW", "3.60 kW");
+                streamSolar.setAttribute('stroke', '#f97316');
+                streamGrid.setAttribute('stroke', '#64748b'); streamGrid.style.animationPlayState = "paused";
+                streamBattery.setAttribute('stroke', '#ef4444'); streamBattery.style.animationDirection = "reverse"; // Discharging Outward
+                document.getElementById('badge-inv-status').innerText = "Battery Discharge Active";
+            }
+            else if (state === 'no-solar') {
+                updateBadges("0.00 kW", "4.00 kW", "40%", "0.4 kW", "3.60 kW");
+                streamSolar.setAttribute('stroke', '#64748b'); streamSolar.style.animationPlayState = "paused"; // Night
+                streamGrid.setAttribute('stroke', '#3b82f6'); streamGrid.style.animationDirection = "normal"; streamGrid.style.animationPlayState = "running";
+                streamBattery.setAttribute('stroke', '#ef4444'); streamBattery.style.animationDirection = "reverse";
+                document.getElementById('badge-inv-status').innerText = "Night Mode Configuration";
+            }
+        }
+
+        function updateBadges(sol, grid, batPct, batKw, load) {
+            document.getElementById('badge-solar-val').innerText = sol;
+            document.getElementById('badge-grid-val').innerText = grid;
+            document.getElementById('badge-bat-pct').innerText = batPct.replace('%','');
+            document.getElementById('badge-bat-kw').innerText = batKw;
+            document.getElementById('badge-load-val').innerText = load;
+            document.getElementById('battery-fill-bar').style.width = batPct;
+        }
+
+        function toggleControlCenter() {
+            const cc = document.getElementById('controlCenter');
+            cc.classList.toggle('hidden');
+        }
+
+        function cycleWeatherState() {
+            const sunIcon = document.getElementById('weather-sun-icon');
+            const sunGlow = document.getElementById('weather-sun-glow');
+            const cloud = document.getElementById('weather-cloud');
+            const badge = document.getElementById('weather-badge');
+
+            if (currentWeather === 'sunny') {
+                currentWeather = 'cloudy';
+                sunIcon.className = "fa-solid fa-cloud-sun text-slate-400 text-4xl absolute top-8 left-16";
+                sunGlow.style.opacity = "0.1";
+                cloud.classList.remove('hidden');
+                badge.innerHTML = `<i class="fa-solid fa-cloud mr-1"></i> Cloudy 28°C`;
+                simulateState('bat-discharging'); // AI auto trigger due to clouds
+            } else {
+                currentWeather = 'sunny';
+                sunIcon.className = "fa-solid fa-sun text-amber-400 text-4xl absolute top-8 left-16 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]";
+                sunGlow.style.opacity = "0.4";
+                cloud.classList.add('hidden');
+                badge.innerHTML = `<i class="fa-solid fa-sun mr-1"></i> Sunny 34°C`;
+                simulateState('normal');
+            }
+        }
+
+        // Theme and Chart Core Integrator
+        function handleSystemThemeUpdate(e) {
+            const isDark = e.matches;
+            if (isDark) { bodyElement.className = "min-h-screen font-sans pb-28 dark-theme"; }
+            else { bodyElement.className = "min-h-screen font-sans pb-28 light-theme"; }
+            renderAdaptiveChart(isDark);
+        }
         const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         themeMediaQuery.addEventListener('change', handleSystemThemeUpdate);
         handleSystemThemeUpdate(themeMediaQuery);
@@ -249,95 +404,35 @@
         function renderAdaptiveChart(isDark) {
             const labelColor = isDark ? '#94a3b8' : '#475569';
             const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+            const activeSet = historicalData[currentFrame];
 
             if (chartInstance) chartInstance.destroy();
-
             chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['12:00', '12:10', '12:20', '12:30', '12:40', '12:50', 'Live'],
+                    labels: activeSet.labels,
                     datasets: [{
-                        label: 'Solar Output (kW)',
-                        data: [3.8, 3.9, 4.0, 4.1, 4.05, 4.12, 4.12],
-                        borderColor: '#f97316', 
-                        backgroundColor: isDark ? 'rgba(249, 115, 22, 0.1)' : 'rgba(249, 115, 22, 0.05)',
-                        fill: true, tension: 0.35, borderWidth: 2.5
+                        label: 'Solar Output', data: activeSet.solar, borderColor: '#f97316', backgroundColor: 'rgba(249, 115, 22, 0.08)', fill: true, tension: 0.35, borderWidth: 2.5
                     }, {
-                        label: 'Home Load (kW)',
-                        data: [1.6, 1.7, 1.5, 1.9, 1.8, 1.85, 1.85],
-                        borderColor: '#a855f7',
-                        borderDash: [4, 4], fill: false, tension: 0.35, borderWidth: 1.5
+                        label: 'Home Load', data: activeSet.load, borderColor: '#a855f7', borderDash: [4, 4], fill: false, tension: 0.35, borderWidth: 1.5
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     scales: {
                         x: { grid: { display: false }, ticks: { color: labelColor, font: { size: 9, weight: 'bold' } } },
                         y: { grid: { color: gridColor }, ticks: { color: labelColor, font: { size: 9 } } }
                     },
-                    plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10, weight: 'bold' }, color: labelColor } }
-                    }
+                    plugins: { legend: { position: 'bottom', labels: { color: labelColor, font: { size: 10, weight: 'bold' } } } }
                 }
             });
         }
 
-        // Live Calculations & Multi-Directional Flow Modification Logic
+        // 30 Seconds Clock Pulse
         let clockCounter = 30;
-        let runningAccumulation = 25.31;
-        let currentSavings = 1420;
-        let currentTrees = 3.4;
-
-        function triggerMetricsSync() {
-            const solarDelta = (Math.random() * 0.4) - 0.2;
-            const loadDelta = (Math.random() * 0.3) - 0.15;
-            
-            let currentSolarValue = Math.max(0, 4.120 + solarDelta);
-            let currentLoadValue = Math.max(0.5, 1.850 + loadDelta);
-            let netGridPower = currentSolarValue - currentLoadValue;
-            
-            // Push values to components
-            document.getElementById('flow-val-solar').innerText = currentSolarValue.toFixed(2) + ' kW';
-            document.getElementById('flow-val-load').innerText = currentLoadValue.toFixed(2) + ' kW';
-            
-            // Grid Export/Import Dynamic Arrow Routing Color Control
-            const gridFlowPath = document.getElementById('line-grid-flow');
-            if (netGridPower >= 0) {
-                document.getElementById('flow-val-grid').innerText = netGridPower.toFixed(2) + ' kW';
-                gridFlowPath.setAttribute('stroke', '#3b82f6'); // Export Blue
-                gridFlowPath.style.animationDirection = "reverse"; // Flowing outwards to grid
-            } else {
-                document.getElementById('flow-val-grid').innerText = Math.abs(netGridPower).toFixed(2) + ' kW';
-                gridFlowPath.setAttribute('stroke', '#f43f5e'); // Import Rose Red
-                gridFlowPath.style.animationDirection = "normal"; // Flowing inwards to house
-            }
-
-            // Fluctuating Financial Accumulators
-            runningAccumulation += 0.01;
-            currentSavings += 1;
-            currentTrees += 0.002;
-
-            document.getElementById('val-yield').innerHTML = runningAccumulation.toFixed(2) + ' <span class="text-xs font-normal text-sub">kWh</span>';
-            document.getElementById('val-savings').innerText = currentSavings.toLocaleString();
-            document.getElementById('val-trees').innerHTML = currentTrees.toFixed(3) + ' <span class="text-xs font-normal text-sub">Trees Saved</span>';
-            document.getElementById('val-temp').innerText = Math.floor(Math.random() * 4) + 31;
-
-            if (chartInstance) {
-                chartInstance.data.datasets[0].data.shift();
-                chartInstance.data.datasets[0].data.push(parseFloat(currentSolarValue.toFixed(2)));
-                chartInstance.data.datasets[1].data.shift();
-                chartInstance.data.datasets[1].data.push(parseFloat(currentLoadValue.toFixed(2)));
-                chartInstance.update();
-            }
-        }
-
         setInterval(() => {
             clockCounter--;
-            if (clockCounter <= 0) {
-                triggerMetricsSync();
-                clockCounter = 30; 
-            }
+            if (clockCounter <= 0) { clockCounter = 30; }
             document.getElementById('sync-timer').innerText = clockCounter + 's';
         }, 1000);
     </script>
