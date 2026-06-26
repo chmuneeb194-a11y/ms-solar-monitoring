@@ -574,6 +574,31 @@
                 console.log("WebSocket connection error, running simulation loop.");
             }
         }
+                          // Automatically boot up simulation backup engine if stream delays
+            runLiveSimulationEngine();
+        
+        // REAL-TIME SOLAR SIMULATION & INTERACTIVE SYNC LOOP
+        function runLiveSimulationEngine() {
+            setInterval(() => {
+                // If live inverter hardware is not streaming, app generates realistic curve
+                if (!wsSocket || wsSocket.readyState !== WebSocket.OPEN) {
+                    const hr = new Date().getHours();
+                    let mockSolar = 0.00;
+                    
+                    // Realistic Day/Night Bell Curve Generation
+                    if (hr >= 6 && hr <= 18) {
+                        mockSolar = Math.sin((hr - 6) / 12 * Math.PI) * 4.20;
+                        mockSolar = Math.max(0, mockSolar + (Math.random() * 0.4 - 0.2));
+                    }
+                    
+                    const mockLoad = Math.max(0.30, 1.50 + (Math.random() * 0.6 - 0.3));
+                    const mockBattery = Math.min(100, Math.max(20, 75 + (Math.random() * 2 - 1)));
+                    
+                    // Injecting simulated matrix live to frontend pipeline
+                    updateDashboardMetrics(mockSolar.toFixed(2), mockLoad.toFixed(2), Math.round(mockBattery));
+                }
+            }, 3000); // Triggers recalculation every 3 seconds
+        }
         
 
         function toggleSideDrawerMenu(isOpen) {
@@ -694,6 +719,27 @@
                 executeAIEnergyConsultant(solarProd, houseLoad, batSoc);
             }
         }
+                    // PUSH REAL-TIME DATA INTO THE LIVE TRENDING CHART
+            if (window.mySolarChart || typeof liveSolarChart !== 'undefined') {
+                const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const chartInstance = window.mySolarChart;
+                
+                if (chartInstance && chartInstance.data) {
+                    // Append new live timeline data
+                    chartInstance.data.labels.push(nowTime);
+                    chartInstance.data.datasets[0].data.push(parseFloat(solar)); // Solar Line
+                    chartInstance.data.datasets[1].data.push(parseFloat(load));  // Load Line
+                    
+                    // Maintain only last 15 points to avoid UI lagging
+                    if (chartInstance.data.labels.length > 15) {
+                        chartInstance.data.labels.shift();
+                        chartInstance.data.datasets[0].data.shift();
+                        chartInstance.data.datasets[1].data.shift();
+                    }
+                    chartInstance.update('none'); // Silent refresh for smoother rendering
+                }
+            }
+        
 // 2026 AI Insight Algorithm Engine
 function executeAIEnergyConsultant(solarProd, houseLoad, batSoc) {
     const aiCard = document.getElementById('ai-insights-card');
