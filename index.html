@@ -647,7 +647,8 @@ function logRealTimeProductionToDatabase(solar, load) {
 let solarChartInstance = null;
 
 function renderLiveAnalyticsChart() {
-    const ctx = document.getElementById('liveSolarChart');
+const ctx = document.getElementById('liveSolarChart');
+
     if (!ctx) return;
 
     let historyData = JSON.parse(localStorage.getItem('solar_history_logs')) || [];
