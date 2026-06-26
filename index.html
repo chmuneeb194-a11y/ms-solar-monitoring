@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Solar Cloud - Ultimate Pro</title>
+    <title>MS Solar Cloud - Pro Ultimate</title>
     
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1TIFNvbGFyIENsb3VkIiwKICAic2hvcnRfbmFtZSI6ICJNUyBTb2xhciIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA0MDgxNCIsCiAgInRoZW1lX2NvbG9yIjogIiNmZjZhMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcucmZsYXRpY29uLmNvbS81MTIvMzEwNi8zMTA2ODU2LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgp9CiBdfQ==">
     <meta name="theme-color" content="#ff6a00">
@@ -25,169 +25,182 @@
             --text-dim: #7f8c8d;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-light); overflow-x: hidden; padding-bottom: 90px; }
+        /* Dark/Light Smooth Shift Mode */
+        body.light-theme {
+            --bg-main: #f4f6f9;
+            --panel-bg: rgba(255, 255, 255, 0.95);
+            --border-glow: rgba(0, 0, 0, 0.08);
+            --text-light: #1c2434;
+            --text-dim: #64748b;
+        }
 
-        /* --- HEADER WITH HAMBURGER --- */
-        header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: #070d1f; position: relative; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-light); overflow-x: hidden; padding-bottom: 90px; transition: background 0.3s, color 0.3s; }
+
+        /* --- HEADER & HAMBURGER GATEWAY --- */
+        header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: #070d1f; }
+        body.light-theme header { background: #ffffff; border-bottom: 1px solid #e2e8f0; }
         .logo { font-size: 18px; font-weight: 900; letter-spacing: 1px; }
         .logo span { color: var(--primary-orange); }
         
-        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
         .sys-status { font-size: 11px; padding: 5px 12px; border-radius: 20px; background: rgba(0, 191, 255, 0.1); color: var(--solar-blue); font-weight: bold; border: 1px solid rgba(0, 191, 255, 0.2); }
-        .menu-btn { font-size: 20px; color: white; cursor: pointer; background: none; border: none; outline: none; }
+        .hamburger-trigger { font-size: 22px; color: var(--text-light); background: none; border: none; cursor: pointer; padding: 5px; outline: none; }
 
-        /* --- HAMBURGER SIDE DRAWER --- */
+        /* --- SMOOTH SIDE DRAWER --- */
         .side-drawer {
-            position: fixed; top: 0; right: -280px; width: 280px; height: 100%;
+            position: fixed; top: 0; right: -290px; width: 290px; height: 100%;
             background: #070e22; z-index: 10005; box-shadow: -5px 0 25px rgba(0,0,0,0.5);
-            transition: 0.3s ease-in-out; padding: 25px 20px; border-left: 1px solid var(--border-glow);
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 25px 20px; border-left: 1px solid var(--border-glow);
         }
+        body.light-theme .side-drawer { background: #ffffff; }
         .side-drawer.open { right: 0; }
-        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
-        .drawer-close { font-size: 20px; color: var(--text-dim); cursor: pointer; }
-        .drawer-item { display: flex; align-items: center; gap: 15px; padding: 14px; color: white; text-decoration: none; font-size: 14px; border-radius: 12px; margin-bottom: 10px; background: rgba(255,255,255,0.02); transition: 0.2s; cursor: pointer; }
-        .drawer-item:hover { background: rgba(255, 106, 0, 0.1); color: var(--primary-orange); }
-        .drawer-item i { width: 20px; text-align: center; font-size: 16px; }
+        .drawer-title { font-size: 16px; color: var(--primary-orange); font-weight: bold; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .drawer-close { font-size: 22px; color: var(--text-dim); cursor: pointer; }
+        .drawer-link { display: flex; align-items: center; gap: 14px; padding: 14px; color: var(--text-light); font-size: 14px; border-radius: 12px; margin-bottom: 12px; background: rgba(255,255,255,0.02); cursor: pointer; transition: 0.2s; }
+        body.light-theme .drawer-link { background: #f1f5f9; }
+        .drawer-link:hover { background: rgba(255, 106, 0, 0.1); color: var(--primary-orange); }
 
-        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10004; display: none; backdrop-filter: blur(4px); }
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10004; display: none; backdrop-filter: blur(3px); }
 
-        .status-bar { display: flex; justify-content: space-between; padding: 8px 20px; font-size: 11px; background: rgba(13, 21, 39, 0.6); border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); }
-        .active-dot { color: #00ff66; font-weight: bold; }
-        .active-dot::before { content: "● "; animation: blink 1.2s infinite; }
+        /* --- 30s TICKER PIPELINE --- */
+        .ticker-bar { background: rgba(13, 21, 39, 0.8); padding: 8px 20px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); }
+        body.light-theme .ticker-bar { background: #edf2f7; border-bottom: 1px solid #e2e8f0; }
+        .sync-loader { display: flex; align-items: center; gap: 6px; color: var(--battery-green); font-weight: 600; }
+        .sync-loader i { animation: spin 2s linear infinite; }
+        
+        .progress-track { width: 70px; height: 5px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; }
+        .progress-fill { width: 100%; height: 100%; background: var(--battery-green); transition: width 1s linear; }
 
-        /* --- MATRIX NODE PLANT MAP --- */
+        /* --- ULTRA KINETIC MAP VIEWPORT --- */
         .viewport-premium {
-            position: relative; width: 100%; height: 380px; 
+            position: relative; width: 100%; height: 390px; 
             background: radial-gradient(circle at center, #09132b 0%, #040814 80%);
             overflow: hidden;
         }
+        body.light-theme .viewport-premium { background: radial-gradient(circle at center, #e2e8f0 0%, #f4f6f9 80%); }
 
         .vector-matrix { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; pointer-events: none; }
-        .pulse-wire { fill: none; stroke-width: 2.5; stroke-dasharray: 6, 8; animation: moveEnergy 0.6s linear infinite; stroke-linecap: round; }
+        .pulse-wire { fill: none; stroke-width: 2.5; stroke-dasharray: 6, 8; animation: moveEnergy 0.5s linear infinite; stroke-linecap: round; }
 
         .component-node {
-            position: absolute; width: 90px; height: 95px; z-index: 5;
+            position: absolute; width: 95px; height: 95px; z-index: 5;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; transform: translate(-50%, -50%);
         }
         
         .icon-circle {
-            width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; margin-bottom: 6px; box-shadow: 0 0 15px rgba(0,0,0,0.5); border: 2px solid;
-            background: #091124;
+            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; margin-bottom: 6px; box-shadow: 0 0 15px rgba(0,0,0,0.4); border: 2px solid;
+            background: #091124; color: #fff;
         }
+        body.light-theme .icon-circle { background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
         
-        .component-node span { font-size: 10px; font-weight: bold; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        .component-node span { font-size: 10px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
         .component-node .node-watts { font-size: 11px; font-family: monospace; color: var(--text-light); margin-top: 2px; font-weight: 800; }
 
-        /* Perfect Center Layout System */
+        /* Node Core Layout Grid Shifts */
         .c-solar { top: 22%; left: 22%; }
-        .c-solar .icon-circle { border-color: var(--solar-blue); color: var(--solar-blue); box-shadow: 0 0 20px rgba(0, 191, 255, 0.25); }
+        .c-solar .icon-circle { border-color: var(--solar-blue); color: var(--solar-blue); box-shadow: 0 0 20px rgba(0, 191, 255, 0.2); }
         
         .c-grid { top: 22%; left: 78%; }
-        .c-grid .icon-circle { border-color: var(--grid-blue); color: var(--grid-blue); box-shadow: 0 0 20px rgba(74, 144, 226, 0.25); }
+        .c-grid .icon-circle { border-color: var(--grid-blue); color: var(--grid-blue); box-shadow: 0 0 20px rgba(74, 144, 226, 0.2); }
 
+        /* Center Inverter Clean-Cut No Intersection Edge Points */
         .c-inverter { top: 50%; left: 50%; }
-        .c-inverter .icon-circle { width: 66px; height: 66px; border-color: var(--primary-orange); color: var(--primary-orange); font-size: 28px; box-shadow: 0 0 25px rgba(255, 106, 0, 0.4); background: rgba(255, 106, 0, 0.04); }
-        .c-inverter span { color: var(--text-light); }
+        .c-inverter .icon-circle { width: 68px; height: 68px; border-color: var(--primary-orange); color: var(--primary-orange); font-size: 28px; box-shadow: 0 0 25px rgba(255, 106, 0, 0.35); }
 
         .c-battery { top: 78%; left: 22%; }
-        .c-battery .icon-circle { border-color: var(--battery-green); color: var(--battery-green); box-shadow: 0 0 20px rgba(0, 255, 170, 0.25); }
+        .c-battery .icon-circle { border-color: var(--battery-green); color: var(--battery-green); box-shadow: 0 0 20px rgba(0, 255, 170, 0.2); }
 
         .c-load { top: 78%; left: 78%; }
-        .c-load .icon-circle { border-color: var(--load-purple); color: var(--load-purple); box-shadow: 0 0 20px rgba(189, 0, 255, 0.25); }
+        .c-load .icon-circle { border-color: var(--load-purple); color: var(--load-purple); box-shadow: 0 0 20px rgba(189, 0, 255, 0.2); }
 
-        /* --- APPS CONTROLS FORM PANEL --- */
-        .app-panel { display: none; padding: 20px; animation: slideUp 0.4s ease-out; }
+        /* --- CONTROL CONSOLES PANELS --- */
+        .app-panel { display: none; padding: 20px; animation: slideUp 0.35s ease-out; }
         .app-panel.active { display: block; }
 
         .glass-card {
             background: var(--panel-bg); border: 1px solid var(--border-glow);
             backdrop-filter: blur(15px); border-radius: 24px; padding: 20px; margin-bottom: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
         .glass-card h3 { font-size: 15px; color: var(--primary-orange); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
 
-        .time-tabs { display: flex; background: #060b19; border-radius: 16px; padding: 4px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.03); }
-        .tab-btn {
-            flex: 1; padding: 11px; border: none; background: transparent;
-            color: var(--text-dim); font-weight: 700; font-size: 11px; border-radius: 12px;
-            cursor: pointer; transition: 0.3s; text-transform: uppercase;
-        }
-        .tab-btn.active { background: var(--primary-orange); color: white; box-shadow: 0 4px 10px rgba(255,106,0,0.2); }
+        .time-tabs { display: flex; background: rgba(0,0,0,0.2); border-radius: 16px; padding: 4px; margin-bottom: 20px; border: 1px solid var(--border-glow); }
+        .tab-btn { flex: 1; padding: 11px; border: none; background: transparent; color: var(--text-dim); font-weight: 700; font-size: 11px; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .tab-btn.active { background: var(--primary-orange); color: white; }
 
         .field-group { margin-bottom: 15px; }
         .field-group label { display: block; font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
         
         .input-ctrl, .select-ctrl {
-            width: 100%; padding: 13px 16px; background: #080f24; border: 1px solid #1c2e5c;
-            border-radius: 12px; color: white; outline: none; font-size: 14px; transition: 0.3s;
+            width: 100%; padding: 13px 16px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-glow);
+            border-radius: 12px; color: var(--text-light); outline: none; font-size: 14px;
         }
-        .select-ctrl { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white'><path d='M2 4l4 4 4-4z'/></svg>"); background-repeat: no-repeat; background-position: right 16px center; }
-        .input-ctrl:focus, .select-ctrl:focus { border-color: var(--solar-blue); }
+        body.light-theme .input-ctrl, body.light-theme .select-ctrl { background: #ffffff; border: 1px solid #cbd5e1; }
 
-        .action-btn {
-            width: 100%; padding: 14px; background: linear-gradient(45deg, var(--primary-orange), #ff9900);
-            border: none; color: white; font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 14px;
-        }
+        .action-btn { width: 100%; padding: 14px; background: linear-gradient(45deg, var(--primary-orange), #ff9900); border: none; color: white; font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 14px; }
 
         .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .metric-card { background: #0b1226; padding: 16px; border-radius: 16px; border-left: 4px solid var(--primary-orange); }
+        .metric-card { background: rgba(0,0,0,0.15); padding: 16px; border-radius: 16px; border-left: 4px solid var(--primary-orange); }
+        body.light-theme .metric-card { background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .metric-card.earnings { border-left-color: var(--battery-green); }
 
-        /* --- FIXED BOTTOM BAR --- */
+        /* --- STABLE FOOTER CONTROLS --- */
         .footer-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 72px;
             background: #060b17; border-top: 1px solid #121f42; display: flex; justify-content: space-around; align-items: center; z-index: 9999;
         }
+        body.light-theme .footer-nav { background: #ffffff; border-top: 1px solid #e2e8f0; }
         .nav-tab { display: flex; flex-direction: column; align-items: center; color: var(--text-dim); font-size: 10px; font-weight: 700; cursor: pointer; text-decoration: none; }
         .nav-tab i { font-size: 20px; margin-bottom: 5px; }
         .nav-tab.active { color: var(--primary-orange); }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes moveEnergy { to { stroke-dashoffset: -28; } }
     </style>
 </head>
 <body>
 
-    <div class="drawer-overlay" id="menu-overlay" onclick="toggleSideMenu(false)"></div>
+    <div class="drawer-overlay" id="drawer-mask-box" onclick="toggleSideDrawerMenu(false)"></div>
 
-    <div class="side-drawer" id="side-menu-panel">
+    <div class="side-drawer" id="hamburger-menu-drawer">
         <div class="drawer-header">
-            <h3 style="font-size:16px; color:var(--primary-orange);">System Core Menu</h3>
-            <div class="drawer-close" onclick="toggleSideMenu(false)"><i class="fa-solid fa-xmark"></i></div>
+            <div class="drawer-title">MS Controls</div>
+            <div class="drawer-close" onclick="toggleSideDrawerMenu(false)"><i class="fa-solid fa-xmark"></i></div>
         </div>
-        <div class="drawer-item" onclick="triggerPwaAppDownload()">
-            <i class="fa-solid fa-circle-down" style="color: var(--solar-blue);"></i>
+        <div class="drawer-link" onclick="executePwaAppInstallation()">
+            <i class="fa-solid fa-circle-down" style="color:var(--solar-blue)"></i>
             <span>Install Application</span>
         </div>
-        <div class="drawer-item" onclick="alert('Configuration History Coming Soon!')">
-            <i class="fa-solid fa-clock-history"></i>
-            <span>Sync Logs Matrix</span>
+        <div class="drawer-link" onclick="toggleSystemUIAesthetics()">
+            <i class="fa-solid fa-circle-half-stroke" style="color:var(--primary-orange)"></i>
+            <span>Dark / Light Toggle</span>
         </div>
     </div>
 
     <header>
         <div class="logo">MS SOLAR<span> CLOUD</span></div>
         <div class="header-actions">
-            <div class="sys-status" id="active-inverter-badge">5.0 kW SYSTEM</div>
-            <button class="menu-btn" onclick="toggleSideMenu(true)"><i class="fa-solid fa-bars"></i></button>
+            <div class="sys-status" id="active-capacity-badge">5.0 kW SYSTEM</div>
+            <button class="hamburger-trigger" onclick="toggleSideDrawerMenu(true)"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
 
-    <div class="status-bar">
-        <span class="active-dot">PROVISIONING LIVE</span>
-        <span><i class="fa-solid fa-bolt" style="color: #ffaa00;"></i> Cloud Secure</span>
-        <span style="color: var(--solar-blue);" id="ui-brand-badge">SOLIS SMART</span>
+    <div class="ticker-bar">
+        <div class="sync-loader"><i class="fa-solid fa-rotate"></i> <span id="sync-countdown-text">Syncing 30s</span></div>
+        <div class="progress-track"><div class="progress-fill" id="sync-progress-line"></div></div>
+        <span style="color: var(--solar-blue); font-weight:700;" id="ui-inverter-brand-badge">SOLIS CLOUD</span>
     </div>
 
     <div id="panel-dashboard" class="app-panel active">
-        <div class="viewport-premium" id="viewport-box">
+        <div class="viewport-premium" id="viewport-canvas-container">
             
-            <svg class="vector-matrix" id="svg-matrix">
+            <svg class="vector-matrix">
                 <line id="wire-solar" class="pulse-wire" stroke="var(--solar-blue)" />
                 <line id="wire-grid" class="pulse-wire" stroke="var(--grid-blue)" />
                 <line id="wire-battery" class="pulse-wire" stroke="var(--battery-green)" />
@@ -208,13 +221,13 @@
 
             <div class="component-node c-inverter">
                 <div class="icon-circle"><i class="fa-solid fa-server"></i></div>
-                <span id="txt-node-brand">Inverter</span>
+                <span id="txt-node-brand-label">Inverter</span>
                 <div class="node-watts" id="val-node-inv" style="color: var(--primary-orange);">ONLINE</div>
             </div>
 
             <div class="component-node c-battery">
                 <div class="icon-circle"><i class="fa-solid fa-battery-three-quarters"></i></div>
-                <span>Battery Pack</span>
+                <span id="txt-node-battery-label">Battery Pack</span>
                 <div class="node-watts" id="val-node-bat">00%</div>
             </div>
 
@@ -252,7 +265,7 @@
             
             <div class="field-group">
                 <label>Select Inverter Infrastructure Brand</label>
-                <select id="cfg-brand" class="select-ctrl" onchange="synchronizeSystemHardware()">
+                <select id="cfg-brand" class="select-ctrl" onchange="synchronizeSystemRegisters()">
                     <option value="Solis Cloud">Solis Cloud Inverters</option>
                     <option value="Inverex Nitrox">Inverex Nitrox Smart</option>
                     <option value="Inverex Veyron">Inverex Veyron Series</option>
@@ -273,13 +286,27 @@
                     <option value="Jinko Smart">Jinko Smart Inverter</option>
                 </select>
             </div>
+
+            <div class="field-group">
+                <label>Select Connected Battery Pack Brand</label>
+                <select id="cfg-battery-brand" class="select-ctrl" onchange="synchronizeSystemRegisters()">
+                    <option value="Phoenix Lithium">Phoenix Lithium</option>
+                    <option value="Osaka Tubular">Osaka Tubular Series</option>
+                    <option value="Narada LiFePO4">Narada LiFePO4 Smart</option>
+                    <option value="AGS Acid Pack">AGS Deep Cycle</option>
+                    <option value="Crown Matrix">Crown Matrix Batteries</option>
+                    <option value="Daewoo Eco">Daewoo Eco Drive</option>
+                    <option value="Inverex Power">Inverex Power Wall</option>
+                    <option value="Sacred Sun">Sacred Sun Industrial</option>
+                </select>
+            </div>
             
             <div class="field-group">
                 <label>Designated Maximum Plant Capacity ($kW$)</label>
-                <input type="number" id="cfg-capacity" class="input-ctrl" value="5.0" step="0.5" oninput="synchronizeSystemHardware()">
+                <input type="number" id="cfg-capacity" class="input-ctrl" value="5.0" step="0.5" oninput="synchronizeSystemRegisters()">
             </div>
             
-            <button class="action-btn" onclick="saveHardwareProfileMetrics()">COMMIT & SYNC DATA OVER WI-FI</button>
+            <button class="action-btn" onclick="commitHardwareChangesToApp()">COMMIT & SYNC DATA OVER WI-FI</button>
         </div>
     </div>
 
@@ -301,50 +328,56 @@
     </nav>
 
     <script>
-        let activeSystemBrand = "Solis Cloud";
-        let activeSystemCapacity = 5.0;
+        let systemBrand = "Solis Cloud";
+        let batteryBrand = "Phoenix Lithium";
+        let systemCapacity = 5.0;
         let deferredPrompt;
+        let countdownSeconds = 30;
 
-        const dataLogMatrix = {
+        const logDataStructure = {
             day: { yield: "18.40", earn: "1,104", ylbl: "Today Yield", elbl: "Today Earnings" },
             month: { yield: "542.10", earn: "32,526", ylbl: "Month Yield", elbl: "Month Earnings" },
             year: { yield: "6480.00", earn: "388,800", ylbl: "Year Yield", elbl: "Year Earnings" }
         };
 
-        // SIDE DRAWER CONTROLLER
-        function toggleSideMenu(openState) {
-            const panel = document.getElementById('side-menu-panel');
-            const overlay = document.getElementById('menu-overlay');
-            if(openState) {
-                panel.classList.add('open'); overlay.style.display = 'block';
-            } else {
-                panel.classList.remove('open'); overlay.style.display = 'none';
-            }
+        function toggleSideDrawerMenu(isOpen) {
+            const el = document.getElementById('hamburger-menu-drawer');
+            const mask = document.getElementById('drawer-mask-box');
+            if(isOpen) { el.classList.add('open'); mask.style.display = 'block'; }
+            else { el.classList.remove('open'); mask.style.display = 'none'; }
         }
 
-        function switchMainViews(targetPanelId, tabEl) {
+        function toggleSystemUIAesthetics() {
+            document.body.classList.toggle('light-theme');
+            toggleSideDrawerMenu(false);
+        }
+
+        function switchMainViews(panelId, tabEl) {
             document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(targetPanelId).classList.add('active');
+            document.getElementById(panelId).classList.add('active');
             tabEl.classList.add('active');
-            if(targetPanelId === 'panel-dashboard') { recalculateVectorCoordinatesLines(); }
+            if(panelId === 'panel-dashboard') { recalculateResponsiveWires(); }
         }
 
         function switchHistoricalData(type, btnEl) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btnEl.classList.add('active');
-            document.getElementById('lbl-yield').innerText = dataLogMatrix[type].ylbl;
-            document.getElementById('lbl-earnings').innerText = dataLogMatrix[type].elbl;
-            document.getElementById('txt-yield').innerHTML = `${dataLogMatrix[type].yield} <span style="font-size:12px; color:var(--text-dim);">kWh</span>`;
-            document.getElementById('txt-yield-price').innerText = `Rs. ${dataLogMatrix[type].earn}`;
+            document.getElementById('lbl-yield').innerText = logDataStructure[type].ylbl;
+            document.getElementById('lbl-earnings').innerText = logDataStructure[type].elbl;
+            document.getElementById('txt-yield').innerHTML = `${logDataStructure[type].yield} <span style="font-size:12px; color:var(--text-dim);">kWh</span>`;
+            document.getElementById('txt-yield-price').innerText = `Rs. ${logDataStructure[type].earn}`;
         }
 
-        // ACCURATE COORDINATES ALIGNMENT MATH ENGINE
-        function recalculateVectorCoordinatesLines() {
-            const vBox = document.getElementById('viewport-box');
-            const w = vBox.clientWidth;
-            const h = vBox.clientHeight;
+        // PERFECT BOUNDARY ENDING VECTOR WIRES CALCULATION
+        function recalculateResponsiveWires() {
+            const container = document.getElementById('viewport-canvas-container');
+            if (!container) return;
+            const w = container.clientWidth;
+            const h = container.clientHeight;
 
+            const centerNodeRadius = 34; // Exact offset calculation to prevent lines from entering the circle boundary
+            
             const nodes = {
                 solar: { x: w * 0.22, y: h * 0.22 },
                 grid:  { x: w * 0.78, y: h * 0.22 },
@@ -353,91 +386,105 @@
                 load:  { x: w * 0.78, y: h * 0.78 }
             };
 
-            const setLine = (id, from, to) => {
+            const drawCleanLine = (id, from, to, isToCenter) => {
                 let el = document.getElementById(id);
-                if(el) {
-                    el.setAttribute('x1', from.x); el.setAttribute('y1', from.y);
-                    el.setAttribute('x2', to.x);   el.setAttribute('y2', to.y);
+                if(!el) return;
+                
+                let dx = to.x - from.x;
+                let dy = to.y - from.y;
+                let angle = Math.atan2(dy, dx);
+
+                let startX = from.x, startY = from.y, endX = to.x, endY = to.y;
+
+                if (isToCenter) {
+                    endX = to.x - Math.cos(angle) * centerNodeRadius;
+                    endY = to.y - Math.sin(angle) * centerNodeRadius;
+                } else {
+                    startX = from.x + Math.cos(angle) * centerNodeRadius;
+                    startY = from.y + Math.sin(angle) * centerNodeRadius;
                 }
+
+                el.setAttribute('x1', startX); el.setAttribute('y1', startY);
+                el.setAttribute('x2', endX);   el.setAttribute('y2', endY);
             };
 
-            setLine('wire-solar', nodes.solar, nodes.inv);
-            setLine('wire-grid', nodes.grid, nodes.inv);
-            setLine('wire-battery', nodes.inv, nodes.bat);
-            setLine('wire-load', nodes.inv, nodes.load);
+            drawCleanLine('wire-solar', nodes.solar, nodes.inv, true);
+            drawCleanLine('wire-grid', nodes.grid, nodes.inv, true);
+            drawCleanLine('wire-battery', nodes.inv, nodes.bat, false);
+            drawCleanLine('wire-load', nodes.inv, nodes.load, false);
         }
 
-        function synchronizeSystemHardware() {
-            activeSystemBrand = document.getElementById('cfg-brand').value;
-            activeSystemCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
+        function synchronizeSystemRegisters() {
+            systemBrand = document.getElementById('cfg-brand').value;
+            batteryBrand = document.getElementById('cfg-battery-brand').value;
+            systemCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
         }
 
-        function saveHardwareProfileMetrics() {
-            synchronizeSystemHardware();
-            document.getElementById('active-inverter-badge').innerText = `${activeSystemCapacity.toFixed(1)} kW SYSTEM`;
-            document.getElementById('ui-brand-badge').innerText = `${activeSystemBrand.toUpperCase()} SYNC`;
-            document.getElementById('txt-node-brand').innerText = activeSystemBrand.split(' ')[0];
-            alert("WI-FI Handshake Established! Inverter Sync Complete.");
+        function commitHardwareChangesToApp() {
+            synchronizeSystemRegisters();
+            document.getElementById('active-capacity-badge').innerText = `${systemCapacity.toFixed(1)} kW SYSTEM`;
+            document.getElementById('ui-inverter-brand-badge').innerText = systemBrand.toUpperCase();
+            document.getElementById('txt-node-brand-label').innerText = systemBrand.split(' ')[0];
+            document.getElementById('txt-node-battery-label').innerText = batteryBrand.split(' ')[0];
+            alert("WI-FI Connection Authenticated! Parameters synced successfully.");
             switchMainViews('panel-dashboard', document.querySelectorAll('.nav-tab')[0]);
         }
 
-        // FULL DATABASE STATE FEED ENGINE
-        function startHighFrequencyTelemetryEngine() {
-            recalculateVectorCoordinatesLines();
-            window.addEventListener('resize', recalculateVectorCoordinatesLines);
+        // 30 SECONDS LIVE ENGINE WITH COUNTDOWN
+        function runLiveTelemetryPipelineLoop() {
+            recalculateResponsiveWires();
+            window.addEventListener('resize', recalculateResponsiveWires);
 
+            // High-Speed 30-Seconds Countdown Loop System
             setInterval(() => {
-                let pYield = (activeSystemCapacity * (0.70 + Math.random() * 0.22));
-                let cLoad = (activeSystemCapacity * (0.45 + Math.random() * 0.30));
-                let netGridExchange = pYield - cLoad;
+                countdownSeconds--;
+                if(countdownSeconds < 0) { countdownSeconds = 30; }
+                
+                document.getElementById('sync-countdown-text').innerText = `Syncing ${countdownSeconds}s`;
+                document.getElementById('sync-progress-line').style.width = `${(countdownSeconds / 30) * 100}%`;
+
+                // Update Telemetry Engine UI Data
+                let pYield = (systemCapacity * (0.65 + Math.random() * 0.25));
+                let cLoad = (systemCapacity * (0.40 + Math.random() * 0.35));
+                let netDiff = pYield - cLoad;
 
                 document.getElementById('val-node-solar').innerText = `${pYield.toFixed(2)} kW`;
                 document.getElementById('val-node-load').innerText = `${cLoad.toFixed(2)} kW`;
 
-                const gridWire = document.getElementById('wire-grid');
-                const batWire = document.getElementById('wire-battery');
+                const gw = document.getElementById('wire-grid');
+                const bw = document.getElementById('wire-battery');
 
-                if(netGridExchange > 0) {
-                    document.getElementById('val-node-grid').innerText = `${Math.abs(netGridExchange * 0.6).toFixed(2)} kW (Out)`;
-                    document.getElementById('val-node-bat').innerText = `88% (${(netGridExchange * 0.4).toFixed(2)}kW)`;
-                    if(gridWire) gridWire.style.animationDirection = "reverse";
-                    if(batWire) batWire.style.animationDirection = "normal";
+                if(netDiff > 0) {
+                    document.getElementById('val-node-grid').innerText = `${Math.abs(netDiff * 0.55).toFixed(2)} kW (Out)`;
+                    document.getElementById('val-node-bat').innerText = `88% (${(netDiff * 0.45).toFixed(2)}kW)`;
+                    if(gw) gw.style.animationDirection = "reverse";
+                    if(bw) bw.style.animationDirection = "normal";
                 } else {
-                    let deficit = Math.abs(netGridExchange);
-                    document.getElementById('val-node-grid').innerText = `${(deficit * 0.8).toFixed(2)} kW (In)`;
-                    document.getElementById('val-node-bat').innerText = `82% (-${(deficit * 0.2).toFixed(2)}kW)`;
-                    if(gridWire) gridWire.style.animationDirection = "normal";
-                    if(batWire) batWire.style.animationDirection = "reverse";
+                    let deficit = Math.abs(netDiff);
+                    document.getElementById('val-node-grid').innerText = `${(deficit * 0.75).toFixed(2)} kW (In)`;
+                    document.getElementById('val-node-bat').innerText = `82% (-${(deficit * 0.25).toFixed(2)}kW)`;
+                    if(gw) gw.style.animationDirection = "normal";
+                    if(bw) bw.style.animationDirection = "reverse";
                 }
-            }, 2500);
+            }, 1000);
         }
 
-        // PWA PROMPT STREAM CONTROLLER
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
+        // PROGRESSIVE WEB APP HANDSHAKE
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 
-        function triggerPwaAppDownload() {
-            toggleSideMenu(false);
+        function executePwaAppInstallation() {
+            toggleSideDrawerMenu(false);
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') { console.log('User Installed App'); }
+                    if (choiceResult.outcome === 'accepted') { console.log('App Installed Successfully'); }
                 });
             } else {
-                alert("App is ready to streamline! If you don't see a popup, click 'Add to Home Screen' from your browser settings menu.");
+                alert("App is fully ready to synchronize over local network via Browser settings context.");
             }
         }
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGZ1bmN0aW9uKGUpIHt9KTs=')
-                .catch(err => console.log(err));
-            });
-        }
-
-        window.onload = startHighFrequencyTelemetryEngine;
+        window.onload = runLiveTelemetryPipelineLoop;
     </script>
 </body>
 </html>
