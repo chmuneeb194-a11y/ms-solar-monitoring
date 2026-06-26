@@ -276,7 +276,43 @@
              </div>    
         </div>
     </div>
-
+                <div class="metrics-grid" style="margin-top: 10px; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid #00e676;">
+                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;" id="lbl-month-yield">Monthly Yield</span>
+                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;" id="txt-month-yield">542.10 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
+                    </div>
+                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid #e040fb;">
+                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;" id="lbl-total-yield">Total Yield</span>
+                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;" id="txt-total-yield">6480.00 <span style="font-size:11px; color:var(--text-dim);">MWh</span></h4>
+                    </div>
+                </div>
+                        <div class="metric-card" style="margin-top: 15px; padding: 12px; background: rgba(255, 152, 0, 0.05); border: 1px solid rgba(255, 152, 0, 0.2); border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 11px; color: var(--primary-orange); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Active System Logs
+                        </span>
+                        <span style="font-size: 10px; color: #00e676; background: rgba(0,230,118,0.1); padding: 2px 6px; border-radius: 10px;">Normal</span>
+                    </div>
+                    <div style="font-family: monospace; font-size: 11px; color: var(--text-dim); line-height: 1.4;">
+                        <div style="margin-bottom: 4px;">• [08:15 PKT] Grid synchronization stable.</div>
+                        <div>• [07:00 PKT] Inverter woke up. PV voltage normal.</div>
+                    </div>
+                                                <div class="metric-card" style="margin-top: 15px; padding: 12px; background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.2); border-radius: 8px;">
+                    <span style="font-size: 10px; color: #00e676; text-transform: uppercase; font-weight: bold;">Generation Trend (Today)</span>
+                    <div style="display: flex; align-items: flex-end; height: 40px; gap: 4px; margin-top: 8px;">
+                        <div style="flex: 1; height: 20%; background: #00e676; opacity: 0.3;"></div>
+                        <div style="flex: 1; height: 50%; background: #00e676; opacity: 0.5;"></div>
+                        <div style="flex: 1; height: 90%; background: #00e676;"></div>
+                        <div style="flex: 1; height: 60%; background: #00e676; opacity: 0.7;"></div>
+                        <div style="flex: 1; height: 30%; background: #00e676; opacity: 0.4;"></div>
+                    </div>
+                                                </div>
+                                
+                        </div>
+                               <div>PV Insulation: <span style="color:#00e676;">21.5 MΩ</span></div>
+                        <div>Grid Frequency: <span style="color:#fff; font-family:monospace;">50.02 Hz</span></div>
+                        <div>Datalogger FW: <span style="color:var(--solar-blue);">v2.4.12_Secure</span></div>
+ 
     <div id="panel-hardware" class="app-panel">
         <div class="glass-card">
             <h3><i class="fa-solid fa-sliders"></i> Hardware Station Deployment</h3>
@@ -388,15 +424,18 @@ let countdownSeconds = 30;
             if(panelId === 'panel-dashboard') { recalculateResponsiveWires(); }
         }
 
-        function switchHistoricalData(type, btnEl) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btnEl.classList.add('active');
-            document.getElementById('lbl-yield').innerText = logDataStructure[type].ylbl;
-            document.getElementById('lbl-earnings').innerText = logDataStructure[type].elbl;
-            document.getElementById('txt-yield').innerHTML = `${logDataStructure[type].yield} <span style="font-size:12px; color:var(--text-dim);">kWh</span>`;
-            document.getElementById('txt-yield-price').innerText = `Rs. ${logDataStructure[type].earn}`;
-        }
-
+function switchHistoricalData(type, btnEl) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+    
+    // Core Yield and Earnings data update
+    document.getElementById('lbl-yield').innerText = type === 'day' ? 'Today Yield' : type === 'month' ? 'Monthly Yield' : 'Yearly Yield';
+    document.getElementById('lbl-earnings').innerText = type === 'day' ? 'Today Earnings' : type === 'month' ? 'Monthly Earnings' : 'Yearly Earnings';
+    
+    document.getElementById('txt-yield').innerHTML = logDataStructure[type].yield + ' <span style="font-size:14px; color:var(--text-dim);">kWh</span>';
+    document.getElementById('txt-yield-price').innerText = 'Rs. ' + logDataStructure[type].earn;
+}
+            
         // PERFECT BOUNDARY ENDING VECTOR WIRES CALCULATION
         function recalculateResponsiveWires() {
             const container = document.getElementById('viewport-canvas-container');
