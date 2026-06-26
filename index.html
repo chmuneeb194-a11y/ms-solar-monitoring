@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Solar Cloud - Pro Ultimate</title>
+    <title>MS Solar Cloud - Pro Ultimate 2026</title>
     
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1TIFNvbGFyIENsb3VkIiwKICAic2hvcnRfbmFtZSI6ICJNUyBTb2xhciIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA0MDgxNCIsCiAgInRoZW1lX2NvbG9yIjogIiNmZjZhMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcucmZsYXRpY29uLmNvbS81MTIvMzEwNi8zMTA2ODU2LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgp9CiBdfQ==">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1TIFNvbGFyIENsb3VkIiwKICAic2hvcnRfbmFtZSI6ICJNUyBTb2xhciIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA0MDgxNCIsCiAgInRoZW1lX2NvbG9yIjogIiNmZjZhMDAiLAogICpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcucmZsYXRpY29uLmNvbS81MTIvMzEwNi8zMTA2ODU2LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgp9CiBdfQ==">
     <meta name="theme-color" content="#ff6a00">
     <meta name="apple-mobile-web-app-capable" content="yes">
     
@@ -28,7 +28,6 @@
             --text-dim: #7f8c8d;
         }
 
-        /* Dark/Light Smooth Shift Mode */
         body.light-theme {
             --bg-main: #f4f6f9;
             --panel-bg: rgba(255, 255, 255, 0.95);
@@ -40,7 +39,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-light); overflow-x: hidden; padding-bottom: 90px; transition: background 0.3s, color 0.3s; }
 
-        /* --- HEADER & HAMBURGER GATEWAY --- */
         header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: #070d1f; }
         body.light-theme header { background: #ffffff; border-bottom: 1px solid #e2e8f0; }
         .logo { font-size: 18px; font-weight: 900; letter-spacing: 1px; }
@@ -50,7 +48,6 @@
         .sys-status { font-size: 11px; padding: 5px 12px; border-radius: 20px; background: rgba(0, 191, 255, 0.1); color: var(--solar-blue); font-weight: bold; border: 1px solid rgba(0, 191, 255, 0.2); }
         .hamburger-trigger { font-size: 22px; color: var(--text-light); background: none; border: none; cursor: pointer; padding: 5px; outline: none; }
 
-        /* --- SMOOTH SIDE DRAWER --- */
         .side-drawer {
             position: fixed; top: 0; right: -290px; width: 290px; height: 100%;
             background: #070e22; z-index: 10005; box-shadow: -5px 0 25px rgba(0,0,0,0.5);
@@ -67,7 +64,6 @@
 
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10004; display: none; backdrop-filter: blur(3px); }
 
-        /* --- 30s TICKER PIPELINE --- */
         .ticker-bar { background: rgba(13, 21, 39, 0.8); padding: 8px 20px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-dim); }
         body.light-theme .ticker-bar { background: #edf2f7; border-bottom: 1px solid #e2e8f0; }
         .sync-loader { display: flex; align-items: center; gap: 6px; color: var(--battery-green); font-weight: 600; }
@@ -76,7 +72,6 @@
         .progress-track { width: 70px; height: 5px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; }
         .progress-fill { width: 100%; height: 100%; background: var(--battery-green); transition: width 1s linear; }
 
-        /* --- ULTRA KINETIC MAP VIEWPORT --- */
         .viewport-premium {
             position: relative; width: 100%; height: 390px; 
             background: radial-gradient(circle at center, #09132b 0%, #040814 80%);
@@ -103,14 +98,12 @@
         .component-node span { font-size: 10px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
         .component-node .node-watts { font-size: 11px; font-family: monospace; color: var(--text-light); margin-top: 2px; font-weight: 800; }
 
-        /* Node Core Layout Grid Shifts */
         .c-solar { top: 22%; left: 22%; }
         .c-solar .icon-circle { border-color: var(--solar-blue); color: var(--solar-blue); box-shadow: 0 0 20px rgba(0, 191, 255, 0.2); }
         
         .c-grid { top: 22%; left: 78%; }
         .c-grid .icon-circle { border-color: var(--grid-blue); color: var(--grid-blue); box-shadow: 0 0 20px rgba(74, 144, 226, 0.2); }
 
-        /* Center Inverter Clean-Cut No Intersection Edge Points */
         .c-inverter { top: 50%; left: 50%; }
         .c-inverter .icon-circle { width: 68px; height: 68px; border-color: var(--primary-orange); color: var(--primary-orange); font-size: 28px; box-shadow: 0 0 25px rgba(255, 106, 0, 0.35); }
 
@@ -120,7 +113,6 @@
         .c-load { top: 78%; left: 78%; }
         .c-load .icon-circle { border-color: var(--load-purple); color: var(--load-purple); box-shadow: 0 0 20px rgba(189, 0, 255, 0.2); }
 
-        /* --- CONTROL CONSOLES PANELS --- */
         .app-panel { display: none; padding: 20px; animation: slideUp 0.35s ease-out; }
         .app-panel.active { display: block; }
 
@@ -152,7 +144,6 @@
         body.light-theme .metric-card { background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .metric-card.earnings { border-left-color: var(--battery-green); }
 
-        /* --- STABLE FOOTER CONTROLS --- */
         .footer-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 72px;
             background: #060b17; border-top: 1px solid #121f42; display: flex; justify-content: space-around; align-items: center; z-index: 9999;
@@ -189,7 +180,7 @@
     <header>
         <div class="logo">MS SOLAR<span> CLOUD</span></div>
         <div class="header-actions">
-            <div class="sys-status" id="active-capacity-badge">4.0 kW SYSTEM</div>
+            <div class="sys-status" id="active-capacity-badge">5.0 kW SYSTEM</div>
             <button class="hamburger-trigger" onclick="toggleSideDrawerMenu(true)"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
@@ -197,12 +188,11 @@
     <div class="ticker-bar">
         <div class="sync-loader"><i class="fa-solid fa-rotate"></i> <span id="sync-countdown-text">Syncing 30s</span></div>
         <div class="progress-track"><div class="progress-fill" id="sync-progress-line"></div></div>
-        <span style="color: var(--solar-blue); font-weight:700;" id="ui-inverter-brand-badge">Ms CLOUD</span>
+        <span style="color: var(--solar-blue); font-weight:700;" id="ui-inverter-brand-badge">MS CLOUD</span>
     </div>
 
     <div id="panel-dashboard" class="app-panel active">
         <div class="viewport-premium" id="viewport-canvas-container">
-            
             <svg class="vector-matrix">
                 <line id="wire-solar" class="pulse-wire" stroke="var(--solar-blue)" />
                 <line id="wire-grid" class="pulse-wire" stroke="var(--grid-blue)" />
@@ -222,15 +212,14 @@
                 <div class="node-watts" id="val-node-grid">0.00 kW</div>
             </div>
 
-<div class="component-node c-inverter">
-    <div class="icon-circle" style="display: flex; flex-direction: column; gap: 4px; justify-content: center; align-items: center;">
-        <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
-        <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
-        <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
-    </div>
-    
+            <div class="component-node c-inverter">
+                <div class="icon-circle" style="display: flex; flex-direction: column; gap: 4px; justify-content: center; align-items: center;">
+                    <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
+                    <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
+                    <div style="width: 24px; height: 5px; background: var(--primary-orange); border-radius: 1px; box-shadow: 0 0 8px var(--primary-orange);"></div>
+                </div>
                 <span id="txt-node-brand-label">Inverter</span>
-                <div class="node-watts" id="val-node-inv" style="color: var(--primary-orange);">ONLINE</div>
+                <div class="node-watts" id="val-node-inv" style="color: var(--primary-orange); font-size:10px;">ONLINE</div>
             </div>
 
             <div class="component-node c-battery">
@@ -244,7 +233,18 @@
                 <span>Home Load</span>
                 <div class="node-watts" id="val-node-load">0.00 kW</div>
             </div>
+        </div>
 
+        <div class="glass-card" style="margin: 15px 20px 5px 20px; padding: 15px; background: rgba(0, 191, 255, 0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-size: 10px; color: var(--solar-blue); font-weight: bold; text-transform: uppercase;">
+                        <i class="fa-solid fa-cloud-sun"></i> AI Weather & Production Forecast
+                    </span>
+                    <h4 id="weather-status-text" style="font-size: 14px; margin-top:2px;">Fetching local weather...</h4>
+                </div>
+                <div id="weather-temp-badge" style="font-size: 20px; font-weight: bold; color: var(--primary-orange);">--°C</div>
+            </div>
         </div>
 
         <div style="padding: 10px 20px;">
@@ -264,55 +264,44 @@
                     <h3 style="font-size:22px; margin-top:5px; font-family:monospace;" id="txt-yield-price">Rs. 1,104</h3>
                 </div>
             </div>
-                                <div class="metrics-grid" style="margin-top: 15px; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--solar-blue);">
-                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Daily Charge</span>
-                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;">0 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
-                    </div>
-                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--primary-orange);">
-                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Daily Discharge</span>
-                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;">1 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
-                    </div>
-             </div>    
+
+            <div class="metrics-grid" style="margin-top: 15px; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--solar-blue);">
+                    <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Daily Charge</span>
+                    <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;">4.2 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
+                </div>
+                <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--primary-orange);">
+                    <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;">Daily Discharge</span>
+                    <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;">3.8 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
+                </div>
+            </div>    
+
+            <div class="metrics-grid" style="margin-top: 15px; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid #00e676;">
+                    <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;" id="lbl-month-yield">Monthly Yield</span>
+                    <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;" id="txt-month-yield">542.10 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
+                </div>
+                <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid #e040fb;">
+                    <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;" id="lbl-total-yield">Total Yield</span>
+                    <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;" id="txt-total-yield">648.0 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
+                </div>
+            </div>
+
+            <div class="metric-card" style="margin-top: 15px; padding: 12px; background: rgba(255, 152, 0, 0.05); border: 1px solid rgba(255, 152, 0, 0.2); border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 11px; color: var(--primary-orange); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Active System Logs
+                    </span>
+                    <span style="font-size: 10px; color: #00e676; background: rgba(0,230,118,0.1); padding: 2px 6px; border-radius: 10px;">Normal</span>
+                </div>
+                <div style="font-family: monospace; font-size: 11px; color: var(--text-dim); line-height: 1.4;">
+                    <div style="margin-bottom: 4px;">• [08:15 PKT] Grid synchronization stable.</div>
+                    <div>• [07:00 PKT] Inverter woke up. PV voltage normal.</div>
+                </div>
+            </div>
         </div>
     </div>
-                <div class="metrics-grid" style="margin-top: 10px; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid #00e676;">
-                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;" id="lbl-month-yield">Monthly Yield</span>
-                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;" id="txt-month-yield">542.10 <span style="font-size:11px; color:var(--text-dim);">kWh</span></h4>
-                    </div>
-                    <div class="metric-card" style="padding: 10px; background: rgba(255,255,255,0.03); border-left: 3px solid #e040fb;">
-                        <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase;" id="lbl-total-yield">Total Yield</span>
-                        <h4 style="font-size:16px; margin-top:3px; font-family:monospace; color:#fff;" id="txt-total-yield">6480.00 <span style="font-size:11px; color:var(--text-dim);">MWh</span></h4>
-                    </div>
-                </div>
-                        <div class="metric-card" style="margin-top: 15px; padding: 12px; background: rgba(255, 152, 0, 0.05); border: 1px solid rgba(255, 152, 0, 0.2); border-radius: 8px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <span style="font-size: 11px; color: var(--primary-orange); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Active System Logs
-                        </span>
-                        <span style="font-size: 10px; color: #00e676; background: rgba(0,230,118,0.1); padding: 2px 6px; border-radius: 10px;">Normal</span>
-                    </div>
-                    <div style="font-family: monospace; font-size: 11px; color: var(--text-dim); line-height: 1.4;">
-                        <div style="margin-bottom: 4px;">• [08:15 PKT] Grid synchronization stable.</div>
-                        <div>• [07:00 PKT] Inverter woke up. PV voltage normal.</div>
-                    </div>
-                                                <div class="metric-card" style="margin-top: 15px; padding: 12px; background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.2); border-radius: 8px;">
-                    <span style="font-size: 10px; color: #00e676; text-transform: uppercase; font-weight: bold;">Generation Trend (Today)</span>
-                    <div style="display: flex; align-items: flex-end; height: 40px; gap: 4px; margin-top: 8px;">
-                        <div style="flex: 1; height: 20%; background: #00e676; opacity: 0.3;"></div>
-                        <div style="flex: 1; height: 50%; background: #00e676; opacity: 0.5;"></div>
-                        <div style="flex: 1; height: 90%; background: #00e676;"></div>
-                        <div style="flex: 1; height: 60%; background: #00e676; opacity: 0.7;"></div>
-                        <div style="flex: 1; height: 30%; background: #00e676; opacity: 0.4;"></div>
-                    </div>
-                                                </div>
-                                
-                        </div>
-                               <div>PV Insulation: <span style="color:#00e676;">21.5 MΩ</span></div>
-                        <div>Grid Frequency: <span style="color:#fff; font-family:monospace;">50.02 Hz</span></div>
-                        <div>Datalogger FW: <span style="color:var(--solar-blue);">v2.4.12_Secure</span></div>
- 
+
     <div id="panel-hardware" class="app-panel">
         <div class="glass-card">
             <h3><i class="fa-solid fa-sliders"></i> Hardware Station Deployment</h3>
@@ -325,19 +314,9 @@
                     <option value="Inverex Veyron">Inverex Veyron Series</option>
                     <option value="Sunsynk Smart">Sunsynk Smart IoT</option>
                     <option value="Knox Krypton">Knox Krypton Series</option>
-                    <option value="Crown Micro">Crown Micro Elegant</option>
                     <option value="Tesla Solar">Tesla Solar Infini</option>
                     <option value="Growatt New">Growatt New Energy</option>
-                    <option value="GoodWe Power">GoodWe Power Engine</option>
                     <option value="Huawei Fusion">Huawei FusionSolar</option>
-                    <option value="Fronius Eco">Fronius Eco Premium</option>
-                    <option value="Voltronic Axpert">Voltronic Axpert Prime</option>
-                    <option value="Homage Solar">Homage Solar Hybrid</option>
-                    <option value="MaxPower Sun">MaxPower SunEdison</option>
-                    <option value="Teflon Power">Teflon Power Smart</option>
-                    <option value="Ziewnic Hybrid">Ziewnic Hybrid Series</option>
-                    <option value="Fransonic Tech">Fransonic Solar Tech</option>
-                    <option value="Jinko Smart">Jinko Smart Inverter</option>
                 </select>
             </div>
 
@@ -348,38 +327,33 @@
                     <option value="Osaka Tubular">Osaka Tubular Series</option>
                     <option value="Narada LiFePO4">Narada LiFePO4 Smart</option>
                     <option value="AGS Acid Pack">AGS Deep Cycle</option>
-                    <option value="Crown Matrix">Crown Matrix Batteries</option>
-                    <option value="Daewoo Eco">Daewoo Eco Drive</option>
-                    <option value="Inverex Power">Inverex Power Wall</option>
-                    <option value="Sacred Sun">Sacred Sun Industrial</option>
                 </select>
             </div>
             
             <div class="field-group">
-                <label>Designated Maximum Plant Capacity ($kW$)</label>
+                <label>Designated Maximum Plant Capacity (kW)</label>
                 <input type="number" id="cfg-capacity" class="input-ctrl" value="5.0" step="0.5" oninput="synchronizeSystemRegisters()">
             </div>
-                    </div>
 
-        <div class="field-group" style="margin-top: 20px; border-top: 1px solid var(--border-glow); padding-top: 15px;">
-            <label><i class="fa-solid fa-wifi" style="color: var(--solar-blue);"></i> Inverter Datalogger Wi-Fi SSID</label>
-            <input type="text" id="cfg-wifi-ssid" class="input-ctrl" value="AP_Inverter_WiFi_Setup" placeholder="Enter Wi-Fi Name">
-        </div>
+            <div class="field-group" style="margin-top: 20px; border-top: 1px solid var(--border-glow); padding-top: 15px;">
+                <label><i class="fa-solid fa-wifi" style="color: var(--solar-blue);"></i> Inverter Datalogger IP / WebSocket URI</label>
+                <input type="text" id="cfg-wifi-ssid" class="input-ctrl" value="ws://1192.168.4.1:81" placeholder="ws://inverter-ip:port">
+            </div>
 
-        <div class="field-group">
-            <label><i class="fa-solid fa-lock" style="color: var(--primary-orange);"></i> Datalogger Remote Password / Key</label>
-            <input type="password" id="cfg-wifi-pass" class="input-ctrl" value="********" placeholder="Enter Connection Password">
+            <button class="action-btn" onclick="commitHardwareChangesToApp()">COMMIT & SYNC DATA OVER WI-FI</button>
         </div>
-        <button class="action-btn" onclick="commitHardwareChangesToApp()">COMMIT & SYNC DATA OVER WI-FI</button>
     </div>
-    </div>
+
     <div id="panel-registers" class="app-panel">
         <div class="glass-card">
             <h3><i class="fa-solid fa-terminal"></i> Live Diagnostic Registers</h3>
             <div style="font-family:monospace; font-size:13px; line-height:2.2;">
                 <div>Modbus Bus Address: <span style="color:var(--solar-blue)">0x01 (Master Node)</span></div>
-                <div>Connection Pipe: <span style="color:var(--battery-green)">COM_PORT_RS485_OK</span></div>
+                <div>Connection Pipe: <span id="connection-pipe-status" style="color:var(--battery-green)">LOCAL_SIMULATION_MODE</span></div>
                 <div>Radiator Temp: <span style="color:var(--primary-orange)">43.8 °C</span></div>
+                <div>PV Insulation: <span style="color:#00e676;">21.5 MΩ</span></div>
+                <div>Grid Frequency: <span style="color:#fff; font-family:monospace;">50.02 Hz</span></div>
+                <div>Datalogger FW: <span style="color:var(--solar-blue);">v2.4.12_Secure</span></div>
             </div>
         </div>
     </div>
@@ -391,18 +365,67 @@
     </nav>
 
     <script>
-        let systemBrand = localStorage.getItem('savedBrand') || "Ms Cloud";
-let batteryBrand = localStorage.getItem('savedBattery') || "Phoenix Lithium";
-let systemCapacity = parseFloat(localStorage.getItem('savedCapacity')) || 5.0;
-let deferredPrompt;
-let countdownSeconds = 30;
-        
+        let systemBrand = localStorage.getItem('savedBrand') || "MS Cloud";
+        let batteryBrand = localStorage.getItem('savedBattery') || "Phoenix Lithium";
+        let systemCapacity = parseFloat(localStorage.getItem('savedCapacity')) || 5.0;
+        let socketUrl = localStorage.getItem('savedWifi') || "ws://192.168.4.1:81";
+        let deferredPrompt;
+        let countdownSeconds = 30;
+        let wsSocket = null;
 
         const logDataStructure = {
-            day: { yield: "18.40", earn: "1,104", ylbl: "Today Yield", elbl: "Today Earnings" },
-            month: { yield: "542.10", earn: "32,526", ylbl: "Month Yield", elbl: "Month Earnings" },
-            year: { yield: "6480.00", earn: "388,800", ylbl: "Year Yield", elbl: "Year Earnings" }
+            day: { yield: "18.40", earn: "1104" },
+            month: { yield: "542.10", earn: "32526" },
+            year: { yield: "6480.00", earn: "388800" }
         };
+
+        // 2026 Weather Forecasting System (Open-Meteo API Integration)
+        async function fetchWeatherForecast() {
+            try {
+                // Sahiwal Lat/Long Coordinates Default (Change according to target)
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=30.66&longitude=73.11&current_weather=true');
+                const data = await response.json();
+                if(data && data.current_weather) {
+                    const temp = data.current_weather.temperature;
+                    const code = data.current_weather.weathercode;
+                    document.getElementById('weather-temp-badge').innerText = `${temp}°C`;
+                    
+                    let condition = "Clear Sky (Excellent Efficiency)";
+                    if(code > 3) condition = "Cloudy (Expect 30% drop)";
+                    if(code > 60) condition = "Rainy (Grid shifting advised)";
+                    document.getElementById('weather-status-text').innerText = condition;
+                }
+            } catch (error) {
+                document.getElementById('weather-status-text').innerText = "Optimal Sun Exposure Predicted";
+                document.getElementById('weather-temp-badge').innerText = "34°C";
+            }
+        }
+
+        // Live WebSocket Bridge for ESP32/WiFi IoT Datalogger
+        function connectToInverterWebSocket() {
+            if (!socketUrl.startsWith("ws")) return;
+            
+            console.log("Attempting IoT Link up with: " + socketUrl);
+            wsSocket = new WebSocket(socketUrl);
+
+            wsSocket.onopen = () => {
+                document.getElementById('connection-pipe-status').innerText = "GATEWAY_CONNECTED_LIVE";
+                document.getElementById('connection-pipe-status').style.color = "var(--battery-green)";
+            };
+
+            wsSocket.onmessage = (event) => {
+                try {
+                    // JSON structured parsed incoming metrics packet from ESP32/NodeMCU
+                    const data = JSON.parse(event.data);
+                    updateDashboardMetrics(data.solar, data.load, data.batterySoc);
+                } catch(e) { console.log("Stream Parse Err"); }
+            };
+
+            wsSocket.onerror = () => {
+                document.getElementById('connection-pipe-status').innerText = "SIMULATED_REDUNDANCY_STREAM";
+                document.getElementById('connection-pipe-status').style.color = "var(--primary-orange)";
+            };
+        }
 
         function toggleSideDrawerMenu(isOpen) {
             const el = document.getElementById('hamburger-menu-drawer');
@@ -424,26 +447,23 @@ let countdownSeconds = 30;
             if(panelId === 'panel-dashboard') { recalculateResponsiveWires(); }
         }
 
-function switchHistoricalData(type, btnEl) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btnEl.classList.add('active');
-    
-    // Core Yield and Earnings data update
-    document.getElementById('lbl-yield').innerText = type === 'day' ? 'Today Yield' : type === 'month' ? 'Monthly Yield' : 'Yearly Yield';
-    document.getElementById('lbl-earnings').innerText = type === 'day' ? 'Today Earnings' : type === 'month' ? 'Monthly Earnings' : 'Yearly Earnings';
-    
-    document.getElementById('txt-yield').innerHTML = logDataStructure[type].yield + ' <span style="font-size:14px; color:var(--text-dim);">kWh</span>';
-    document.getElementById('txt-yield-price').innerText = 'Rs. ' + logDataStructure[type].earn;
-}
+        function switchHistoricalData(type, btnEl) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
             
-        // PERFECT BOUNDARY ENDING VECTOR WIRES CALCULATION
+            document.getElementById('lbl-yield').innerText = type === 'day' ? 'Today Yield' : type === 'month' ? 'Monthly Yield' : 'Yearly Yield';
+            document.getElementById('lbl-earnings').innerText = type === 'day' ? 'Today Earnings' : type === 'month' ? 'Monthly Earnings' : 'Yearly Earnings';
+            
+            document.getElementById('txt-yield').innerHTML = logDataStructure[type].yield + ' <span style="font-size:14px; color:var(--text-dim);">kWh</span>';
+            document.getElementById('txt-yield-price').innerText = 'Rs. ' + parseInt(logDataStructure[type].earn).toLocaleString();
+        }
+            
         function recalculateResponsiveWires() {
             const container = document.getElementById('viewport-canvas-container');
             if (!container) return;
             const w = container.clientWidth;
             const h = container.clientHeight;
-
-            const centerNodeRadius = 34; // Exact offset calculation to prevent lines from entering the circle boundary
+            const centerNodeRadius = 34; 
             
             const nodes = {
                 solar: { x: w * 0.22, y: h * 0.22 },
@@ -456,11 +476,9 @@ function switchHistoricalData(type, btnEl) {
             const drawCleanLine = (id, from, to, isToCenter) => {
                 let el = document.getElementById(id);
                 if(!el) return;
-                
                 let dx = to.x - from.x;
                 let dy = to.y - from.y;
                 let angle = Math.atan2(dy, dx);
-
                 let startX = from.x, startY = from.y, endX = to.x, endY = to.y;
 
                 if (isToCenter) {
@@ -470,7 +488,6 @@ function switchHistoricalData(type, btnEl) {
                     startX = from.x + Math.cos(angle) * centerNodeRadius;
                     startY = from.y + Math.sin(angle) * centerNodeRadius;
                 }
-
                 el.setAttribute('x1', startX); el.setAttribute('y1', startY);
                 el.setAttribute('x2', endX);   el.setAttribute('y2', endY);
             };
@@ -485,90 +502,79 @@ function switchHistoricalData(type, btnEl) {
             systemBrand = document.getElementById('cfg-brand').value;
             batteryBrand = document.getElementById('cfg-battery-brand').value;
             systemCapacity = parseFloat(document.getElementById('cfg-capacity').value) || 5.0;
+            socketUrl = document.getElementById('cfg-wifi-ssid').value;
         }
 
-       function commitHardwareChangesToApp() {
-    synchronizeSystemRegisters();
-    
-    // Wi-Fi Name input read karna
-    const wifiSSID = document.getElementById('cfg-wifi-ssid').value;
+        function commitHardwareChangesToApp() {
+            synchronizeSystemRegisters();
+            
+            localStorage.setItem('savedBrand', systemBrand);
+            localStorage.setItem('savedBattery', batteryBrand);
+            localStorage.setItem('savedCapacity', systemCapacity);
+            localStorage.setItem('savedWifi', socketUrl);
 
-    // LocalStorage mein data permanently save karna
-    localStorage.setItem('savedBrand', systemBrand);
-    localStorage.setItem('savedBattery', batteryBrand);
-    localStorage.setItem('savedCapacity', systemCapacity);
-    localStorage.setItem('savedWifi', wifiSSID);
-
-    // UI elements dashboard par render karna
-    if(document.getElementById('active-capacity-badge')) {
-        document.getElementById('active-capacity-badge').innerText = systemCapacity.toFixed(1) + " kW SYSTEM";
-    }
-    if(document.getElementById('ui-inverter-brand-badge')) {
-        document.getElementById('ui-inverter-brand-badge').innerText = systemBrand.toUpperCase();
-    }
-    if(document.getElementById('txt-node-brand-label')) {
-        document.getElementById('txt-node-brand-label').innerText = systemBrand.split(' ')[0];
-    }
-    if(document.getElementById('txt-node-battery-label')) {
-        document.getElementById('txt-node-battery-label').innerText = batteryBrand.split(' ')[0];
-    }
-    
-    // Dynamic message string handling with custom concatenation to avoid template errors
-    alert("Wi-Fi Connection Authenticated!\nConnected to: " + wifiSSID + "\nParameters synced successfully.");
-    switchMainViews('panel-dashboard', document.querySelectorAll('.nav-tab')[0]);
-}
+            document.getElementById('active-capacity-badge').innerText = systemCapacity.toFixed(1) + " kW SYSTEM";
+            document.getElementById('ui-inverter-brand-badge').innerText = systemBrand.toUpperCase();
+            document.getElementById('txt-node-brand-label').innerText = systemBrand.split(' ')[0];
+            document.getElementById('txt-node-battery-label').innerText = batteryBrand.split(' ')[0];
+            
+            alert("Configuration Committed! Attempting WebSocket Hot-Reload.");
+            connectToInverterWebSocket();
+            switchMainViews('panel-dashboard', document.querySelectorAll('.nav-tab')[0]);
+        }
  
-        // 30 SECONDS LIVE ENGINE WITH COUNTDOWN
+        function updateDashboardMetrics(solarProd, houseLoad, batSoc) {
+            document.getElementById('val-node-solar').innerText = `${solarProd.toFixed(2)} kW`;
+            document.getElementById('val-node-load').innerText = `${houseLoad.toFixed(2)} kW`;
+            
+            let netDiff = solarProd - houseLoad;
+            const gw = document.getElementById('wire-grid');
+            const bw = document.getElementById('wire-battery');
+
+            if(netDiff > 0) {
+                document.getElementById('val-node-grid').innerText = `${Math.abs(netDiff * 0.55).toFixed(2)} kW (Out)`;
+                document.getElementById('val-node-bat').innerText = `${batSoc}% (+${(netDiff * 0.45).toFixed(2)}kW)`;
+                if(gw) gw.style.animationDirection = "reverse";
+                if(bw) bw.style.animationDirection = "normal";
+            } else {
+                let deficit = Math.abs(netDiff);
+                document.getElementById('val-node-grid').innerText = `${(deficit * 0.75).toFixed(2)} kW (In)`;
+                document.getElementById('val-node-bat').innerText = `${batSoc}% (-${(deficit * 0.25).toFixed(2)}kW)`;
+                if(gw) gw.style.animationDirection = "normal";
+                if(bw) bw.style.animationDirection = "reverse";
+            }
+        }
+
         function runLiveTelemetryPipelineLoop() {
             recalculateResponsiveWires();
             window.addEventListener('resize', recalculateResponsiveWires);
+            fetchWeatherForecast();
+            connectToInverterWebSocket();
 
-            // High-Speed 30-Seconds Countdown Loop System
+            // Fallback Engine if WebSockets aren't active (Smooth Simulation)
             setInterval(() => {
                 countdownSeconds--;
-                if(countdownSeconds < 0) { countdownSeconds = 30; }
+                if(countdownSeconds < 0) { countdownSeconds = 30; fetchWeatherForecast(); }
                 
                 document.getElementById('sync-countdown-text').innerText = `Syncing ${countdownSeconds}s`;
                 document.getElementById('sync-progress-line').style.width = `${(countdownSeconds / 30) * 100}%`;
 
-                // Update Telemetry Engine UI Data
-                let pYield = (systemCapacity * (0.65 + Math.random() * 0.25));
-                let cLoad = (systemCapacity * (0.40 + Math.random() * 0.35));
-                let netDiff = pYield - cLoad;
-
-                document.getElementById('val-node-solar').innerText = `${pYield.toFixed(2)} kW`;
-                document.getElementById('val-node-load').innerText = `${cLoad.toFixed(2)} kW`;
-
-                const gw = document.getElementById('wire-grid');
-                const bw = document.getElementById('wire-battery');
-
-                if(netDiff > 0) {
-                    document.getElementById('val-node-grid').innerText = `${Math.abs(netDiff * 0.55).toFixed(2)} kW (Out)`;
-                    document.getElementById('val-node-bat').innerText = `88% (${(netDiff * 0.45).toFixed(2)}kW)`;
-                    if(gw) gw.style.animationDirection = "reverse";
-                    if(bw) bw.style.animationDirection = "normal";
-                } else {
-                    let deficit = Math.abs(netDiff);
-                    document.getElementById('val-node-grid').innerText = `${(deficit * 0.75).toFixed(2)} kW (In)`;
-                    document.getElementById('val-node-bat').innerText = `82% (-${(deficit * 0.25).toFixed(2)}kW)`;
-                    if(gw) gw.style.animationDirection = "normal";
-                    if(bw) bw.style.animationDirection = "reverse";
+                if (!wsSocket || wsSocket.readyState !== WebSocket.OPEN) {
+                    let simulatedSolar = (systemCapacity * (0.60 + Math.random() * 0.30));
+                    let simulatedLoad = (systemCapacity * (0.35 + Math.random() * 0.40));
+                    updateDashboardMetrics(simulatedSolar, simulatedLoad, 85);
                 }
-            }, 5000);
+            }, 1000);
         }
 
-        // PROGRESSIVE WEB APP HANDSHAKE
         window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 
         function executePwaAppInstallation() {
             toggleSideDrawerMenu(false);
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') { console.log('App Installed Successfully'); }
-                });
             } else {
-                alert("App is fully ready to synchronize over local network via Browser settings context.");
+                alert("PWA Gateway Active. Ready to run offline.");
             }
         }
 
