@@ -235,36 +235,36 @@
                 <div class="node-watts" id="val-node-load">0.00 kW</div>
             </div>
         </div>
-
         <div class="glass-card" style="margin: 15px 20px 5px 20px; padding: 15px; background: rgba(0, 191, 255, 0.05);">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <span style="font-size: 10px; color: var(--solar-blue); font-weight: bold; text-transform: uppercase;">
                         <i class="fa-solid fa-cloud-sun"></i> AI Weather & Production Forecast
-                        <div class="glass-card" id="ai-insights-card" style="margin: 10px 20px; padding: 15px; border-left: 4px solid var(--primary-orange); display: none;">
-    <span style="font-size: 11px; color: var(--primary-orange); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
-        <i class="fa-solid fa-brain"></i> MS AI Energy Consultant
-    </span>
-    <p id="ai-advice-text" style="font-size: 13px; margin-top: 6px; color: var(--text-light); line-height: 1.4;">
-        Analyzing system parameters...
-    </p>
-                            <div class="glass-card" style="margin: 15px 20px; padding: 15px;">
-    <span style="font-size: 11px; color: var(--solar-blue); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
-        <i class="fa-solid fa-chart-line"></i> Live Power Analytics (24h Trend)
-    </span>
-    <div style="width: 100%; height: 200px; position: relative;">
-        <canvas id="liveSolarChart"></canvas>
-    </div>
-                            </div>
-                            
-                        </div>
-                        
                     </span>
                     <h4 id="weather-status-text" style="font-size: 14px; margin-top:2px;">Fetching local weather...</h4>
                 </div>
                 <div id="weather-temp-badge" style="font-size: 20px; font-weight: bold; color: var(--primary-orange);">--°C</div>
             </div>
         </div>
+
+        <div class="glass-card" id="ai-insights-card" style="margin: 10px 20px; padding: 15px; border-left: 4px solid var(--primary-orange); display: none;">
+            <span style="font-size: 11px; color: var(--primary-orange); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
+                <i class="fa-solid fa-brain"></i> MS AI Energy Consultant
+            </span>
+            <p id="ai-advice-text" style="font-size: 13px; margin-top: 6px; color: var(--text-light); line-height: 1.4;">
+                Analyzing system parameters...
+            </p>
+        </div>
+
+        <div class="glass-card" style="margin: 15px 20px; padding: 15px;">
+            <span style="font-size: 11px; color: var(--solar-blue); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px; margin-bottom: 10px;">
+                <i class="fa-solid fa-chart-line"></i> Live Power Analytics (24h Trend)
+            </span>
+            <div style="width: 100%; height: 200px; position: relative;">
+                <canvas id="liveSolarChart"></canvas>
+            </div>
+        </div>
+        
 
         <div style="padding: 10px 20px;">
             <div class="time-tabs">
@@ -420,33 +420,34 @@
             }
         }
 
-        // Live WebSocket Bridge for ESP32/WiFi IoT Datalogger
         function connectToInverterWebSocket() {
             if (!socketUrl.startsWith("ws")) return;
             
             console.log("Attempting IoT Link up with: " + socketUrl);
-            wsSocket = new WebSocket(socketUrl);
+            try {
+                wsSocket = new WebSocket(socketUrl);
 
-            wsSocket.onopen = () => {
-                document.getElementById('connection-pipe-status').innerText = "GATEWAY_CONNECTED_LIVE";
-                document.getElementById('connection-pipe-status').style.color = "var(--battery-green)";
-            };
+                wsSocket.onopen = () => {
+                    document.getElementById('connection-pipe-status').innerText = "GATEWAY_CONNECTED_LIVE";
+                    document.getElementById('connection-pipe-status').style.color = "var(--battery-green)";
+                };
 
-            // Line 429 par purani line hata kar ye likh dein (e.g., agar aapka ESP32 IP 192.168.1.10 hai)
-wsSocket = new WebSocket("ws://192.168.1.10:81");
-            
-                try {
-                    // JSON structured parsed incoming metrics packet from ESP32/NodeMCU
-                    const data = JSON.parse(event.data);
-                    updateDashboardMetrics(data.solar, data.load, data.batterySoc);
-                } catch(e) { console.log("Stream Parse Err"); }
-            };
+                wsSocket.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        updateDashboardMetrics(data.solar, data.load, data.batterySoc);
+                    } catch(e) { console.log("Stream Parse Err"); }
+                };
 
-            wsSocket.onerror = () => {
-                document.getElementById('connection-pipe-status').innerText = "SIMULATED_REDUNDANCY_STREAM";
-                document.getElementById('connection-pipe-status').style.color = "var(--primary-orange)";
-            };
+                wsSocket.onerror = () => {
+                    document.getElementById('connection-pipe-status').innerText = "SIMULATED_REDUNDANCY_STREAM";
+                    document.getElementById('connection-pipe-status').style.color = "var(--primary-orange)";
+                };
+            } catch(err) {
+                console.log("WebSocket connection error, running simulation loop.");
+            }
         }
+        
 
         function toggleSideDrawerMenu(isOpen) {
             const el = document.getElementById('hamburger-menu-drawer');
