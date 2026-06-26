@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS Solar Monitoring</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome for Solar Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .solis-bg {
+            background: linear-gradient(180deg, #bce3ff 0%, #f4f9fd 40%, #ffffff 100%);
+        }
+    </style>
+</head>
+<body class="solis-bg min-h-screen font-sans text-gray-800 pb-10">
+
+    <!-- Top Bar / Header -->
+    <div class="p-4 flex justify-between items-center max-w-md mx-auto">
+        <button class="text-xl text-gray-700"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="text-center">
+            <h1 class="text-lg font-semibold text-gray-800">MS Solar</h1>
+            <p class="text-xs text-gray-500">ID: 200487</p>
+        </div>
+        <button class="text-xl text-gray-700"><i class="fa-solid fa-bars"></i></button>
+    </div>
+
+    <!-- Status & Weather Section -->
+    <div class="px-5 py-2 flex justify-between items-center max-w-md mx-auto text-sm">
+        <div class="flex items-center gap-2">
+            <span class="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">Online</span>
+            <span class="text-orange-500"><i class="fa-solid fa-sun"></i></span>
+            <span class="font-medium text-gray-600">31/39°C</span>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Card (3D House Area representation) -->
+    <div class="mt-4 px-4 max-w-md mx-auto">
+        <div class="bg-white/40 backdrop-blur-md rounded-3xl p-6 shadow-sm border border-white/50 relative overflow-hidden min-h-[320px] flex flex-col justify-between">
+            
+            <!-- Grid Row 1: Solar and Load -->
+            <div class="flex justify-between z-10">
+                <!-- PV / Solar Info -->
+                <div>
+                    <p class="text-xs text-gray-400 font-medium">PV</p>
+                    <p class="text-2xl font-bold text-gray-800">2.048 <span class="text-xs font-normal text-gray-500">kW</span></p>
+                </div>
+                <!-- Load Info -->
+                <div class="text-right">
+                    <p class="text-xs text-gray-400 font-medium">Load</p>
+                    <p class="text-2xl font-bold text-gray-800">1.53 <span class="text-xs font-normal text-gray-500">kW</span></p>
+                </div>
+            </div>
+
+            <!-- Placeholder for 3D Graphic Content / Schematic Alignment -->
+            <div class="my-auto flex justify-center py-4">
+                <div class="text-center bg-white/80 px-4 py-2 rounded-2xl shadow-xs border border-gray-100">
+                    <i class="fa-solid fa-solar-panel text-orange-500 text-3xl mb-1 block"></i>
+                    <span class="text-xs font-semibold text-gray-600">Inverter Smart Flow</span>
+                </div>
+            </div>
+
+            <!-- Grid Row 2: Battery and Grid -->
+            <div class="flex justify-between items-end z-10">
+                <!-- Battery Info -->
+                <div>
+                    <p class="text-xs text-gray-400 font-medium">Battery <span class="text-green-600 font-bold">99%</span></p>
+                    <p class="text-2xl font-bold text-gray-800">0 <span class="text-xs font-normal text-gray-500">kW</span></p>
+                    <span class="inline-block text-[10px] bg-gray-200/80 text-gray-600 px-2 py-0.5 rounded mt-1">Standby</span>
+                </div>
+                <!-- Grid Info -->
+                <div class="text-right">
+                    <p class="text-xs text-gray-400 font-medium">Grid</p>
+                    <p class="text-2xl font-bold text-gray-800">0.406 <span class="text-xs font-normal text-gray-500">kW</span></p>
+                    <span class="inline-block text-[10px] bg-blue-100 text-blue-600 px-2 py-0.5 rounded mt-1 font-medium">Exporting</span>
+                </div>
+            </div>
+
+        </div>
+        <p class="text-[10px] text-center text-gray-400 mt-3">Last Update: Just Now (UTC+05:00)</p>
+    </div>
+
+    <!-- Battery Status Sub-Card -->
+    <div class="mt-4 px-4 max-w-md mx-auto">
+        <div class="bg-white rounded-2xl p-4 shadow-xs border border-gray-100 flex justify-between items-center">
+            <div>
+                <p class="text-sm font-semibold text-gray-700">Battery</p>
+                <span class="inline-block text-xs text-gray-500 mt-1"><i class="fa-solid fa-bolt mr-1"></i> Standby</span>
+            </div>
+            <div class="w-12 h-12 rounded-full border-4 border-green-500 flex items-center justify-center text-[10px] font-bold text-gray-600">
+                99%
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar (Solis Style Orange Accent) -->
+    <div class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-white rounded-full shadow-lg border border-gray-100 px-2 py-1 flex justify-between items-center z-50">
+        <a href="#" class="bg-orange-500 text-white text-xs px-4 py-2.5 rounded-full font-medium flex-1 text-center shadow-xs">Overview</a>
+        <a href="#" class="text-gray-400 text-xs py-2 flex-1 text-center font-medium">Device</a>
+        <a href="#" class="text-gray-400 text-xs py-2 flex-1 text-center font-medium">Alarm</a>
+        <a href="#" class="text-gray-400 text-xs py-2 flex-1 text-center font-medium">Settings</a>
+    </div>
+
+</body>
+</html>
