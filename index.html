@@ -272,7 +272,47 @@
                 <button class="tab-btn" onclick="switchHistoricalData('month', this)">Month</button>
                 <button class="tab-btn" onclick="switchHistoricalData('year', this)">Year</button>
             </div>
+        <div class="glass-card" style="margin: 15px 20px; padding: 15px; border-top: 3px solid var(--solar-blue);">
+            <span style="font-size: 11px; color: var(--solar-blue); font-weight: bold; text-transform: uppercase; display: flex; align-items: center; gap: 5px; margin-bottom: 12px;">
+                <i class="fa-solid fa-sliders"></i> Knox Inverter Command Center
+            </span>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+                <div>
+                    <h5 style="margin: 0; font-size: 13px; color: var(--text-light);">Output Priority</h5>
+                    <span style="font-size: 10px; color: #7f8c8d;">Current: <span id="current-priority-lbl" style="color:var(--primary-orange);">SOLAR-BATTERY-GRID</span></span>
+                </div>
+                <select id="setting-priority-select" style="background: #09121f; color: #fff; border: 1px solid var(--solar-blue); padding: 5px; border-radius: 4px; font-size: 12px;" onchange="sendInverterSetting('PRIORITY', this.value)">
+                    <option value="SBU">SBU (Solar-Batt-Grid)</option>
+                    <option value="SOL">SOL (Solar-Grid-Batt)</option>
+                    <option value="SUB">SUB (Solar-Grid-Batt)</option>
+                </select>
+            </div>
 
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+                <div>
+                    <h5 style="margin: 0; font-size: 13px; color: var(--text-light);">AC Grid Charging</h5>
+                    <span style="font-size: 10px; color: #7f8c8d;">Allow WAPDA to charge battery</span>
+                </div>
+                <label class="switch" style="position: relative; display: inline-block; width: 40px; height: 22px;">
+                    <input type="checkbox" id="setting-grid-charge" onchange="sendInverterSetting('GRID_CHARGE', this.checked ? 'ON' : 'OFF')" style="opacity: 0; width: 0; height: 0;">
+                    <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 22px;" class="slider-toggle"></span>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 5px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h5 style="margin: 0; font-size: 13px; color: var(--text-light);">Max Charging Current</h5>
+                    <span id="current-amp-lbl" style="font-size: 12px; color: var(--battery-green); font-weight: bold;">30 A</span>
+                </div>
+                <input type="range" min="10" max="60" value="30" step="10" style="width: 100%; margin-top: 8px; accent-color: var(--solar-blue);" onchange="updateAmpLabel(this.value); sendInverterSetting('CHARGING_CURRENT', this.value)">
+            </div>
+        </div>
+
+        <style>
+            input:checked + .slider-toggle { background-color: var(--battery-green) !important; }
+        </style>
+            
             <div class="metrics-grid">
                 <div class="metric-card">
                     <span style="font-size:11px; color:var(--text-dim); text-transform:uppercase;" id="lbl-yield">Today Yield</span>
@@ -397,7 +437,55 @@
             month: { yield: "542.10", earn: "32526" },
             year: { yield: "6480.00", earn: "388800" }
         };
+        // INVERTER SETTINGS REMOTE COMMAND TRANSMITTER
+        function sendInverterSetting(settingType, settingValue) {
+            console.log("Sending Command to Knox Inverter: " + settingType + " -> " + settingValue);
+            
+            // Create a JSON payload for the ESP32 hardware
+            const commandPayload = {
+                command: "WRITE_SETTING",
+                type: settingType,
+                value: settingValue,
+                timestamp: new Date().toLocaleTimeString()
+            };
 
+            // If hardware is active, shoot the packet live!
+            if (wsSocket && wsSocket.readyState === WebSocket.OPEN) {
+                wsSocket.send(JSON.stringify(commandPayload));
+                alert("Command sent successfully to Knox Inverter!");
+            } else {
+                console.log("Simulation Link Active: Command saved locally.");
+                if(settingType === 'PRIORITY') {
+                    document.getElementById('current-priority-lbl').innerText = settingValue;
+                }
+            }
+        }
+
+        function updateAmpLabel(val) {
+            document.getElementById('current-amp-lbl').innerText = val + " A";
+        }
+                // INVERTER SETTINGS REMOTE COMMAND TRANSMITTER (JSON PACKETER)
+        function sendInverterSetting(settingType, settingValue) {
+            console.log("Sending Command to Knox Inverter: " + settingType + " -> " + settingValue);
+            
+            const commandPayload = {
+                command: "WRITE_SETTING",
+                type: settingType,
+                value: settingValue,
+                timestamp: new Date().toLocaleTimeString()
+            };
+
+            if (wsSocket && wsSocket.readyState === WebSocket.OPEN) {
+                wsSocket.send(JSON.stringify(commandPayload));
+                alert("Command sent successfully to Knox Inverter!");
+            } else {
+                console.log("Simulation Link Active: Command saved locally.");
+                if(settingType === 'PRIORITY') {
+                    document.getElementById('current-priority-lbl').innerText = settingValue;
+                }
+            }
+        }
+        
         // 2026 Weather Forecasting System (Open-Meteo API Integration)
         async function fetchWeatherForecast() {
             try {
